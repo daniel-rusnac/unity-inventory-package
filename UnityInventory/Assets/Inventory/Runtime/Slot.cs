@@ -6,8 +6,6 @@ namespace InventorySystem
     [Serializable]
     public struct Slot : IEquatable<Slot>
     {
-        private const int DEFAULT_MAX = -1;
-
         [SerializeField] private readonly byte id;
         [SerializeField] private int count;
         [SerializeField] private int max;
@@ -15,7 +13,7 @@ namespace InventorySystem
         public int Count => count;
         public int Max => max;
         
-        public Slot(byte id, int count, int max = DEFAULT_MAX)
+        public Slot(byte id, int count, int max = InventoryUtility.DEFAULT_MAX)
         {
             this.id = id;
             this.count = count;
@@ -24,7 +22,7 @@ namespace InventorySystem
 
         public void SetMax(int value)
         {
-            if (value < DEFAULT_MAX)
+            if (value < InventoryUtility.DEFAULT_MAX)
                 return;
             
             max = value;

@@ -64,7 +64,7 @@ namespace InventorySystem
                 return slotByID[id].Count;
             }
 
-            return -1;
+            return InventoryUtility.DEFAULT_MAX;
         }
 
         public void SetMax(byte id, int max)

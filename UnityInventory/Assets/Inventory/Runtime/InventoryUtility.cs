@@ -6,6 +6,7 @@ namespace InventorySystem
     public static class InventoryUtility
     {
         private const string ITEMS_PATH = "";
+        public const int DEFAULT_MAX = -1;
 
         private static ItemSO defaultItem;
         private static readonly Dictionary<byte, ItemSO> ItemByID = new Dictionary<byte, ItemSO>();
