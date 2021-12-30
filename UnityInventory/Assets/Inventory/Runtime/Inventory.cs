@@ -31,7 +31,6 @@ namespace InventorySystem
                 return;
             
             slotByID[id] -= amount;
-
             onChanged?.Invoke();
         }
 
@@ -77,7 +76,6 @@ namespace InventorySystem
 
             slotByID[id].SetMax(max);
             onChanged?.Invoke();
-           
         }
 
         public void Clear()
