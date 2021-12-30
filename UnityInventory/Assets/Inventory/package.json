@@ -1,0 +1,9 @@
+{
+  "name": "com.danielrusnac.inventory",
+  "version": "0.0.1",
+  "displayName": "Inventory",
+  "author": {
+    "name": "Daniel Rusnac",
+    "email": "daniel.rusnac.personal@gmail.com"
+  }
+}
