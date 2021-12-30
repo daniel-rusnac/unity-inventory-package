@@ -11,7 +11,7 @@ namespace InventorySystem
 
         [SerializeField] private List<Slot> slots;
 
-        public void Add(string id, int amount)
+        public void Add(byte id, int amount)
         {
             for (int i = 0; i < slots.Count; i++)
             {
@@ -27,7 +27,7 @@ namespace InventorySystem
             onChanged?.Invoke();
         }
 
-        public void Remove(string id, int amount)
+        public void Remove(byte id, int amount)
         {
             for (int i = 0; i < slots.Count; i++)
             {
@@ -46,7 +46,7 @@ namespace InventorySystem
             }
         }
 
-        public bool Contains(string id, int amount = 1)
+        public bool Contains(byte id, int amount = 1)
         {
             for (int i = 0; i < slots.Count; i++)
             {
@@ -59,7 +59,7 @@ namespace InventorySystem
             return false;
         }
 
-        public int GetCount(string id)
+        public int GetCount(byte id)
         {
             for (int i = 0; i < slots.Count; i++)
             {
@@ -72,7 +72,7 @@ namespace InventorySystem
             return 0;
         }
 
-        public int GetMax(string id)
+        public int GetMax(byte id)
         {
             for (int i = 0; i < slots.Count; i++)
             {
@@ -85,7 +85,7 @@ namespace InventorySystem
             return 0;
         }
 
-        public void SetMax(string id, int max)
+        public void SetMax(byte id, int max)
         {
             for (int i = 0; i < slots.Count; i++)
             {
@@ -105,21 +105,6 @@ namespace InventorySystem
         {
             slots.Clear();
             onChanged?.Invoke();
-        }
-
-        public List<string> GetAllItemIDs()
-        {
-            List<string> result = new List<string>();
-
-            foreach (Slot slot in slots)
-            {
-                if (slot.Count > 0)
-                {
-                    result.Add(slot.ID);
-                }
-            }
-
-            return result;
         }
     }
 }

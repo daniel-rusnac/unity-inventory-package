@@ -8,15 +8,15 @@ namespace InventorySystem
     {
         private const int MIN_COUNT = 0;
 
-        [SerializeField] private string id;
+        [SerializeField] private readonly byte id;
         [SerializeField] private int count;
         [SerializeField] private int max;
 
-        public string ID => id;
+        public byte ID => id;
         public int Count => count;
         public int Max => max;
 
-        public Slot(string id, int count, int max)
+        public Slot(byte id, int count, int max)
         {
             this.id = id;
             this.count = count;
@@ -26,14 +26,14 @@ namespace InventorySystem
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
-            return obj is Slot && Equals((Slot) obj);
+            return obj is Slot && Equals((Slot)obj);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                int hashCode = (id != null ? id.GetHashCode() : 0);
+                int hashCode = id.GetHashCode();
                 hashCode = (hashCode * 397) ^ count;
                 hashCode = (hashCode * 397) ^ max;
                 return hashCode;
