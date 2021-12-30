@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
 
 namespace InventorySystem
 {
@@ -8,102 +8,81 @@ namespace InventorySystem
     public class Inventory
     {
         public event Action onChanged;
-
-        [SerializeField] private List<Slot> slots;
+        
+        private Dictionary<byte, Slot> slotByID = new Dictionary<byte, Slot>();
 
         public void Add(byte id, int amount)
         {
-            for (int i = 0; i < slots.Count; i++)
+            if (amount <= 0)
+                return;
+            
+            if (!slotByID.ContainsKey(id))
             {
-                if (slots[i].ID == id)
-                {
-                    slots[i] += amount;
-                    onChanged?.Invoke();
-                    return;
-                }
+                slotByID.Add(id, new Slot());
             }
 
-            slots.Add(new Slot(id, amount, -1));
+            slotByID[id] += amount;
             onChanged?.Invoke();
         }
 
         public void Remove(byte id, int amount)
         {
-            for (int i = 0; i < slots.Count; i++)
-            {
-                if (slots[i].ID == id)
-                {
-                    slots[i] -= amount;
+            if (amount <= 0 || !slotByID.ContainsKey(id))
+                return;
+            
+            slotByID[id] -= amount;
 
-                    if (slots[i].Count <= 0)
-                    {
-                        slots.RemoveAt(0);
-                    }
-
-                    onChanged?.Invoke();
-                    break;
-                }
-            }
+            onChanged?.Invoke();
         }
 
         public bool Contains(byte id, int amount = 1)
         {
-            for (int i = 0; i < slots.Count; i++)
-            {
-                if (slots[i].ID == id)
-                {
-                    return slots[i].Count >= amount;
-                }
-            }
+            if (amount <= 0)
+                return true;
 
-            return false;
+            return slotByID.ContainsKey(id) && slotByID[id].Count >= amount;
         }
 
-        public int GetCount(byte id)
+        public int GetCountByID(byte id)
         {
-            for (int i = 0; i < slots.Count; i++)
+            if (slotByID.ContainsKey(id))
             {
-                if (slots[i].ID == id)
-                {
-                    return slots[i].Count;
-                }
+                return slotByID[id].Count;
             }
 
             return 0;
+        }
+
+        public int GetActiveSlotsCount()
+        {
+            return slotByID.Count(pair => pair.Value.Count > 0);
         }
 
         public int GetMax(byte id)
         {
-            for (int i = 0; i < slots.Count; i++)
+            if (slotByID.ContainsKey(id))
             {
-                if (slots[i].ID == id)
-                {
-                    return slots[i].Max;
-                }
+                return slotByID[id].Count;
             }
 
-            return 0;
+            return -1;
         }
 
         public void SetMax(byte id, int max)
         {
-            for (int i = 0; i < slots.Count; i++)
+            if (!slotByID.ContainsKey(id))
             {
-                if (slots[i].ID == id)
-                {
-                    slots[i] = new Slot(slots[i].ID, slots[i].Count, max);
-                    onChanged?.Invoke();
-                    return;
-                }
+                slotByID.Add(id, new Slot(id, 0));
             }
 
-            slots.Add(new Slot(id, 0, max));
+            slotByID[id].SetMax(max);
             onChanged?.Invoke();
+           
         }
 
         public void Clear()
         {
-            slots.Clear();
+            slotByID.Clear();
             onChanged?.Invoke();
         }
     }
