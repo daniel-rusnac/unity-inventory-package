@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace InventorySystem
 {
@@ -9,11 +10,25 @@ namespace InventorySystem
         [Tooltip("Will be used to display the name in the UI.")]
         [SerializeField] private string itemName;
         [SerializeField] private string glyph;
-        [SerializeField] private Sprite icon;
+        [SerializeField] private Sprite normalIcon;
+        [SerializeField] private Sprite lockedIcon;
 
         public byte ID => id;
         public string ItemName => itemName;
         public string Glyph => glyph;
-        public Sprite Icon => icon;
+        
+        [Obsolete("Use GetIcon() instead.")]
+        public Sprite Icon => GetIcon();
+
+        public virtual Sprite GetIcon(IconType type = IconType.Normal)
+        {
+            switch (type)
+            {
+                case IconType.Locked:
+                    return lockedIcon;
+            }
+
+            return normalIcon;
+        }
     }
 }

@@ -7,13 +7,15 @@ namespace InventorySystem
     public class ItemSOEditor : Editor
     {
         private ItemSO item;
-        private SerializedProperty iconProperty;
+        private SerializedProperty normalIconProperty;
+        private SerializedProperty lockedIconProperty;
         private float IconSize => EditorGUIUtility.standardVerticalSpacing * 3 + EditorGUIUtility.singleLineHeight * 3;
 
         protected virtual void OnEnable()
         {
             item = (ItemSO)target;
-            iconProperty = serializedObject.FindProperty("icon");
+            normalIconProperty = serializedObject.FindProperty("normalIcon");
+            lockedIconProperty = serializedObject.FindProperty("lockedIcon");
         }
 
         public override void OnInspectorGUI()
@@ -25,7 +27,7 @@ namespace InventorySystem
             }
             GUILayout.EndHorizontal();
 
-            DrawPropertiesExcluding(serializedObject, new[] { "m_Script", "itemName", "id", "glyph", "icon" });
+            DrawPropertiesExcluding(serializedObject, new[] { "m_Script", "itemName", "id", "glyph", "normalIcon",  "lockedIcon" });
         }
 
         private void DrawBasicData()
@@ -43,8 +45,12 @@ namespace InventorySystem
 
         private void DrawIcon()
         {
-            iconProperty.objectReferenceValue = EditorGUILayout.ObjectField(iconProperty.objectReferenceValue,
+            normalIconProperty.objectReferenceValue = EditorGUILayout.ObjectField(normalIconProperty.objectReferenceValue,
                 typeof(Sprite), false, GUILayout.Width(IconSize), GUILayout.Height(IconSize));
+
+            lockedIconProperty.objectReferenceValue = EditorGUILayout.ObjectField(lockedIconProperty.objectReferenceValue,
+                typeof(Sprite), false, GUILayout.Width(IconSize), GUILayout.Height(IconSize));
+            
             serializedObject.ApplyModifiedProperties();
         }
     }
