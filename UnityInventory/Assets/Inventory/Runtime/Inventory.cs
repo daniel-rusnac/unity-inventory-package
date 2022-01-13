@@ -7,31 +7,30 @@ namespace InventorySystem
     [Serializable]
     public class Inventory
     {
-        public event Action onChanged;
-        
+        private HashSet<Action> onChagedSubscribers = new HashSet<Action>();
         private Dictionary<byte, Slot> slotByID = new Dictionary<byte, Slot>();
 
         public void Add(byte id, int amount)
         {
             if (amount <= 0)
                 return;
-            
+
             if (!slotByID.ContainsKey(id))
             {
                 slotByID.Add(id, new Slot());
             }
 
             slotByID[id] += amount;
-            onChanged?.Invoke();
+            OnChanged();
         }
 
         public void Remove(byte id, int amount)
         {
             if (amount <= 0 || !slotByID.ContainsKey(id))
                 return;
-            
+
             slotByID[id] -= amount;
-            onChanged?.Invoke();
+            OnChanged();
         }
 
         public bool Contains(byte id, int amount = 1)
@@ -75,13 +74,58 @@ namespace InventorySystem
             }
 
             slotByID[id].SetMax(max);
-            onChanged?.Invoke();
+            OnChanged();
         }
 
         public void Clear()
         {
             slotByID.Clear();
-            onChanged?.Invoke();
+            OnChanged();
+        }
+
+        public object Serialize()
+        {
+            byte[] ids = slotByID.Keys.Select(id => id).ToArray();
+            Slot[] counts = slotByID.Values.Select(slot => slot).ToArray();
+
+            object[] result =
+            {
+                ids,
+                counts
+            };
+
+            return result;
+        }
+
+        public void Deserialize(object data)
+        {
+            byte[] ids = (byte[]) ((object[]) data)[0];
+            Slot[] slots = (Slot[]) ((object[]) data)[1];
+
+            slotByID = new Dictionary<byte, Slot>();
+
+            for (int i = 0; i < ids.Length; i++)
+            {
+                slotByID.Add(ids[i], slots[i]);
+            }
+        }
+
+        private void OnChanged()
+        {
+            foreach (Action subscriber in onChagedSubscribers)
+            {
+                subscriber?.Invoke();
+            }
+        }
+
+        public void Register(Action action)
+        {
+            onChagedSubscribers.Add(action);
+        }
+
+        public void Unregister(Action action)
+        {
+            onChagedSubscribers.Remove(action);
         }
     }
 }

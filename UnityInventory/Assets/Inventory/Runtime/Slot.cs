@@ -6,10 +6,11 @@ namespace InventorySystem
     [Serializable]
     public struct Slot : IEquatable<Slot>
     {
-        [SerializeField] private readonly byte id;
         [SerializeField] private int count;
         [SerializeField] private int max;
         
+        private readonly byte id;
+
         public int Count => count;
         public int Max => max;
         
