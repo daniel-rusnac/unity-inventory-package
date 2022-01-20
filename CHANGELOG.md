@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Inventory serialization
 - A optional 'disabled' icon variant to the item
 - Methods to register for inventory updates
+- Item variant overloads for the inventory
 
 ### Removed
 - 'OnChanged' event from the inventory

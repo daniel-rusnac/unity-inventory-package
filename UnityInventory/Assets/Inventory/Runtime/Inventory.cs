@@ -20,6 +20,11 @@ namespace InventorySystem
             Deserialize(serializedData);   
         }
 
+        public void Add(ItemSO item, int amount)
+        {
+            Add(item.ID, amount);
+        }
+
         public void Add(byte id, int amount)
         {
             if (amount <= 0)
@@ -34,6 +39,10 @@ namespace InventorySystem
             OnChanged();
         }
 
+        public void Remove(ItemSO item, int amount)
+        {
+            Remove(item.ID, amount);
+        }
         public void Remove(byte id, int amount)
         {
             if (amount <= 0 || !_slotByID.ContainsKey(id))
@@ -41,6 +50,11 @@ namespace InventorySystem
 
             _slotByID[id] -= amount;
             OnChanged();
+        }
+
+        public bool Contains(ItemSO item, int amount = 1)
+        {
+            return Contains(item.ID, amount);
         }
 
         public bool Contains(byte id, int amount = 1)
@@ -51,7 +65,12 @@ namespace InventorySystem
             return _slotByID.ContainsKey(id) && _slotByID[id].Count >= amount;
         }
 
-        public int GetCountByID(byte id)
+        public int GetCount(ItemSO itemSO)
+        {
+            return GetCount(itemSO.ID);
+        }
+        
+        public int GetCount(byte id)
         {
             if (_slotByID.ContainsKey(id))
             {
@@ -61,11 +80,11 @@ namespace InventorySystem
             return 0;
         }
 
-        public int GetActiveSlotsCount()
+        public int GetMax(ItemSO itemSO)
         {
-            return _slotByID.Count(pair => pair.Value.Count > 0);
+            return GetMax(itemSO.ID);
         }
-
+        
         public int GetMax(byte id)
         {
             if (_slotByID.ContainsKey(id))
@@ -74,6 +93,11 @@ namespace InventorySystem
             }
 
             return InventoryUtility.DEFAULT_MAX;
+        }
+
+        public void SetMax(ItemSO itemSO, int max)
+        {
+            SetMax(itemSO.ID, max);
         }
 
         public void SetMax(byte id, int max)
@@ -85,6 +109,11 @@ namespace InventorySystem
 
             _slotByID[id].SetMax(max);
             OnChanged();
+        }
+
+        public int GetSlotCount()
+        {
+            return _slotByID.Count(pair => pair.Value.Count > 0);
         }
 
         public void Clear()
