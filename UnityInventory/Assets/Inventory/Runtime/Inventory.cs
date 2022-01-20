@@ -10,6 +10,16 @@ namespace InventorySystem
         private HashSet<Action> _onChangedSubscribers = new HashSet<Action>();
         private Dictionary<byte, Slot> _slotByID = new Dictionary<byte, Slot>();
 
+        public Inventory()
+        {
+            
+        }
+        
+        public Inventory(object serializedData)
+        {
+            Deserialize(serializedData);   
+        }
+
         public void Add(byte id, int amount)
         {
             if (amount <= 0)
