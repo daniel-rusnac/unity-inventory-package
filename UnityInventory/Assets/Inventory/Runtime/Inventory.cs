@@ -7,29 +7,29 @@ namespace InventorySystem
     [Serializable]
     public class Inventory
     {
-        private HashSet<Action> onChagedSubscribers = new HashSet<Action>();
-        private Dictionary<byte, Slot> slotByID = new Dictionary<byte, Slot>();
+        private HashSet<Action> _onChangedSubscribers = new HashSet<Action>();
+        private Dictionary<byte, Slot> _slotByID = new Dictionary<byte, Slot>();
 
         public void Add(byte id, int amount)
         {
             if (amount <= 0)
                 return;
 
-            if (!slotByID.ContainsKey(id))
+            if (!_slotByID.ContainsKey(id))
             {
-                slotByID.Add(id, new Slot());
+                _slotByID.Add(id, new Slot());
             }
 
-            slotByID[id] += amount;
+            _slotByID[id] += amount;
             OnChanged();
         }
 
         public void Remove(byte id, int amount)
         {
-            if (amount <= 0 || !slotByID.ContainsKey(id))
+            if (amount <= 0 || !_slotByID.ContainsKey(id))
                 return;
 
-            slotByID[id] -= amount;
+            _slotByID[id] -= amount;
             OnChanged();
         }
 
@@ -38,14 +38,14 @@ namespace InventorySystem
             if (amount <= 0)
                 return true;
 
-            return slotByID.ContainsKey(id) && slotByID[id].Count >= amount;
+            return _slotByID.ContainsKey(id) && _slotByID[id].Count >= amount;
         }
 
         public int GetCountByID(byte id)
         {
-            if (slotByID.ContainsKey(id))
+            if (_slotByID.ContainsKey(id))
             {
-                return slotByID[id].Count;
+                return _slotByID[id].Count;
             }
 
             return 0;
@@ -53,14 +53,14 @@ namespace InventorySystem
 
         public int GetActiveSlotsCount()
         {
-            return slotByID.Count(pair => pair.Value.Count > 0);
+            return _slotByID.Count(pair => pair.Value.Count > 0);
         }
 
         public int GetMax(byte id)
         {
-            if (slotByID.ContainsKey(id))
+            if (_slotByID.ContainsKey(id))
             {
-                return slotByID[id].Count;
+                return _slotByID[id].Count;
             }
 
             return InventoryUtility.DEFAULT_MAX;
@@ -68,25 +68,25 @@ namespace InventorySystem
 
         public void SetMax(byte id, int max)
         {
-            if (!slotByID.ContainsKey(id))
+            if (!_slotByID.ContainsKey(id))
             {
-                slotByID.Add(id, new Slot(id, 0));
+                _slotByID.Add(id, new Slot(id, 0));
             }
 
-            slotByID[id].SetMax(max);
+            _slotByID[id].SetMax(max);
             OnChanged();
         }
 
         public void Clear()
         {
-            slotByID.Clear();
+            _slotByID.Clear();
             OnChanged();
         }
 
         public object Serialize()
         {
-            byte[] ids = slotByID.Keys.Select(id => id).ToArray();
-            Slot[] counts = slotByID.Values.Select(slot => slot).ToArray();
+            byte[] ids = _slotByID.Keys.Select(id => id).ToArray();
+            Slot[] counts = _slotByID.Values.Select(slot => slot).ToArray();
 
             object[] result =
             {
@@ -102,17 +102,17 @@ namespace InventorySystem
             byte[] ids = (byte[]) ((object[]) data)[0];
             Slot[] slots = (Slot[]) ((object[]) data)[1];
 
-            slotByID = new Dictionary<byte, Slot>();
+            _slotByID = new Dictionary<byte, Slot>();
 
             for (int i = 0; i < ids.Length; i++)
             {
-                slotByID.Add(ids[i], slots[i]);
+                _slotByID.Add(ids[i], slots[i]);
             }
         }
 
         private void OnChanged()
         {
-            foreach (Action subscriber in onChagedSubscribers)
+            foreach (Action subscriber in _onChangedSubscribers)
             {
                 subscriber?.Invoke();
             }
@@ -120,12 +120,12 @@ namespace InventorySystem
 
         public void Register(Action action)
         {
-            onChagedSubscribers.Add(action);
+            _onChangedSubscribers.Add(action);
         }
 
         public void Unregister(Action action)
         {
-            onChagedSubscribers.Remove(action);
+            _onChangedSubscribers.Remove(action);
         }
     }
 }

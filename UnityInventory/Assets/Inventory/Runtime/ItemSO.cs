@@ -1,21 +1,27 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace InventorySystem
 {
     [CreateAssetMenu(fileName = "Item", menuName = "Inventory/Item")]
     public class ItemSO : ScriptableObject
     {
-        [SerializeField] private byte id;
+        [FormerlySerializedAs("id")]
+        [SerializeField] private byte _id;
         [Tooltip("Will be used to display the name in the UI.")]
-        [SerializeField] private string itemName;
-        [SerializeField] private string glyph;
-        [SerializeField] private Sprite normalIcon;
-        [SerializeField] private Sprite lockedIcon;
+        [FormerlySerializedAs("itemName")]
+        [SerializeField] private string _itemName;
+        [FormerlySerializedAs("glyph")]
+        [SerializeField] private string _glyph;
+        [FormerlySerializedAs("normalIcon")]
+        [SerializeField] private Sprite _normalIcon;
+        [FormerlySerializedAs("lockedIcon")]
+        [SerializeField] private Sprite _lockedIcon;
 
-        public byte ID => id;
-        public string ItemName => itemName;
-        public string Glyph => glyph;
+        public byte ID => _id;
+        public string ItemName => _itemName;
+        public string Glyph => _glyph;
         
         [Obsolete("Use GetIcon() instead.")]
         public Sprite Icon => GetIcon();
@@ -25,10 +31,10 @@ namespace InventorySystem
             switch (type)
             {
                 case IconType.Locked:
-                    return lockedIcon;
+                    return _lockedIcon;
             }
 
-            return normalIcon;
+            return _normalIcon;
         }
     }
 }

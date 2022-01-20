@@ -6,16 +6,16 @@ namespace InventorySystem
     [CustomEditor(typeof(ItemSO), true)]
     public class ItemSOEditor : Editor
     {
-        private ItemSO item;
-        private SerializedProperty normalIconProperty;
-        private SerializedProperty lockedIconProperty;
+        private ItemSO _item;
+        private SerializedProperty _normalIconProperty;
+        private SerializedProperty _lockedIconProperty;
         private float IconSize => EditorGUIUtility.standardVerticalSpacing * 3 + EditorGUIUtility.singleLineHeight * 3;
 
         protected virtual void OnEnable()
         {
-            item = (ItemSO)target;
-            normalIconProperty = serializedObject.FindProperty("normalIcon");
-            lockedIconProperty = serializedObject.FindProperty("lockedIcon");
+            _item = (ItemSO)target;
+            _normalIconProperty = serializedObject.FindProperty("normalIcon");
+            _lockedIconProperty = serializedObject.FindProperty("lockedIcon");
         }
 
         public override void OnInspectorGUI()
@@ -45,10 +45,10 @@ namespace InventorySystem
 
         private void DrawIcon()
         {
-            normalIconProperty.objectReferenceValue = EditorGUILayout.ObjectField(normalIconProperty.objectReferenceValue,
+            _normalIconProperty.objectReferenceValue = EditorGUILayout.ObjectField(_normalIconProperty.objectReferenceValue,
                 typeof(Sprite), false, GUILayout.Width(IconSize), GUILayout.Height(IconSize));
 
-            lockedIconProperty.objectReferenceValue = EditorGUILayout.ObjectField(lockedIconProperty.objectReferenceValue,
+            _lockedIconProperty.objectReferenceValue = EditorGUILayout.ObjectField(_lockedIconProperty.objectReferenceValue,
                 typeof(Sprite), false, GUILayout.Width(IconSize), GUILayout.Height(IconSize));
             
             serializedObject.ApplyModifiedProperties();

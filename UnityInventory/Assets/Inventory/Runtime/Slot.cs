@@ -6,19 +6,19 @@ namespace InventorySystem
     [Serializable]
     public struct Slot : IEquatable<Slot>
     {
-        [SerializeField] private int count;
-        [SerializeField] private int max;
+        [SerializeField] private int _count;
+        [SerializeField] private int _max;
         
-        private readonly byte id;
+        private readonly byte _id;
 
-        public int Count => count;
-        public int Max => max;
+        public int Count => _count;
+        public int Max => _max;
         
         public Slot(byte id, int count, int max = InventoryUtility.DEFAULT_MAX)
         {
-            this.id = id;
-            this.count = count;
-            this.max = max;
+            _id = id;
+            _count = count;
+            _max = max;
         }
 
         public void SetMax(int value)
@@ -26,7 +26,7 @@ namespace InventorySystem
             if (value < InventoryUtility.DEFAULT_MAX)
                 return;
             
-            max = value;
+            _max = value;
         }
 
         public override bool Equals(object obj)
@@ -39,9 +39,9 @@ namespace InventorySystem
         {
             unchecked
             {
-                int hashCode = id.GetHashCode();
-                hashCode = (hashCode * 397) ^ count;
-                hashCode = (hashCode * 397) ^ max;
+                int hashCode = _id.GetHashCode();
+                hashCode = (hashCode * 397) ^ _count;
+                hashCode = (hashCode * 397) ^ _max;
                 return hashCode;
             }
         }
@@ -58,32 +58,32 @@ namespace InventorySystem
 
         public bool Equals(Slot other)
         {
-            return id == other.id && Count == other.Count;
+            return _id == other._id && Count == other.Count;
         }
 
         public static Slot operator +(Slot packet, int count)
         {
-            return new Slot(packet.id, ClampCount(packet.Count + count), packet.max);
+            return new Slot(packet._id, ClampCount(packet.Count + count), packet._max);
         }
 
         public static Slot operator *(Slot packet, int multiplier)
         {
-            return new Slot(packet.id, ClampCount(packet.Count * multiplier), packet.max);
+            return new Slot(packet._id, ClampCount(packet.Count * multiplier), packet._max);
         }
 
         public static Slot operator /(Slot packet, int divisor)
         {
             if (divisor == 0)
             {
-                return new Slot(packet.id, packet.Count, packet.max);
+                return new Slot(packet._id, packet.Count, packet._max);
             }
 
-            return new Slot(packet.id, ClampCount(packet.Count / divisor), packet.max);
+            return new Slot(packet._id, ClampCount(packet.Count / divisor), packet._max);
         }
 
         public static Slot operator -(Slot packet, int count)
         {
-            return new Slot(packet.id, ClampCount(packet.Count - count), packet.max);
+            return new Slot(packet._id, ClampCount(packet.Count - count), packet._max);
         }
 
         private static int ClampCount(int unclampedCount)
