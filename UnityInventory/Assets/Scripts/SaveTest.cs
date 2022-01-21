@@ -3,12 +3,7 @@ using UnityEngine;
 
 public class SaveTest : MonoBehaviour
 {
-    public Inventory _inventory;
-
-    private void Awake()
-    {
-        _inventory = new Inventory();
-    }
+    public Inventory _inventory = new Inventory();
 
     [ContextMenu("Clear")]
     private void ClearSave()
