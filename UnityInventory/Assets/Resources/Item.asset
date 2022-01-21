@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20008c11f5964182a0533bbde466f036, type: 3}
   m_Name: Item
   m_EditorClassIdentifier: 
-  id: 
-  itemName: 
-  glyph: 
-  icon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  _id: 1
+  _itemName: A
+  _glyph: 
+  _normalIcon: {fileID: 0}
+  _lockedIcon: {fileID: 0}

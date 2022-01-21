@@ -6,16 +6,14 @@ namespace InventorySystem
     [CustomEditor(typeof(ItemSO), true)]
     public class ItemSOEditor : Editor
     {
-        private ItemSO _item;
         private SerializedProperty _normalIconProperty;
         private SerializedProperty _lockedIconProperty;
         private float IconSize => EditorGUIUtility.standardVerticalSpacing * 3 + EditorGUIUtility.singleLineHeight * 3;
 
         protected virtual void OnEnable()
         {
-            _item = (ItemSO)target;
-            _normalIconProperty = serializedObject.FindProperty("normalIcon");
-            _lockedIconProperty = serializedObject.FindProperty("lockedIcon");
+            _normalIconProperty = serializedObject.FindProperty("_normalIcon");
+            _lockedIconProperty = serializedObject.FindProperty("_lockedIcon");
         }
 
         public override void OnInspectorGUI()
@@ -27,7 +25,7 @@ namespace InventorySystem
             }
             GUILayout.EndHorizontal();
 
-            DrawPropertiesExcluding(serializedObject, new[] { "m_Script", "itemName", "id", "glyph", "normalIcon",  "lockedIcon" });
+            DrawPropertiesExcluding(serializedObject, "m_Script", "_itemName", "_id", "_glyph", "_normalIcon", "_lockedIcon");
         }
 
         private void DrawBasicData()
@@ -35,9 +33,9 @@ namespace InventorySystem
             GUILayout.BeginVertical();
             {
                 EditorGUIUtility.labelWidth = 75;
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("itemName"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("id"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("glyph"));
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("_itemName"));
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("_id"));
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("_glyph"));
                 EditorGUIUtility.labelWidth = 0;
             }
             GUILayout.EndVertical();

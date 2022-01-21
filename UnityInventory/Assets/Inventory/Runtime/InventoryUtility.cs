@@ -8,13 +8,15 @@ namespace InventorySystem
         private const string ITEMS_PATH = "";
         public const int DEFAULT_MAX = -1;
 
-        private static readonly ItemSO _defaultItem;
-        private static readonly Dictionary<byte, ItemSO> _itemByID = new Dictionary<byte, ItemSO>();
+        private static ItemSO _defaultItem;
+        private static Dictionary<byte, ItemSO> _itemByID = new Dictionary<byte, ItemSO>();
 
-        static InventoryUtility()
+        [RuntimeInitializeOnLoadMethod]
+        private static void Initialize()
         {
             _defaultItem = (ItemSO)ScriptableObject.CreateInstance(typeof(ItemSO));
-            
+            _itemByID = new Dictionary<byte, ItemSO>();
+
             ItemSO[] items = Resources.LoadAll<ItemSO>(ITEMS_PATH);
 
             for (int i = 0; i < items.Length; i++)

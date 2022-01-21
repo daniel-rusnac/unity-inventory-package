@@ -8,8 +8,7 @@ namespace InventorySystem
     {
         [SerializeField] private int _count;
         [SerializeField] private int _max;
-        
-        private readonly byte _id;
+        [SerializeField] private byte _id;
 
         public int Count => _count;
         public int Max => _max;
@@ -89,6 +88,13 @@ namespace InventorySystem
         private static int ClampCount(int unclampedCount)
         {
             return Mathf.Max(unclampedCount, 0);
+        }
+
+        public override string ToString()
+        {
+            InventoryUtility.TryGetItem(_id, out ItemSO item);
+            
+            return $"({(item == null ? "unknown" : item.ItemName)}: {Count}{(_max > 0 ? $"/{_max}" : "")})";
         }
     }
 }

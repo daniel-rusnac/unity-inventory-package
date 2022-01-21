@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace InventorySystem
 {
@@ -8,16 +9,15 @@ namespace InventorySystem
     public class Inventory
     {
         private HashSet<Action> _onChangedSubscribers = new HashSet<Action>();
-        private Dictionary<byte, Slot> _slotByID = new Dictionary<byte, Slot>();
+        [SerializeField] private Dictionary<byte, Slot> _slotByID = new Dictionary<byte, Slot>();
 
         public Inventory()
         {
-            
         }
-        
+
         public Inventory(object serializedData)
         {
-            Deserialize(serializedData);   
+            Deserialize(serializedData);
         }
 
         public void Add(ItemSO item, int amount)
@@ -32,7 +32,7 @@ namespace InventorySystem
 
             if (!_slotByID.ContainsKey(id))
             {
-                _slotByID.Add(id, new Slot());
+                _slotByID.Add(id, new Slot(id, 0));
             }
 
             _slotByID[id] += amount;
@@ -43,6 +43,7 @@ namespace InventorySystem
         {
             Remove(item.ID, amount);
         }
+
         public void Remove(byte id, int amount)
         {
             if (amount <= 0 || !_slotByID.ContainsKey(id))
@@ -69,7 +70,7 @@ namespace InventorySystem
         {
             return GetCount(itemSO.ID);
         }
-        
+
         public int GetCount(byte id)
         {
             if (_slotByID.ContainsKey(id))
@@ -84,7 +85,7 @@ namespace InventorySystem
         {
             return GetMax(itemSO.ID);
         }
-        
+
         public int GetMax(byte id)
         {
             if (_slotByID.ContainsKey(id))
@@ -165,6 +166,15 @@ namespace InventorySystem
         public void Unregister(Action action)
         {
             _onChangedSubscribers.Remove(action);
+        }
+
+        public override string ToString()
+        {
+            string result = "{";
+
+            result += string.Concat(_slotByID.Values.Select(slot => slot.ToString()).ToArray());
+
+            return result + "}";
         }
     }
 }
