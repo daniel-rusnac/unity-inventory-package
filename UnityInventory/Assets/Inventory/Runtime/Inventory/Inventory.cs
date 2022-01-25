@@ -173,11 +173,14 @@ namespace InventorySystem
 
         public override string ToString()
         {
-            string result = "{";
+            if (_slotByID.Count == 0)
+                return "Empty";
+            
+            string result = "[";
 
-            result += string.Concat(_slotByID.Values.Select(slot => slot.ToString()).ToArray());
+            result += string.Join("] [", _slotByID.Values.Select(slot => slot.ToString()).ToArray());
 
-            return result + "}";
+            return result + "]";
         }
     }
 }
