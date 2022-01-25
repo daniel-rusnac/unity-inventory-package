@@ -9,7 +9,7 @@ namespace InventorySystem
     public class Inventory
     {
         private HashSet<Action> _onChangedSubscribers = new HashSet<Action>();
-        [SerializeField] private Dictionary<byte, Slot> _slotByID = new Dictionary<byte, Slot>();
+        [SerializeField] private Dictionary<byte, Slot> _slotByID = new Dictionary<byte, Slot>(); // marked [SerializeField] for ES3 to auto save this class
 
         public Inventory()
         {
