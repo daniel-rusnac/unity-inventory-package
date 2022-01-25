@@ -6,7 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [Unreleased]
 
+### Added
+- Inventory property drawer, with the ability to add and remove items
+- InventorySO
+- Item icon labels
 
+### Changed
+- Removed the [FormerlySerializedAs] attribute from item parameters
+
+### Fixed
+- Fixed the SetMax on inventory slot not setting the actual value when the slot was previously modified
+- Fixed slot value not being clamped to the max value
 
 ## [1.1.0]
 
