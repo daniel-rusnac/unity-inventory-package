@@ -12,11 +12,11 @@ namespace InventorySystem
 
         public int Count => _count;
         public int Max => _max;
-        
+
         public Slot(byte id, int count, int max = InventoryUtility.DEFAULT_MAX)
         {
             _id = id;
-            _count = count;
+            _count = ClampCount(count, max);
             _max = max;
         }
 
@@ -24,14 +24,14 @@ namespace InventorySystem
         {
             if (value < InventoryUtility.DEFAULT_MAX)
                 return;
-            
+
             _max = value;
         }
 
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
-            return obj is Slot && Equals((Slot)obj);
+            return obj is Slot && Equals((Slot) obj);
         }
 
         public override int GetHashCode()
@@ -62,12 +62,12 @@ namespace InventorySystem
 
         public static Slot operator +(Slot packet, int count)
         {
-            return new Slot(packet._id, ClampCount(packet.Count + count), packet._max);
+            return new Slot(packet._id, ClampCount(packet.Count + count, packet._max), packet._max);
         }
 
         public static Slot operator *(Slot packet, int multiplier)
         {
-            return new Slot(packet._id, ClampCount(packet.Count * multiplier), packet._max);
+            return new Slot(packet._id, ClampCount(packet.Count * multiplier, packet._max), packet._max);
         }
 
         public static Slot operator /(Slot packet, int divisor)
@@ -77,24 +77,30 @@ namespace InventorySystem
                 return new Slot(packet._id, packet.Count, packet._max);
             }
 
-            return new Slot(packet._id, ClampCount(packet.Count / divisor), packet._max);
+            return new Slot(packet._id, ClampCount(packet.Count / divisor, packet._max), packet._max);
         }
 
         public static Slot operator -(Slot packet, int count)
         {
-            return new Slot(packet._id, ClampCount(packet.Count - count), packet._max);
+            return new Slot(packet._id, ClampCount(packet.Count - count, packet._max), packet._max);
         }
 
-        private static int ClampCount(int unclampedCount)
+        private static int ClampCount(int unclampedCount, int max)
         {
-            return Mathf.Max(unclampedCount, 0);
+            int value = Mathf.Max(unclampedCount, 0);
+
+            if (max != InventoryUtility.DEFAULT_MAX)
+            {
+                value = Mathf.Min(value, max);
+            }
+
+            return value;
         }
 
         public override string ToString()
         {
             InventoryUtility.TryGetItem(_id, out ItemSO item);
-            
-            return $"({(item == null ? "unknown" : item.ItemName)}: {Count}{(_max > 0 ? $"/{_max}" : "")})";
+            return $"{(item == null ? "unknown" : item.ItemName)}: {Count}{(_max > 0 ? $"/{_max}" : "")}";
         }
     }
 }

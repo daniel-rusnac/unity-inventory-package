@@ -105,10 +105,13 @@ namespace InventorySystem
         {
             if (!_slotByID.ContainsKey(id))
             {
-                _slotByID.Add(id, new Slot(id, 0));
+                _slotByID.Add(id, new Slot(id, 0, max));
+            }
+            else
+            {
+                _slotByID[id].SetMax(max);                
             }
 
-            _slotByID[id].SetMax(max);
             OnChanged();
         }
 
