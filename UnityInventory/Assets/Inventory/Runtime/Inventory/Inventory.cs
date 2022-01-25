@@ -9,7 +9,8 @@ namespace InventorySystem
     public class Inventory
     {
         private HashSet<Action> _onChangedSubscribers = new HashSet<Action>();
-        [SerializeField] private Dictionary<byte, Slot> _slotByID = new Dictionary<byte, Slot>(); // marked [SerializeField] for ES3 to auto save this class
+        // marked [SerializeField] for ES3 to auto save this class
+        [SerializeField] private Dictionary<byte, Slot> _slotByID = new Dictionary<byte, Slot>();
 
         public Inventory()
         {
@@ -109,7 +110,7 @@ namespace InventorySystem
             }
             else
             {
-                _slotByID[id] = _slotByID[id].SetMax(max);                
+                _slotByID[id] = _slotByID[id].SetMax(max);
             }
 
             OnChanged();
@@ -175,7 +176,7 @@ namespace InventorySystem
         {
             if (_slotByID.Count == 0)
                 return "Empty";
-            
+
             string result = "[";
 
             result += string.Join("] [", _slotByID.Values.Select(slot => slot.ToString()).ToArray());
