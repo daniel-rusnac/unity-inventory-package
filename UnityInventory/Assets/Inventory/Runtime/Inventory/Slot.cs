@@ -20,17 +20,19 @@ namespace InventorySystem
             _max = max;
         }
 
-        public void SetMax(int value)
+        public Slot SetMax(int value)
         {
             if (value < InventoryUtility.DEFAULT_MAX)
-                return;
+                return this;
 
-            _max = value;
+            return new Slot(_id, _count, value);
         }
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(null, obj)) 
+                return false;
+            
             return obj is Slot && Equals((Slot) obj);
         }
 

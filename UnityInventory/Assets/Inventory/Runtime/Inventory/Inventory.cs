@@ -109,7 +109,7 @@ namespace InventorySystem
             }
             else
             {
-                _slotByID[id].SetMax(max);                
+                _slotByID[id] = _slotByID[id].SetMax(max);                
             }
 
             OnChanged();
