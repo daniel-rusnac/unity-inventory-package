@@ -116,6 +116,20 @@ namespace InventorySystem
             OnChanged();
         }
 
+        public int[] GetAllIDs()
+        {
+            return _slotByID.Where(pair => pair.Value.Count > 0).Select(pair => pair.Key).ToArray();
+        }
+
+        public ItemSO[] GetAllItems()
+        {
+            return _slotByID.Where(pair => pair.Value.Count > 0).Select(pair =>
+            {
+                InventoryUtility.TryGetItem(pair.Key, out ItemSO item);
+                return item;
+            }).ToArray();
+        }
+
         public int GetSlotCount()
         {
             return _slotByID.Count(pair => pair.Value.Count > 0);
