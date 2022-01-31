@@ -25,12 +25,19 @@ A basic item can be created from *Create/Inventory/Item* and looks like this:
 - *Icon Locked:* optional icon to display the item as locked in the UI
 
 To create your own, custom items, inherit from `ItemSO`.
+To retrieve an item from the ID use `InventoryUtility.TryGetItem()`.
 
 ### Inventory
 
+#### Create
 There are two variants to use an inventory:
 - Create one directly in code using `new Inventory()`
 - Use an SO holder `InventorySO` to store and reference the inventory `InventorySO.GetInventory`
 
+#### Edit
 The basic operations with an inventory are `Add`, `Remove` and `SetMax`.
 The item amount is clamped between `0` and `MaxValue`, or `int.Max`, if the max value is `-1`.
+
+#### Save
+The inventory can be serialized by unity, so systems like ES3 can save and load it by simply calling
+`ES3.Save(key, inventory)` and `inventory = ES3.Load(key, new Inventory())`.

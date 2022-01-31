@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace InventorySystem
@@ -36,7 +35,8 @@ namespace InventorySystem
             }
             GUILayout.EndHorizontal();
 
-            DrawPropertiesExcluding(serializedObject, "m_Script", "_itemName", "_id", "_glyph", "_normalIcon", "_lockedIcon");
+            DrawPropertiesExcluding(serializedObject, "m_Script", "_itemName", "_id", "_glyph", "_normalIcon",
+                "_lockedIcon");
         }
 
         private void Initialize()
@@ -45,7 +45,7 @@ namespace InventorySystem
                 return;
 
             _style = new GUIStyle(EditorStyles.toolbarButton) {alignment = TextAnchor.UpperCenter};
-            
+
             _isInitialized = true;
         }
 
@@ -74,7 +74,7 @@ namespace InventorySystem
             _lockedIconProperty.objectReferenceValue = EditorGUILayout.ObjectField(
                 _lockedIconProperty.objectReferenceValue,
                 typeof(Sprite), false, GUILayout.Width(IconSize), GUILayout.Height(IconSize));
-            
+
             rect = GUILayoutUtility.GetLastRect();
             EditorGUI.LabelField(rect, "Locked", _style);
 

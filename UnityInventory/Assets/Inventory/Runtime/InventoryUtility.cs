@@ -31,6 +31,12 @@ namespace InventorySystem
             }
         }
 
+        /// <summary>
+        /// Retrieve an item from the ID.
+        /// </summary>
+        /// <param name="id">Item ID.</param>
+        /// <param name="item">The retrieved item.</param>
+        /// <returns>True if the item was found.</returns>
         public static bool TryGetItem(int id, out ItemSO item)
         {
             if (_itemByID.ContainsKey(id))

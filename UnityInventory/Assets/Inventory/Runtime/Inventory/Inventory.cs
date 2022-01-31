@@ -54,11 +54,23 @@ namespace InventorySystem
             OnChanged();
         }
 
+        /// <summary>
+        /// Check if the inventory contains an item.
+        /// </summary>
+        /// <param name="item">Item to check.</param>
+        /// <param name="amount">The expected amount.</param>
+        /// <returns>True if the item count is >= to the expected amount. 1 by default.</returns>
         public bool Contains(ItemSO item, int amount = 1)
         {
             return Contains(item.ID, amount);
         }
 
+        /// <summary>
+        /// Check if the inventory contains an item.
+        /// </summary>
+        /// <param name="id">Item ID to check.</param>
+        /// <param name="amount">The expected amount.</param>
+        /// <returns>True if the item count is >= to the expected amount. 1 by default.</returns>
         public bool Contains(int id, int amount = 1)
         {
             if (amount <= 0)
@@ -97,11 +109,21 @@ namespace InventorySystem
             return InventoryUtility.DEFAULT_MAX;
         }
 
+        /// <summary>
+        /// Set the maximum value for an item.
+        /// </summary>
+        /// <param name="itemSO">Item to set maximum valur for.</param>
+        /// <param name="max">The maximum value. -1 is unlimited.</param>
         public void SetMax(ItemSO itemSO, int max)
         {
             SetMax(itemSO.ID, max);
         }
 
+        /// <summary>
+        /// Set the maximum value for an item.
+        /// </summary>
+        /// <param name="id">Item ID to set maximum valur for.</param>
+        /// <param name="max">The maximum value. -1 is unlimited.</param>
         public void SetMax(int id, int max)
         {
             if (!_slotByID.ContainsKey(id))
@@ -176,11 +198,17 @@ namespace InventorySystem
             }
         }
 
+        /// <summary>
+        /// Subscribe to the OnChanged event. Called every time the inventory is modified.
+        /// </summary>
         public void Register(Action action)
         {
             _onChangedSubscribers.Add(action);
         }
 
+        /// <summary>
+        /// Unsubscribe from the OnChanged event. Called every time the inventory is modified.
+        /// </summary>
         public void Unregister(Action action)
         {
             _onChangedSubscribers.Remove(action);
