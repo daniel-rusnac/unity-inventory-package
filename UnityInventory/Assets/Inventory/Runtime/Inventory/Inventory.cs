@@ -10,7 +10,7 @@ namespace InventorySystem
     {
         private HashSet<Action> _onChangedSubscribers = new HashSet<Action>();
         // marked [SerializeField] for ES3 to auto save this class
-        [SerializeField] private Dictionary<byte, Slot> _slotByID = new Dictionary<byte, Slot>();
+        [SerializeField] private Dictionary<int, Slot> _slotByID = new Dictionary<int, Slot>();
 
         public Inventory()
         {
@@ -26,7 +26,7 @@ namespace InventorySystem
             Add(item.ID, amount);
         }
 
-        public void Add(byte id, int amount)
+        public void Add(int id, int amount)
         {
             if (amount <= 0)
                 return;
@@ -45,7 +45,7 @@ namespace InventorySystem
             Remove(item.ID, amount);
         }
 
-        public void Remove(byte id, int amount)
+        public void Remove(int id, int amount)
         {
             if (amount <= 0 || !_slotByID.ContainsKey(id))
                 return;
@@ -59,7 +59,7 @@ namespace InventorySystem
             return Contains(item.ID, amount);
         }
 
-        public bool Contains(byte id, int amount = 1)
+        public bool Contains(int id, int amount = 1)
         {
             if (amount <= 0)
                 return true;
@@ -72,7 +72,7 @@ namespace InventorySystem
             return GetCount(itemSO.ID);
         }
 
-        public int GetCount(byte id)
+        public int GetCount(int id)
         {
             if (_slotByID.ContainsKey(id))
             {
@@ -87,7 +87,7 @@ namespace InventorySystem
             return GetMax(itemSO.ID);
         }
 
-        public int GetMax(byte id)
+        public int GetMax(int id)
         {
             if (_slotByID.ContainsKey(id))
             {
@@ -102,7 +102,7 @@ namespace InventorySystem
             SetMax(itemSO.ID, max);
         }
 
-        public void SetMax(byte id, int max)
+        public void SetMax(int id, int max)
         {
             if (!_slotByID.ContainsKey(id))
             {
@@ -129,7 +129,7 @@ namespace InventorySystem
 
         public object Serialize()
         {
-            byte[] ids = _slotByID.Keys.Select(id => id).ToArray();
+            int[] ids = _slotByID.Keys.Select(id => id).ToArray();
             Slot[] counts = _slotByID.Values.Select(slot => slot).ToArray();
 
             object[] result =
@@ -146,7 +146,7 @@ namespace InventorySystem
             byte[] ids = (byte[]) ((object[]) data)[0];
             Slot[] slots = (Slot[]) ((object[]) data)[1];
 
-            _slotByID = new Dictionary<byte, Slot>();
+            _slotByID = new Dictionary<int, Slot>();
 
             for (int i = 0; i < ids.Length; i++)
             {

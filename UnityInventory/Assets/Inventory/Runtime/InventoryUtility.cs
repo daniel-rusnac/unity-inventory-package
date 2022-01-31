@@ -9,13 +9,13 @@ namespace InventorySystem
         public const int DEFAULT_MAX = -1;
 
         private static ItemSO _defaultItem;
-        private static Dictionary<byte, ItemSO> _itemByID = new Dictionary<byte, ItemSO>();
+        private static Dictionary<int, ItemSO> _itemByID = new Dictionary<int, ItemSO>();
 
         [RuntimeInitializeOnLoadMethod]
         private static void Initialize()
         {
             _defaultItem = (ItemSO)ScriptableObject.CreateInstance(typeof(ItemSO));
-            _itemByID = new Dictionary<byte, ItemSO>();
+            _itemByID = new Dictionary<int, ItemSO>();
 
             ItemSO[] items = Resources.LoadAll<ItemSO>(ITEMS_PATH);
 
@@ -31,7 +31,7 @@ namespace InventorySystem
             }
         }
 
-        public static bool TryGetItem(byte id, out ItemSO item)
+        public static bool TryGetItem(int id, out ItemSO item)
         {
             if (_itemByID.ContainsKey(id))
             {

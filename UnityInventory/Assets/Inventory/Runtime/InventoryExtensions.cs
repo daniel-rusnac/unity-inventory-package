@@ -7,7 +7,7 @@
             TransferTo(from, to, item.ID, amount);
         }
         
-        public static void TransferTo(this Inventory from, Inventory to, byte itemID, int amount)
+        public static void TransferTo(this Inventory from, Inventory to, int itemID, int amount)
         {
             int itemsRemoved = from.GetCount(itemID);
             from.Remove(itemID, amount);

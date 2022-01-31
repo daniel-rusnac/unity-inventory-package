@@ -8,12 +8,12 @@ namespace InventorySystem
     {
         [SerializeField] private int _count;
         [SerializeField] private int _max;
-        [SerializeField] private byte _id;
+        [SerializeField] private int _id;
 
         public int Count => _count;
         public int Max => _max;
 
-        public Slot(byte id, int count, int max = InventoryUtility.DEFAULT_MAX)
+        public Slot(int id, int count, int max = InventoryUtility.DEFAULT_MAX)
         {
             _id = id;
             _count = ClampCount(count, max);
