@@ -9,17 +9,13 @@ namespace InventorySystem
         private SerializedProperty _normalIconProperty;
         private SerializedProperty _lockedIconProperty;
         private GUIStyle _style;
+        private bool _isInitialized;
         private float IconSize => EditorGUIUtility.standardVerticalSpacing * 3 + EditorGUIUtility.singleLineHeight * 3;
-
-        protected virtual void OnEnable()
-        {
-            _normalIconProperty = serializedObject.FindProperty("_normalIcon");
-            _lockedIconProperty = serializedObject.FindProperty("_lockedIcon");
-            _style = new GUIStyle(EditorStyles.toolbarButton) {alignment = TextAnchor.UpperCenter};
-        }
-
+        
         public override void OnInspectorGUI()
         {
+            Initialize();
+
             GUILayout.BeginHorizontal();
             {
                 DrawBasicData();
@@ -29,6 +25,19 @@ namespace InventorySystem
 
             DrawPropertiesExcluding(serializedObject, "m_Script", "_itemName", "_id", "_glyph", "_normalIcon",
                 "_lockedIcon");
+        }
+
+        private void Initialize()
+        {
+            if (_isInitialized)
+                return;
+
+            _normalIconProperty = serializedObject.FindProperty("_normalIcon");
+            _lockedIconProperty = serializedObject.FindProperty("_lockedIcon");
+            
+            _style = new GUIStyle(EditorStyles.toolbarButton) {alignment = TextAnchor.UpperCenter};
+            
+            _isInitialized = true;
         }
 
         private void DrawBasicData()
