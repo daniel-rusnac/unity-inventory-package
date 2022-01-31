@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- A simple ID generator for items
+
 ### Fixed
 
 - Fixed the error from GUI Style creation in `ItemSOEditor`
