@@ -6,10 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.3.0] - 2022-01-31
 
-## Added 
+### Added 
 - A method to get a list of all items/ids in the inventory
 
-## Changed
+### Changed
 - Changed item id type from 'byte' to 'int'
 
 ## [1.2.0] - 2022-01-26
