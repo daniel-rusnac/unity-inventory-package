@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System;
+using UnityEditor;
 using UnityEngine;
 
 namespace InventorySystem
@@ -8,10 +9,22 @@ namespace InventorySystem
     {
         private SerializedProperty _normalIconProperty;
         private SerializedProperty _lockedIconProperty;
+        private SerializedProperty _nameProperty;
+        private SerializedProperty _idProperty;
+        private SerializedProperty _glyphProperty;
         private GUIStyle _style;
         private bool _isInitialized;
         private float IconSize => EditorGUIUtility.standardVerticalSpacing * 3 + EditorGUIUtility.singleLineHeight * 3;
-        
+
+        protected virtual void OnEnable()
+        {
+            _normalIconProperty = serializedObject.FindProperty("_normalIcon");
+            _lockedIconProperty = serializedObject.FindProperty("_lockedIcon");
+            _nameProperty = serializedObject.FindProperty("_itemName");
+            _idProperty = serializedObject.FindProperty("_id");
+            _glyphProperty = serializedObject.FindProperty("_glyph");
+        }
+
         public override void OnInspectorGUI()
         {
             Initialize();
@@ -23,8 +36,7 @@ namespace InventorySystem
             }
             GUILayout.EndHorizontal();
 
-            DrawPropertiesExcluding(serializedObject, "m_Script", "_itemName", "_id", "_glyph", "_normalIcon",
-                "_lockedIcon");
+            DrawPropertiesExcluding(serializedObject, "m_Script", "_itemName", "_id", "_glyph", "_normalIcon", "_lockedIcon");
         }
 
         private void Initialize()
@@ -32,9 +44,6 @@ namespace InventorySystem
             if (_isInitialized)
                 return;
 
-            _normalIconProperty = serializedObject.FindProperty("_normalIcon");
-            _lockedIconProperty = serializedObject.FindProperty("_lockedIcon");
-            
             _style = new GUIStyle(EditorStyles.toolbarButton) {alignment = TextAnchor.UpperCenter};
             
             _isInitialized = true;
@@ -45,9 +54,9 @@ namespace InventorySystem
             GUILayout.BeginVertical();
             {
                 EditorGUIUtility.labelWidth = 75;
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("_itemName"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("_id"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("_glyph"));
+                EditorGUILayout.PropertyField(_nameProperty);
+                EditorGUILayout.PropertyField(_idProperty);
+                EditorGUILayout.PropertyField(_glyphProperty);
                 EditorGUIUtility.labelWidth = 0;
             }
             GUILayout.EndVertical();

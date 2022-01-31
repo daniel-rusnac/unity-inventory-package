@@ -15,5 +15,5 @@ MonoBehaviour:
   _id: 2
   _itemName: Sword
   _glyph: 
-  _normalIcon: {fileID: 0}
-  _lockedIcon: {fileID: 0}
+  _normalIcon: {fileID: 21300000, guid: f1817d756260a8949878c1f5d2461edb, type: 3}
+  _lockedIcon: {fileID: 21300000, guid: 071e1aadaf8102b48b4d0329ad1997df, type: 3}

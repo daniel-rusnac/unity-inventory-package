@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20008c11f5964182a0533bbde466f036, type: 3}
   m_Name: XP
   m_EditorClassIdentifier: 
-  _id: 1
+  _id: 1622900324
   _itemName: XP
   _glyph: 
   _normalIcon: {fileID: 0}

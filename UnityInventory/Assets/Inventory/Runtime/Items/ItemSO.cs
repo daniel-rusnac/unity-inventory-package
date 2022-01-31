@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEditor;
+using UnityEngine;
 
 namespace InventorySystem
 {
@@ -25,6 +27,18 @@ namespace InventorySystem
             }
 
             return _normalIcon;
+        }
+
+        protected virtual void Reset()
+        {
+            RefreshID();
+        }
+
+        [ContextMenu("Refresh ID")]
+        private void RefreshID()
+        {
+            _id = Guid.NewGuid().GetHashCode();
+            EditorUtility.SetDirty(this);
         }
     }
 }
