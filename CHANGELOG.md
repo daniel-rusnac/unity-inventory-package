@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - Changed item id type from 'byte' to 'int'
-- 
+- Add a method to get a list of all items in the inventory
 
 ## [1.2.0] - 2022-01-26
 
