@@ -1,6 +1,8 @@
 ﻿using System;
-using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace InventorySystem
 {
@@ -8,8 +10,10 @@ namespace InventorySystem
     public class ItemSO : ScriptableObject
     {
         [SerializeField] private int _id;
-        [Tooltip("Will be used to display the name in the UI.")] 
+
+        [Tooltip("Will be used to display the name in the UI.")]
         [SerializeField] private string _itemName;
+
         [SerializeField] private string _glyph;
         [SerializeField] private Sprite _normalIcon;
         [SerializeField] private Sprite _lockedIcon;
@@ -33,12 +37,14 @@ namespace InventorySystem
         {
             RefreshID();
         }
-
+        
         [ContextMenu("Refresh ID")]
         private void RefreshID()
         {
+#if UNITY_EDITOR
             _id = Guid.NewGuid().GetHashCode();
             EditorUtility.SetDirty(this);
+#endif
         }
     }
 }
