@@ -6,17 +6,26 @@ namespace InventorySystem
     [CustomEditor(typeof(InventorySO))]
     public class InventorySOEditor : Editor
     {
-        private const float BUTTON_WIDTH = 60f;
+        private const string DRAW_CONTENT_KEY = "ie_draw_content";
+        private const string DRAW_EDITOR_KEY = "ie_draw_editor";
+        private const string AMOUNT_KEY = "ie_amount";
+        private const string ITEM_ID_KEY = "ie_item_id";
 
         private bool _drawContent;
         private bool _drawEditor;
-        private int _intInput = 100;
+        private int _amount = 1;
         private ItemSO _item;
         private InventorySO _inventory;
 
         private void OnEnable()
         {
             _inventory = (InventorySO) target;
+            Load();
+        }
+
+        private void OnDisable()
+        {
+            Save();
         }
 
         public override void OnInspectorGUI()
@@ -26,13 +35,15 @@ namespace InventorySystem
             {
                 DrawContent();
             }
+
             EditorGUILayout.EndFoldoutHeaderGroup();
-            
+
             _drawEditor = EditorGUILayout.BeginFoldoutHeaderGroup(_drawEditor, "Editor");
             if (_drawEditor)
             {
                 DrawInventoryEditor();
             }
+
             EditorGUILayout.EndFoldoutHeaderGroup();
         }
 
@@ -47,11 +58,11 @@ namespace InventorySystem
             {
                 EditorGUILayout.HelpBox("Inventory modification available only at runtime!", MessageType.Warning);
             }
-            
+
             GUI.enabled = Application.isPlaying;
-            
+
             _item = (ItemSO) EditorGUILayout.ObjectField(_item, typeof(ItemSO), _item);
-            _intInput = EditorGUILayout.IntField(_intInput);
+            _amount = EditorGUILayout.IntField(_amount);
 
             if (GUILayout.Button("Add"))
             {
@@ -61,7 +72,7 @@ namespace InventorySystem
                 }
                 else
                 {
-                    _inventory.Add(_item, _intInput);
+                    _inventory.Add(_item, _amount);
                 }
             }
 
@@ -73,7 +84,7 @@ namespace InventorySystem
                 }
                 else
                 {
-                    _inventory.Remove(_item, _intInput);
+                    _inventory.Remove(_item, _amount);
                 }
             }
 
@@ -85,7 +96,7 @@ namespace InventorySystem
                 }
                 else
                 {
-                    _inventory.SetMax(_item, _intInput);
+                    _inventory.SetMax(_item, _amount);
                 }
             }
 
@@ -94,6 +105,32 @@ namespace InventorySystem
             if (Application.isPlaying)
             {
                 EditorGUILayout.HelpBox("Set max to -1 to ignore it.", MessageType.Info);
+            }
+        }
+
+        private void Save()
+        {
+            EditorPrefs.SetBool(DRAW_CONTENT_KEY, _drawContent);
+            EditorPrefs.SetBool(DRAW_EDITOR_KEY, _drawEditor);
+            EditorPrefs.SetInt(AMOUNT_KEY, _amount);
+
+            if (_item != null)
+            {
+                EditorPrefs.SetInt(ITEM_ID_KEY, _item.ID);
+            }
+        }
+
+        private void Load()
+        {
+            _drawContent = EditorPrefs.GetBool(DRAW_CONTENT_KEY, true);
+            _drawEditor = EditorPrefs.GetBool(DRAW_EDITOR_KEY, true);
+            _amount = EditorPrefs.GetInt(AMOUNT_KEY, 1);
+
+            int itemID = EditorPrefs.GetInt(ITEM_ID_KEY);
+
+            if (InventoryUtility.TryGetItem(itemID, out ItemSO item))
+            {
+                _item = item;
             }
         }
     }
