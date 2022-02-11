@@ -1,5 +1,7 @@
 ﻿using InventorySystem.InventoryDatabase;
 using JetBrains.Annotations;
+using UnityEditor.Callbacks;
+using UnityEngine;
 
 namespace InventorySystem
 {
@@ -12,6 +14,13 @@ namespace InventorySystem
         static InventoryUtility()
         {
             _database = new ResourcesDatabase();
+        }
+
+        [DidReloadScripts]
+        [RuntimeInitializeOnLoadMethod]
+        private static void Initialize()
+        {
+            // a dummy method to trigger database initialization
         }
 
         /// <summary>

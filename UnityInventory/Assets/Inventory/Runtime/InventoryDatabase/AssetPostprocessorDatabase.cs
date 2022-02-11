@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace InventorySystem.InventoryDatabase
 {
@@ -45,18 +46,22 @@ namespace InventorySystem.InventoryDatabase
 
         private void AddItem(ItemSO item)
         {
+            Debug.Log("A");
             if (_itemByID.ContainsKey(item.ID))
                 return;
             
-            _itemByID.Add(item.ID, item);    
+            _itemByID.Add(item.ID, item);
+            Debug.Log("Add" + item.name);
         }
 
         private void RemoveItem(ItemSO item)
         {
+            Debug.Log("B");
             if (!_itemByID.ContainsKey(item.ID))
                 return;
             
             _itemByID.Remove(item.ID);
+            Debug.Log("Remove " + item.name);
         }
     }
 }
