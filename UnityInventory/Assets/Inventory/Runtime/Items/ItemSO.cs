@@ -9,11 +9,11 @@ namespace InventorySystem
     [CreateAssetMenu(fileName = "Item", menuName = "Inventory/Item")]
     public class ItemSO : ScriptableObject
     {
+        [Tooltip("The ID is used by the inventory to store and load items. This must be unique!")]
         [SerializeField] private int _id;
-
         [Tooltip("Will be used to display the name in the UI.")]
         [SerializeField] private string _itemName;
-
+        [Tooltip("Use with TMP to display images inside text.")]
         [SerializeField] private string _glyph;
         [SerializeField] private Sprite _normalIcon;
         [SerializeField] private Sprite _lockedIcon;
