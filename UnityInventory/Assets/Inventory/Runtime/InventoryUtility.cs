@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using InventorySystem.InventoryDatabase;
-using UnityEditor.Callbacks;
-using UnityEngine;
+﻿using InventorySystem.InventoryDatabase;
+using JetBrains.Annotations;
 
 namespace InventorySystem
 {
@@ -14,6 +12,16 @@ namespace InventorySystem
         static InventoryUtility()
         {
             _database = new ResourcesDatabase();
+        }
+
+        /// <summary>
+        /// Retrieve an item from the ID.
+        /// </summary>
+        /// <param name="id">Item ID.</param>
+        [CanBeNull]
+        public static ItemSO GetItem(int id)
+        {
+            return _database.GetItem(id);
         }
 
         /// <summary>
