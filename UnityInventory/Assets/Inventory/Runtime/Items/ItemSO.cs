@@ -1,4 +1,5 @@
 ﻿using System;
+using InventorySystem.Icons;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -6,7 +7,7 @@ using UnityEditor;
 
 namespace InventorySystem
 {
-    [CreateAssetMenu(fileName = "Item", menuName = "Inventory/Items/Basic Item")]
+    [CreateAssetMenu(fileName = "Simple Item", menuName = InventoryConstants.CREATE_ITEMS_SM + "Simple Item")]
     public class ItemSO : ScriptableObject
     {
         [Tooltip("The ID is used by the inventory to store and load items. This must be unique!")]
@@ -15,23 +16,11 @@ namespace InventorySystem
         [SerializeField] private string _itemName;
         [Tooltip("Use with TMP to display images inside text.")]
         [SerializeField] private string _glyph;
-        [SerializeField] private Sprite _normalIcon;
-        [SerializeField] private Sprite _lockedIcon;
+        [SerializeField] private IconSO _icon;
 
         public int ID => _id;
         public string ItemName => _itemName;
         public string Glyph => _glyph;
-
-        public virtual Sprite GetIcon(IconType type = IconType.Normal)
-        {
-            switch (type)
-            {
-                case IconType.Locked:
-                    return _lockedIcon;
-            }
-
-            return _normalIcon;
-        }
 
         protected virtual void Reset()
         {

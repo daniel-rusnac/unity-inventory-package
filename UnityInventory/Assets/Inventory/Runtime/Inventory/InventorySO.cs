@@ -5,19 +5,18 @@ using UnityEngine;
 
 namespace InventorySystem
 {
-    [CreateAssetMenu(fileName = "Inventory", menuName = "Inventory/Inventory")]
-    public class InventorySO : ScriptableObject
+    public abstract class InventorySO : ScriptableObject
     {
         public event Action Changed;
         public event Action<ItemSO, int> ChangedAmount;
 
         private readonly Dictionary<ItemSO, Slot> _slotByID = new Dictionary<ItemSO, Slot>();
-        
+
         public void Add(ItemSO item, int amount)
         {
             if (amount == 0)
                 return;
-            
+
             if (amount < 0)
                 Remove(item, amount);
 
@@ -28,7 +27,7 @@ namespace InventorySystem
 
             _slotByID[item] += amount;
         }
-        
+
         public void Remove(ItemSO item, int amount)
         {
             if (amount == 0)
@@ -39,7 +38,7 @@ namespace InventorySystem
                 Add(item, -amount);
                 return;
             }
-            
+
             if (!_slotByID.ContainsKey(item))
                 return;
 
@@ -111,11 +110,11 @@ namespace InventorySystem
             {
                 OnChanged(item, _slotByID[item].Count);
             }
-            
+
             _slotByID.Clear();
             OnChanged();
         }
-        
+
         public override string ToString()
         {
             if (_slotByID.Count == 0)
@@ -127,7 +126,7 @@ namespace InventorySystem
 
             return result + "]";
         }
-        
+
         private void OnChanged(ItemSO item, int delta)
         {
             ChangedAmount?.Invoke(item, delta);
@@ -137,27 +136,6 @@ namespace InventorySystem
         private void OnChanged()
         {
             Changed?.Invoke();
-        }
-
-        [Obsolete("Use the inventory directly.")]
-        public InventorySO GetInventory => this;
-
-        [Obsolete("Use GetItems instead.")]
-        public ItemSO[] GetAllItems()
-        {
-            return GetItems();
-        }
-
-        [Obsolete("Use Inventory.Changed instead.")]
-        public void Register(Action action)
-        {
-            Changed += action;
-        }
-
-        [Obsolete("Use Inventory.Changed instead.")]
-        public void Unregister(Action action)
-        {
-            Changed -= action;
         }
     }
 }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20008c11f5964182a0533bbde466f036, type: 3}
   m_Name: Coin
   m_EditorClassIdentifier: 
-  _id: 0
+  _id: 257491647
   _itemName: Coin
   _glyph: 
   _normalIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
