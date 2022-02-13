@@ -121,6 +121,14 @@ namespace InventorySystem
         }
 
         /// <summary>
+        /// Return all items of type T
+        /// </summary>
+        public T[] GetItems<T>() where T : ItemSO
+        {
+            return _slotByID.Where(pair => pair.Value.Amount > 0).Select(pair => pair.Key as T).Where(item => item != null).ToArray();
+        }
+
+        /// <summary>
         /// Removes all items from the inventory.
         /// </summary>
         public void Clear()

@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - The inventory editor is now persistent through hot reloads and unity sessions
 - Default save/load methods using PlayerPrefs
+- The ability to retrieve from inventory all items of a certain type ```Inventory.GetItems<ItemType>()```
 
 ### Changed
 - Item database is now always initialized

@@ -1,5 +1,4 @@
 ﻿using System;
-using InventorySystem.Icons;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -22,7 +21,7 @@ namespace InventorySystem
         public int ID => _id;
         public string ItemName => _itemName;
         public string Glyph => _glyph;
-        
+
         public virtual Sprite GetIcon(IconType type = IconType.Normal)
         {
             switch (type)
@@ -38,7 +37,7 @@ namespace InventorySystem
         {
             RefreshID();
         }
-        
+
         [ContextMenu("Refresh ID")]
         private void RefreshID()
         {
