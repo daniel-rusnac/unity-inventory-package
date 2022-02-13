@@ -11,7 +11,7 @@
         /// <param name="amount">The amount to transfer. Will not add more items than removed.</param>
         public static void TransferTo(this InventorySO from, InventorySO to, ItemSO item, int amount)
         {
-            int itemsRemoved = from.GetCount(item);
+            int itemsRemoved = from.GetAmount(item);
             from.Remove(item, amount);
             to.Add(item, itemsRemoved);
         }

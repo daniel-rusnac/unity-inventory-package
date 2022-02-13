@@ -27,6 +27,7 @@ namespace InventorySystem
             }
 
             _slotByID[item] += amount;
+            OnChanged(item, amount);
         }
         
         public void Remove(ItemSO item, int amount)
@@ -44,6 +45,7 @@ namespace InventorySystem
                 return;
 
             _slotByID[item] -= amount;
+            OnChanged(item, amount);
         }
 
         public bool Contains(ItemSO item, int amount = 1)
@@ -51,17 +53,30 @@ namespace InventorySystem
             if (amount <= 0)
                 return true;
 
-            return _slotByID.ContainsKey(item) && _slotByID[item].Count >= amount;
+            return _slotByID.ContainsKey(item) && _slotByID[item].Amount >= amount;
         }
 
-        public int GetCount(ItemSO item)
+        public int GetAmount(ItemSO item)
         {
             if (_slotByID.ContainsKey(item))
             {
-                return _slotByID[item].Count;
+                return _slotByID[item].Amount;
             }
 
             return 0;
+        }
+
+        public void SetAmount(ItemSO item, int amount)
+        {
+            if (!_slotByID.ContainsKey(item))
+            {
+                _slotByID.Add(item, new Slot(item.ID, 0));
+            }
+
+            int delta = amount - _slotByID[item].Amount;
+            _slotByID[item] += delta;
+            
+            OnChanged(item, delta);
         }
 
         /// <summary>
@@ -77,7 +92,10 @@ namespace InventorySystem
             }
             else
             {
+                int lastValue = _slotByID[item].Amount; 
                 _slotByID[item] = _slotByID[item].SetMax(max);
+
+                OnChanged(item, lastValue - _slotByID[item].Amount);
             }
         }
 
@@ -85,7 +103,7 @@ namespace InventorySystem
         {
             if (_slotByID.ContainsKey(item))
             {
-                return _slotByID[item].Count;
+                return _slotByID[item].Amount;
             }
 
             return InventoryUtility.DEFAULT_MAX;
@@ -94,12 +112,12 @@ namespace InventorySystem
         /// <returns>How many slots with count > 0 are in the inventory.</returns>
         public int GetActiveSlotsCount()
         {
-            return _slotByID.Count(pair => pair.Value.Count > 0);
+            return _slotByID.Count(pair => pair.Value.Amount > 0);
         }
 
         public ItemSO[] GetItems()
         {
-            return _slotByID.Where(pair => pair.Value.Count > 0).Select(pair => pair.Key).ToArray();
+            return _slotByID.Where(pair => pair.Value.Amount > 0).Select(pair => pair.Key).ToArray();
         }
 
         /// <summary>
@@ -109,11 +127,10 @@ namespace InventorySystem
         {
             foreach (ItemSO item in _slotByID.Keys)
             {
-                OnChanged(item, _slotByID[item].Count);
+                OnChanged(item, _slotByID[item].Amount);
             }
             
             _slotByID.Clear();
-            OnChanged();
         }
         
         public override string ToString()
@@ -127,9 +144,62 @@ namespace InventorySystem
 
             return result + "]";
         }
+
+        public string Serialize()
+        {
+            string[] values = 
+            {
+                string.Join(",", _slotByID.Keys.Select(so => so.ID)),
+                string.Join(",", _slotByID.Values.Select(slot => slot.Amount)),
+                string.Join(",", _slotByID.Values.Select(slot => slot.Max))
+            };
+            
+            return string.Join("|", values);
+        }
+
+        public void Deserialize(string content)
+        {
+            string[] values = content.Split('|');
+
+            int count = values.Length;
+
+            if (count != 3)
+            {
+                Debug.LogWarning($"Couldn't deserialize content: {content}!", this);
+                return;
+            }
+
+            int[] ids = values[0].Split(',').Select(int.Parse).ToArray();
+            int[] amount = values[1].Split(',').Select(int.Parse).ToArray();
+            int[] max = values[2].Split(',').Select(int.Parse).ToArray();
+
+            for (int i = 0; i < count; i++)
+            {
+                if (InventoryUtility.TryGetItem(ids[i], out ItemSO item))
+                {
+                    if (!_slotByID.ContainsKey(item))
+                    {
+                        Add(item, amount[i]);
+                        SetMax(item, max[i]);
+                    }
+                    else
+                    {
+                        SetMax(item, max[i]);
+                        SetAmount(item, amount[i]);
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning($"Couldn't deserialize id: {ids[i]}! Maybe you changed it after saving?", this);
+                }
+            }
+        }
         
         private void OnChanged(ItemSO item, int delta)
         {
+            if (delta == 0)
+                return;
+            
             ChangedAmount?.Invoke(item, delta);
             OnChanged();
         }
@@ -137,27 +207,6 @@ namespace InventorySystem
         private void OnChanged()
         {
             Changed?.Invoke();
-        }
-
-        [Obsolete("Use the inventory directly.")]
-        public InventorySO GetInventory => this;
-
-        [Obsolete("Use GetItems instead.")]
-        public ItemSO[] GetAllItems()
-        {
-            return GetItems();
-        }
-
-        [Obsolete("Use Inventory.Changed instead.")]
-        public void Register(Action action)
-        {
-            Changed += action;
-        }
-
-        [Obsolete("Use Inventory.Changed instead.")]
-        public void Unregister(Action action)
-        {
-            Changed -= action;
         }
     }
 }
