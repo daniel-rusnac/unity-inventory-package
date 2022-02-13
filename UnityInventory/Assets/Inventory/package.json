@@ -1,9 +1,14 @@
 {
   "name": "com.danielrusnac.inventory",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "displayName": "Inventory",
+  "description": "An inventory system for unity that supports adding/removing items and saving/loading the content.",
+  "documentationUrl": "https://github.com/danielrusnac/unity-inventory-package/blob/main/README.md",
+  "changelogUrl": "https://github.com/danielrusnac/unity-inventory-package/blob/main/CHANGELOG.md",
+  "licensesUrl": "https://github.com/danielrusnac/unity-inventory-package/blob/main/LICENSE",
   "author": {
     "name": "Daniel Rusnac",
-    "email": "daniel.rusnac.personal@gmail.com"
+    "email": "daniel.rusnac.personal@gmail.com",
+    "url": "https://github.com/danielrusnac"
   }
 }
