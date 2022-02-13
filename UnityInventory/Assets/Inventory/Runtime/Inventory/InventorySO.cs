@@ -103,7 +103,7 @@ namespace InventorySystem
         {
             if (_slotByID.ContainsKey(item))
             {
-                return _slotByID[item].Amount;
+                return _slotByID[item].Max;
             }
 
             return InventoryUtility.DEFAULT_MAX;
@@ -194,7 +194,7 @@ namespace InventorySystem
                 }
             }
         }
-        
+
         private void OnChanged(ItemSO item, int delta)
         {
             if (delta == 0)

@@ -10,6 +10,7 @@ namespace InventorySystem
         private const string DRAW_EDITOR_KEY = "ie_draw_editor";
         private const string AMOUNT_KEY = "ie_amount";
         private const string ITEM_ID_KEY = "ie_item_id";
+        private const string SAVE_KEY = "debug_inventory";
 
         private bool _drawContent;
         private bool _drawEditor;
@@ -115,12 +116,31 @@ namespace InventorySystem
                 }
             }
             EditorGUILayout.EndHorizontal();
+            
+            EditorGUILayout.BeginHorizontal();
+            {
+                if (GUILayout.Button("Save"))
+                {
+                    _inventory.Save(SAVE_KEY);
+                }
+
+                if (GUILayout.Button("Load"))
+                {
+                    _inventory.Load(SAVE_KEY);
+                }
+            }
+            EditorGUILayout.EndHorizontal();
 
             GUI.enabled = true;
 
             if (Application.isPlaying)
             {
-                EditorGUILayout.HelpBox("Set max to -1 for unlimited amount.", MessageType.Info);
+                if (_item != null && _inventory.GetMax(_item) != -1)
+                {
+                    EditorGUILayout.HelpBox("Set max to -1 for unlimited amount.", MessageType.Info);
+                }
+
+                EditorGUILayout.HelpBox($"Default save key is '{SAVE_KEY}'.", MessageType.Info);
             }
         }
 

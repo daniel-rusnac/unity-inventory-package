@@ -1,4 +1,6 @@
-﻿namespace InventorySystem
+﻿using UnityEngine;
+
+namespace InventorySystem
 {
     public static class InventoryExtensions
     {
@@ -14,6 +16,23 @@
             int itemsRemoved = from.GetAmount(item);
             from.Remove(item, amount);
             to.Add(item, itemsRemoved);
+        }
+
+        /// <summary>
+        /// Save the inventory using PlayerPrefs
+        /// </summary>
+        public static void Save(this InventorySO inventory, string saveKey)
+        {
+            PlayerPrefs.SetString(saveKey, inventory.Serialize());
+            PlayerPrefs.Save();
+        }
+
+        /// <summary>
+        /// Load the inventory using PlayerPrefs
+        /// </summary>
+        public static void Load(this InventorySO inventory, string saveKey)
+        {
+            inventory.Deserialize(PlayerPrefs.GetString(saveKey));
         }
     }
 }
