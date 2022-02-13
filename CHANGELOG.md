@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## [Unreleased]
+
+### Added
+- The inventory editor is now persistent through hot reloads and unity sessions
+- Default save/load methods using PlayerPrefs
+
+### Changed
+- Item database is now always initialized
+- The inventory is now a scriptable object
+- The inventory now works with items directly
+- Inventory now serializes into a string
+
+### Removed
+- No more methods on the inventory that receive an ID
+
 ## [1.3.2] - 2022-02-01
 
 ### Fixed

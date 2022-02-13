@@ -6,17 +6,17 @@ namespace InventorySystem
     [Serializable]
     public struct Slot
     {
-        [SerializeField] private int _count;
+        [SerializeField] private int _amount;
         [SerializeField] private int _max;
         [SerializeField] private int _id;
 
-        public int Count => _count;
+        public int Amount => _amount;
         public int Max => _max;
 
         public Slot(int id, int count, int max = InventoryUtility.DEFAULT_MAX)
         {
             _id = id;
-            _count = ClampCount(count, max);
+            _amount = ClampCount(count, max);
             _max = max;
         }
 
@@ -25,17 +25,17 @@ namespace InventorySystem
             if (value < InventoryUtility.DEFAULT_MAX)
                 return this;
 
-            return new Slot(_id, _count, value);
+            return new Slot(_id, _amount, value);
         }
 
         public static Slot operator +(Slot packet, int count)
         {
-            return new Slot(packet._id, ClampCount(packet.Count + count, packet._max), packet._max);
+            return new Slot(packet._id, ClampCount(packet.Amount + count, packet._max), packet._max);
         }
 
         public static Slot operator -(Slot packet, int count)
         {
-            return new Slot(packet._id, ClampCount(packet.Count - count, packet._max), packet._max);
+            return new Slot(packet._id, ClampCount(packet.Amount - count, packet._max), packet._max);
         }
 
         private static int ClampCount(int unclampedCount, int max)
@@ -53,7 +53,7 @@ namespace InventorySystem
         public override string ToString()
         {
             InventoryUtility.TryGetItem(_id, out ItemSO item);
-            return $"{(item == null ? "???" : item.ItemName)}: {Count}{(_max > 0 ? $"/{_max}" : "")}";
+            return $"{(item == null ? "???" : item.ItemName)}: {Amount}{(_max > 0 ? $"/{_max}" : "")}";
         }
     }
 }

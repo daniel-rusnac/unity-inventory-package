@@ -10,6 +10,7 @@ namespace InventorySystem
         private const string DRAW_EDITOR_KEY = "ie_draw_editor";
         private const string AMOUNT_KEY = "ie_amount";
         private const string ITEM_ID_KEY = "ie_item_id";
+        private const string SAVE_KEY = "debug_inventory";
 
         private bool _drawContent;
         private bool _drawEditor;
@@ -64,47 +65,82 @@ namespace InventorySystem
             _item = (ItemSO) EditorGUILayout.ObjectField(_item, typeof(ItemSO), _item);
             _amount = EditorGUILayout.IntField(_amount);
 
-            if (GUILayout.Button("Add"))
+            EditorGUILayout.BeginHorizontal();
             {
-                if (_item == null)
+                if (GUILayout.Button("Add"))
                 {
-                    Debug.LogWarning("No item selected!");
+                    if (_item == null)
+                    {
+                        Debug.LogWarning("No item selected!");
+                    }
+                    else
+                    {
+                        _inventory.Add(_item, _amount);
+                    }
                 }
-                else
-                {
-                    _inventory.Add(_item, _amount);
-                }
-            }
 
-            if (GUILayout.Button("Remove"))
-            {
-                if (_item == null)
+                if (GUILayout.Button("Remove"))
                 {
-                    Debug.LogWarning("No item selected!");
+                    if (_item == null)
+                    {
+                        Debug.LogWarning("No item selected!");
+                    }
+                    else
+                    {
+                        _inventory.Remove(_item, _amount);
+                    }
                 }
-                else
+                
+                if (GUILayout.Button("Set Amount"))
                 {
-                    _inventory.Remove(_item, _amount);
+                    if (_item == null)
+                    {
+                        Debug.LogWarning("No item selected!");
+                    }
+                    else
+                    {
+                        _inventory.SetAmount(_item, _amount);
+                    }
                 }
-            }
 
-            if (GUILayout.Button("Set Max"))
-            {
-                if (_item == null)
+                if (GUILayout.Button("Set Max"))
                 {
-                    Debug.LogWarning("No item selected!");
-                }
-                else
-                {
-                    _inventory.SetMax(_item, _amount);
+                    if (_item == null)
+                    {
+                        Debug.LogWarning("No item selected!");
+                    }
+                    else
+                    {
+                        _inventory.SetMax(_item, _amount);
+                    }
                 }
             }
+            EditorGUILayout.EndHorizontal();
+            
+            EditorGUILayout.BeginHorizontal();
+            {
+                if (GUILayout.Button("Save"))
+                {
+                    _inventory.Save(SAVE_KEY);
+                }
+
+                if (GUILayout.Button("Load"))
+                {
+                    _inventory.Load(SAVE_KEY);
+                }
+            }
+            EditorGUILayout.EndHorizontal();
 
             GUI.enabled = true;
 
             if (Application.isPlaying)
             {
-                EditorGUILayout.HelpBox("Set max to -1 to ignore it.", MessageType.Info);
+                if (_item != null && _inventory.GetMax(_item) != -1)
+                {
+                    EditorGUILayout.HelpBox("Set max to -1 for unlimited amount.", MessageType.Info);
+                }
+
+                EditorGUILayout.HelpBox($"Default save key is '{SAVE_KEY}'.", MessageType.Info);
             }
         }
 

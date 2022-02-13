@@ -1,4 +1,6 @@
-﻿namespace InventorySystem
+﻿using UnityEngine;
+
+namespace InventorySystem
 {
     public static class InventoryExtensions
     {
@@ -11,9 +13,26 @@
         /// <param name="amount">The amount to transfer. Will not add more items than removed.</param>
         public static void TransferTo(this SimpleInventorySO from, SimpleInventorySO to, ItemSO item, int amount)
         {
-            int itemsRemoved = from.GetCount(item);
+            int itemsRemoved = from.GetAmount(item);
             from.Remove(item, amount);
             to.Add(item, itemsRemoved);
+        }
+
+        /// <summary>
+        /// Save the inventory using PlayerPrefs
+        /// </summary>
+        public static void Save(this InventorySO inventory, string saveKey)
+        {
+            PlayerPrefs.SetString(saveKey, inventory.Serialize());
+            PlayerPrefs.Save();
+        }
+
+        /// <summary>
+        /// Load the inventory using PlayerPrefs
+        /// </summary>
+        public static void Load(this InventorySO inventory, string saveKey)
+        {
+            inventory.Deserialize(PlayerPrefs.GetString(saveKey));
         }
     }
 }
