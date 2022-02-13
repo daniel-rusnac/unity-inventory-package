@@ -64,47 +64,63 @@ namespace InventorySystem
             _item = (ItemSO) EditorGUILayout.ObjectField(_item, typeof(ItemSO), _item);
             _amount = EditorGUILayout.IntField(_amount);
 
-            if (GUILayout.Button("Add"))
+            EditorGUILayout.BeginHorizontal();
             {
-                if (_item == null)
+                if (GUILayout.Button("Add"))
                 {
-                    Debug.LogWarning("No item selected!");
+                    if (_item == null)
+                    {
+                        Debug.LogWarning("No item selected!");
+                    }
+                    else
+                    {
+                        _inventory.Add(_item, _amount);
+                    }
                 }
-                else
-                {
-                    _inventory.Add(_item, _amount);
-                }
-            }
 
-            if (GUILayout.Button("Remove"))
-            {
-                if (_item == null)
+                if (GUILayout.Button("Remove"))
                 {
-                    Debug.LogWarning("No item selected!");
+                    if (_item == null)
+                    {
+                        Debug.LogWarning("No item selected!");
+                    }
+                    else
+                    {
+                        _inventory.Remove(_item, _amount);
+                    }
                 }
-                else
+                
+                if (GUILayout.Button("Set Amount"))
                 {
-                    _inventory.Remove(_item, _amount);
+                    if (_item == null)
+                    {
+                        Debug.LogWarning("No item selected!");
+                    }
+                    else
+                    {
+                        _inventory.SetAmount(_item, _amount);
+                    }
                 }
-            }
 
-            if (GUILayout.Button("Set Max"))
-            {
-                if (_item == null)
+                if (GUILayout.Button("Set Max"))
                 {
-                    Debug.LogWarning("No item selected!");
-                }
-                else
-                {
-                    _inventory.SetMax(_item, _amount);
+                    if (_item == null)
+                    {
+                        Debug.LogWarning("No item selected!");
+                    }
+                    else
+                    {
+                        _inventory.SetMax(_item, _amount);
+                    }
                 }
             }
+            EditorGUILayout.EndHorizontal();
 
             GUI.enabled = true;
 
             if (Application.isPlaying)
             {
-                EditorGUILayout.HelpBox("Set max to -1 to ignore it.", MessageType.Info);
+                EditorGUILayout.HelpBox("Set max to -1 for unlimited amount.", MessageType.Info);
             }
         }
 
