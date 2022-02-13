@@ -8,11 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - The inventory editor is now persistent through hot reloads and unity sessions
+- Default save/load methods using PlayerPrefs
 
 ### Changed
 - Item database is now always initialized
 - The inventory is now a scriptable object
 - The inventory now works with items directly
+- Inventory now serializes into a string
 
 ### Removed
 - No more methods on the inventory that receive an ID
