@@ -11,7 +11,7 @@ namespace InventorySystem
         /// <param name="to">Inventory to add items to.</param>
         /// <param name="item">The item to transfer.</param>
         /// <param name="amount">The amount to transfer. Will not add more items than removed.</param>
-        public static void TransferTo(this SimpleInventorySO from, SimpleInventorySO to, ItemSO item, int amount)
+        public static void TransferTo(this InventorySO from, InventorySO to, ItemSO item, int amount)
         {
             int itemsRemoved = from.GetAmount(item);
             from.Remove(item, amount);

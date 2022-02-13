@@ -16,11 +16,11 @@ namespace InventorySystem
         private bool _drawEditor;
         private int _amount = 1;
         private ItemSO _item;
-        private SimpleInventorySO _inventory;
+        private InventorySO _inventory;
 
         private void OnEnable()
         {
-            _inventory = (SimpleInventorySO) target;
+            _inventory = (InventorySO) target;
             Load();
         }
 

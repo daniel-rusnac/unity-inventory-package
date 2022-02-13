@@ -16,11 +16,23 @@ namespace InventorySystem
         [SerializeField] private string _itemName;
         [Tooltip("Use with TMP to display images inside text.")]
         [SerializeField] private string _glyph;
-        [SerializeField] private IconSO _icon;
+        [SerializeField] private Sprite _normalIcon;
+        [SerializeField] private Sprite _lockedIcon;
 
         public int ID => _id;
         public string ItemName => _itemName;
         public string Glyph => _glyph;
+        
+        public virtual Sprite GetIcon(IconType type = IconType.Normal)
+        {
+            switch (type)
+            {
+                case IconType.Locked:
+                    return _lockedIcon;
+            }
+
+            return _normalIcon;
+        }
 
         protected virtual void Reset()
         {

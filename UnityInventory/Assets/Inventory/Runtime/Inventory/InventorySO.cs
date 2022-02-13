@@ -160,10 +160,8 @@ namespace InventorySystem
         public void Deserialize(string content)
         {
             string[] values = content.Split('|');
-
-            int count = values.Length;
-
-            if (count != 3)
+            
+            if (values.Length != 3)
             {
                 Debug.LogWarning($"Couldn't deserialize content: {content}!", this);
                 return;
@@ -173,7 +171,9 @@ namespace InventorySystem
             int[] amount = values[1].Split(',').Select(int.Parse).ToArray();
             int[] max = values[2].Split(',').Select(int.Parse).ToArray();
 
-            for (int i = 0; i < count; i++)
+            int slotCount = ids.Length;
+
+            for (int i = 0; i < slotCount; i++)
             {
                 if (InventoryUtility.TryGetItem(ids[i], out ItemSO item))
                 {
