@@ -30,14 +30,13 @@ To retrieve an item from the ID use `InventoryUtility.TryGetItem()`.
 ### Inventory
 
 #### Create
-There are two variants to use an inventory:
-- Create one directly in code using `new Inventory()`
-- Use an SO holder `InventorySO` to store and reference the inventory `InventorySO.GetInventory`
+The inventory is a scriptable object and ca be created by *Right Click/Create/Inventory/Inventory*.
+If you want to create inventories during runtime, use `CreateInstance()`.
 
 #### Edit
-The basic operations with an inventory are `Add`, `Remove` and `SetMax`.
+The basic operations with an inventory are `Add`, `Remove` and `SetAmount`.
 The item amount is clamped between `0` and `MaxValue`, or `int.Max`, if the max value is `-1`.
+Yout can set the max value with `SetMax`;
 
 #### Save
-The inventory can be serialized by unity, so systems like ES3 can save and load it by simply calling
-`ES3.Save(key, inventory)` and `inventory = ES3.Load(key, new Inventory())`.
+The inventory can be save by calling ```Inventory.Save(saveKey)``` and ```inventory.Load(saveKey)```. If you want to use your custom save system, there are alos methods for serialization into/from a string  ```Inventory.Serialize()``` and ```Inventor.Deserialize()```.
