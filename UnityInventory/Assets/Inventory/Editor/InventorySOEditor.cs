@@ -14,7 +14,7 @@ namespace InventorySystem
 
         private bool _drawContent;
         private bool _drawEditor;
-        private int _amount = 1;
+        private long _amount = 1;
         private ItemSO _item;
         private InventorySO _inventory;
 
@@ -63,7 +63,7 @@ namespace InventorySystem
             GUI.enabled = Application.isPlaying;
 
             _item = (ItemSO) EditorGUILayout.ObjectField(_item, typeof(ItemSO), _item);
-            _amount = EditorGUILayout.IntField(_amount);
+            _amount = EditorGUILayout.LongField(_amount);
 
             EditorGUILayout.BeginHorizontal();
             {
@@ -103,15 +103,32 @@ namespace InventorySystem
                     }
                 }
 
-                if (GUILayout.Button("Set Max"))
+                if (_inventory.GetLimit(_item) == -1)
                 {
-                    if (_item == null)
+                    if (GUILayout.Button("Set Limit"))
                     {
-                        Debug.LogWarning("No item selected!");
-                    }
-                    else
+                        if (_item == null)
+                        {
+                            Debug.LogWarning("No item selected!");
+                        }
+                        else
+                        {
+                            _inventory.SetLimit(_item, _amount);
+                        }
+                    } 
+                }
+                else
+                {
+                    if (GUILayout.Button("Remove Limit"))
                     {
-                        _inventory.SetMax(_item, _amount);
+                        if (_item == null)
+                        {
+                            Debug.LogWarning("No item selected!");
+                        }
+                        else
+                        {
+                            _inventory.SetLimit(_item, -1);
+                        }
                     }
                 }
             }
@@ -135,11 +152,6 @@ namespace InventorySystem
 
             if (Application.isPlaying)
             {
-                if (_item != null && _inventory.GetMax(_item) != -1)
-                {
-                    EditorGUILayout.HelpBox("Set max to -1 for unlimited amount.", MessageType.Info);
-                }
-
                 EditorGUILayout.HelpBox($"Default save key is '{SAVE_KEY}'.", MessageType.Info);
             }
         }
@@ -148,7 +160,7 @@ namespace InventorySystem
         {
             EditorPrefs.SetBool(DRAW_CONTENT_KEY, _drawContent);
             EditorPrefs.SetBool(DRAW_EDITOR_KEY, _drawEditor);
-            EditorPrefs.SetInt(AMOUNT_KEY, _amount);
+            EditorPrefs.SetString(AMOUNT_KEY, _amount.ToString());
 
             if (_item != null)
             {
@@ -160,7 +172,7 @@ namespace InventorySystem
         {
             _drawContent = EditorPrefs.GetBool(DRAW_CONTENT_KEY, true);
             _drawEditor = EditorPrefs.GetBool(DRAW_EDITOR_KEY, true);
-            _amount = EditorPrefs.GetInt(AMOUNT_KEY, 1);
+            _amount = long.Parse(EditorPrefs.GetString(AMOUNT_KEY, "1"));
 
             int itemID = EditorPrefs.GetInt(ITEM_ID_KEY);
 

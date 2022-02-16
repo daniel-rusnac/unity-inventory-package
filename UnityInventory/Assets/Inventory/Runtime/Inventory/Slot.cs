@@ -4,56 +4,80 @@ using UnityEngine;
 namespace InventorySystem
 {
     [Serializable]
-    public struct Slot
+    public class Slot
     {
-        [SerializeField] private int _amount;
-        [SerializeField] private int _max;
+        [SerializeField] private long _amount;
+        [SerializeField] private long _limit;
         [SerializeField] private int _id;
 
-        public int Amount => _amount;
-        public int Max => _max;
+        public long Amount => _amount;
+        public long Limit => _limit;
 
-        public Slot(int id, int count, int max = InventoryUtility.DEFAULT_MAX)
+        public Slot(int id, long count, long limit = InventoryUtility.DEFAULT_LIMIT)
         {
             _id = id;
-            _amount = ClampCount(count, max);
-            _max = max;
+            _amount = ClampAmount(count);
+            _limit = limit;
         }
 
-        public Slot SetMax(int value)
+        public void SetLimit(long value)
         {
-            if (value < InventoryUtility.DEFAULT_MAX)
-                return this;
+            if (value < InventoryUtility.DEFAULT_LIMIT)
+                return;
 
-            return new Slot(_id, _amount, value);
+            _limit = value;
+            _amount = ClampAmount(_amount);
         }
 
-        public static Slot operator +(Slot packet, int count)
+        public void Add(long value)
         {
-            return new Slot(packet._id, ClampCount(packet.Amount + count, packet._max), packet._max);
-        }
-
-        public static Slot operator -(Slot packet, int count)
-        {
-            return new Slot(packet._id, ClampCount(packet.Amount - count, packet._max), packet._max);
-        }
-
-        private static int ClampCount(int unclampedCount, int max)
-        {
-            int value = Mathf.Max(unclampedCount, 0);
-
-            if (max != InventoryUtility.DEFAULT_MAX)
+            if (value == 0)
+                return;
+            
+            if (value < 0)
             {
-                value = Mathf.Min(value, max);
+                Remove(-value);
+                return;
             }
 
-            return value;
+            if (long.MaxValue - value < _amount)
+            {
+                _amount = long.MaxValue;
+                return;
+            }
+            
+            _amount = ClampAmount(_amount + value);
+        }
+
+        public void Remove(long value)
+        {
+            if (value == 0)
+                return;
+            
+            if (value < 0)
+            {
+                Add(-value);
+                return;
+            }
+            
+            _amount = ClampAmount(_amount - value);
+        }
+        
+        private long ClampAmount(long unclampedCount)
+        {
+            if (unclampedCount < 0)
+                return 0;
+
+            if (_limit != -1 && unclampedCount > _limit)
+                return _limit;
+
+            return unclampedCount;
         }
 
         public override string ToString()
         {
             InventoryUtility.TryGetItem(_id, out ItemSO item);
-            return $"{(item == null ? "???" : item.ItemName)}: {Amount}{(_max > 0 ? $"/{_max}" : "")}";
+            return $"{(item == null ? "???" : item.ItemName)}: {Amount}{(_limit > 0 ? $"/{_limit}" : "")}";
         }
     }
 }

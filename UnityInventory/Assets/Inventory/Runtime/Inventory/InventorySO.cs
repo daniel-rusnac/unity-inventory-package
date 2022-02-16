@@ -9,11 +9,11 @@ namespace InventorySystem
     public class InventorySO : ScriptableObject
     {
         public event Action Changed;
-        public event Action<ItemSO, int> ChangedAmount;
+        public event Action<ItemSO, long> ChangedAmount;
 
         private readonly Dictionary<ItemSO, Slot> _slotByID = new Dictionary<ItemSO, Slot>();
         
-        public void Add(ItemSO item, int amount)
+        public void Add(ItemSO item, long amount)
         {
             if (amount == 0)
                 return;
@@ -26,11 +26,11 @@ namespace InventorySystem
                 _slotByID.Add(item, new Slot(item.ID, 0));
             }
 
-            _slotByID[item] += amount;
+            _slotByID[item].Add(amount);
             OnChanged(item, amount);
         }
         
-        public void Remove(ItemSO item, int amount)
+        public void Remove(ItemSO item, long amount)
         {
             if (amount == 0)
                 return;
@@ -44,11 +44,11 @@ namespace InventorySystem
             if (!_slotByID.ContainsKey(item))
                 return;
 
-            _slotByID[item] -= amount;
+            _slotByID[item].Remove(amount);
             OnChanged(item, amount);
         }
 
-        public bool Contains(ItemSO item, int amount = 1)
+        public bool Contains(ItemSO item, long amount = 1)
         {
             if (amount <= 0)
                 return true;
@@ -56,7 +56,7 @@ namespace InventorySystem
             return _slotByID.ContainsKey(item) && _slotByID[item].Amount >= amount;
         }
 
-        public int GetAmount(ItemSO item)
+        public long GetAmount(ItemSO item)
         {
             if (_slotByID.ContainsKey(item))
             {
@@ -66,25 +66,31 @@ namespace InventorySystem
             return 0;
         }
 
-        public void SetAmount(ItemSO item, int amount)
+        public void SetAmount(ItemSO item, long amount)
         {
             if (!_slotByID.ContainsKey(item))
             {
                 _slotByID.Add(item, new Slot(item.ID, 0));
             }
 
-            int delta = amount - _slotByID[item].Amount;
-            _slotByID[item] += delta;
-            
+            long delta = amount - _slotByID[item].Amount;
+            _slotByID[item].Add(delta);
             OnChanged(item, delta);
         }
+        
+        [Obsolete("Use SetLimit() instead.")]
+        public void SetMax(ItemSO item, long max)
+        {
+            SetLimit(item, max);
+        }
 
-        /// <summary>
-        /// Set the maximum value for an item.
-        /// </summary>
-        /// <param name="item">Item ID to set maximum valur for.</param>
-        /// <param name="max">The maximum value. -1 is unlimited.</param>
-        public void SetMax(ItemSO item, int max)
+        [Obsolete("Use GetLimit() instead.")]
+        public long GetMax(ItemSO item)
+        {
+            return GetLimit(item);
+        }
+        
+        public void SetLimit(ItemSO item, long max)
         {
             if (!_slotByID.ContainsKey(item))
             {
@@ -92,21 +98,26 @@ namespace InventorySystem
             }
             else
             {
-                int lastValue = _slotByID[item].Amount; 
-                _slotByID[item] = _slotByID[item].SetMax(max);
+                long lastValue = _slotByID[item].Amount; 
+                _slotByID[item].SetLimit(max);
 
                 OnChanged(item, lastValue - _slotByID[item].Amount);
             }
         }
 
-        public int GetMax(ItemSO item)
+        public void RemoveLimit(ItemSO item)
+        {
+            SetLimit(item, -1);
+        }
+
+        public long GetLimit(ItemSO item)
         {
             if (_slotByID.ContainsKey(item))
             {
-                return _slotByID[item].Max;
+                return _slotByID[item].Limit;
             }
 
-            return InventoryUtility.DEFAULT_MAX;
+            return InventoryUtility.DEFAULT_LIMIT;
         }
 
         /// <returns>How many slots with count > 0 are in the inventory.</returns>
@@ -159,7 +170,7 @@ namespace InventorySystem
             {
                 string.Join(",", _slotByID.Keys.Select(so => so.ID)),
                 string.Join(",", _slotByID.Values.Select(slot => slot.Amount)),
-                string.Join(",", _slotByID.Values.Select(slot => slot.Max))
+                string.Join(",", _slotByID.Values.Select(slot => slot.Limit))
             };
             
             return string.Join("|", values);
@@ -176,7 +187,7 @@ namespace InventorySystem
             }
 
             int[] ids = values[0].Split(',').Select(int.Parse).ToArray();
-            int[] amount = values[1].Split(',').Select(int.Parse).ToArray();
+            long[] amount = values[1].Split(',').Select(long.Parse).ToArray();
             int[] max = values[2].Split(',').Select(int.Parse).ToArray();
 
             int slotCount = ids.Length;
@@ -188,11 +199,11 @@ namespace InventorySystem
                     if (!_slotByID.ContainsKey(item))
                     {
                         Add(item, amount[i]);
-                        SetMax(item, max[i]);
+                        SetLimit(item, max[i]);
                     }
                     else
                     {
-                        SetMax(item, max[i]);
+                        SetLimit(item, max[i]);
                         SetAmount(item, amount[i]);
                     }
                 }
@@ -203,7 +214,7 @@ namespace InventorySystem
             }
         }
 
-        private void OnChanged(ItemSO item, int delta)
+        private void OnChanged(ItemSO item, long delta)
         {
             if (delta == 0)
                 return;

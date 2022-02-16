@@ -9,7 +9,7 @@ namespace InventorySystem
 {
     public static class InventoryUtility
     {
-        internal const int DEFAULT_MAX = -1;
+        internal const long DEFAULT_LIMIT = -1;
 
         private static readonly IInventoryDatabase _database;
 
