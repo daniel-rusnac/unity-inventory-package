@@ -34,9 +34,8 @@ The inventory is a scriptable object and ca be created by *Right Click/Create/In
 If you want to create inventories during runtime, use `CreateInstance()`.
 
 #### Edit
-The basic operations with an inventory are `Add`, `Remove` and `SetAmount`.
-The item amount is clamped between `0` and `MaxValue`, or `int.Max`, if the max value is `-1`.
-Yout can set the max value with `SetMax`;
+Change the amount of an item by using `Add`, `Remove`, `SetAmount`.
+You can also set an upper limit with `SetLimit`. The amount is a `long` clamped between 0 and `long.Max` or `limit` if set.
 
 #### Save
 The inventory can be save by calling ```Inventory.Save(saveKey)``` and ```inventory.Load(saveKey)```. If you want to use your custom save system, there are alos methods for serialization into/from a string  ```Inventory.Serialize()``` and ```Inventor.Deserialize()```.
