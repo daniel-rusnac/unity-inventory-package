@@ -8,44 +8,99 @@ namespace InventorySystem
     [CreateAssetMenu(fileName = "Inventory", menuName = "Inventory/Inventory")]
     public class InventorySO : ScriptableObject
     {
+        [Obsolete("Use Register/Unregister instead.")]
         public event Action Changed;
+        [Obsolete("Use Register/Unregister instead.")]
         public event Action<ItemSO, long> ChangedAmount;
 
+        private HashSet<Action> _onChangedActions = new HashSet<Action>();
+        private HashSet<Action<ItemSO, long>> _onChangedDeltaActions = new HashSet<Action<ItemSO, long>>();
         private readonly Dictionary<ItemSO, Slot> _slotByID = new Dictionary<ItemSO, Slot>();
         
-        public void Add(ItemSO item, long amount)
+        public void Add(ItemSO item, long amount, bool invokeActions = true)
         {
             if (amount == 0)
                 return;
-            
+
             if (amount < 0)
-                Remove(item, amount);
+            {
+                Remove(item, -amount, invokeActions);
+            }
 
             if (!_slotByID.ContainsKey(item))
             {
                 _slotByID.Add(item, new Slot(item.ID, 0));
             }
 
+            long oldAmount = _slotByID[item].Amount; 
             _slotByID[item].Add(amount);
-            OnChanged(item, amount);
+            long delta = _slotByID[item].Amount - oldAmount;
+            
+            OnChanged(item, delta, invokeActions);
         }
         
-        public void Remove(ItemSO item, long amount)
+        public void Remove(ItemSO item, long amount, bool invokeActions = true)
         {
             if (amount == 0)
                 return;
 
             if (amount < 0)
             {
-                Add(item, -amount);
+                Add(item, -amount, invokeActions);
                 return;
             }
             
             if (!_slotByID.ContainsKey(item))
                 return;
 
+            long oldAmount = _slotByID[item].Amount; 
             _slotByID[item].Remove(amount);
-            OnChanged(item, amount);
+            long delta = _slotByID[item].Amount - oldAmount;
+            
+            OnChanged(item, delta, invokeActions);
+        }
+
+        public void SetAmount(ItemSO item, long amount, bool invokeActions = true)
+        {
+            if (!_slotByID.ContainsKey(item))
+            {
+                _slotByID.Add(item, new Slot(item.ID, 0));
+            }
+
+            long oldAmount = _slotByID[item].Amount;
+            _slotByID[item].Add(amount - _slotByID[item].Amount);
+            long delta = _slotByID[item].Amount - oldAmount;
+            
+            OnChanged(item, delta, invokeActions);
+        }
+
+        public void SetLimit(ItemSO item, long max, bool invokeActions = true)
+        {
+            if (!_slotByID.ContainsKey(item))
+            {
+                _slotByID.Add(item, new Slot(item.ID, 0, max));
+            }
+            else
+            {
+                long oldAmount = _slotByID[item].Amount; 
+                _slotByID[item].SetLimit(max);
+                long delta = _slotByID[item].Amount - oldAmount;
+
+                OnChanged(item, delta, invokeActions);
+            }
+        }
+
+        /// <summary>
+        /// Removes all items from the inventory.
+        /// </summary>
+        public void Clear(bool invokeActions = true)
+        {
+            foreach (ItemSO item in _slotByID.Keys)
+            {
+                OnChanged(item, -_slotByID[item].Amount, invokeActions);
+            }
+            
+            _slotByID.Clear();
         }
 
         public bool Contains(ItemSO item, long amount = 1)
@@ -66,48 +121,10 @@ namespace InventorySystem
             return 0;
         }
 
-        public void SetAmount(ItemSO item, long amount)
+        /// <returns>The sum of all amounts.</returns>
+        public long GetTotalAmount()
         {
-            if (!_slotByID.ContainsKey(item))
-            {
-                _slotByID.Add(item, new Slot(item.ID, 0));
-            }
-
-            long delta = amount - _slotByID[item].Amount;
-            _slotByID[item].Add(delta);
-            OnChanged(item, delta);
-        }
-        
-        [Obsolete("Use SetLimit() instead.")]
-        public void SetMax(ItemSO item, long max)
-        {
-            SetLimit(item, max);
-        }
-
-        [Obsolete("Use GetLimit() instead.")]
-        public long GetMax(ItemSO item)
-        {
-            return GetLimit(item);
-        }
-        
-        public void SetLimit(ItemSO item, long max)
-        {
-            if (!_slotByID.ContainsKey(item))
-            {
-                _slotByID.Add(item, new Slot(item.ID, 0, max));
-            }
-            else
-            {
-                long lastValue = _slotByID[item].Amount; 
-                _slotByID[item].SetLimit(max);
-
-                OnChanged(item, lastValue - _slotByID[item].Amount);
-            }
-        }
-
-        public void RemoveLimit(ItemSO item)
-        {
-            SetLimit(item, -1);
+            return _slotByID.Values.Sum(slot => slot.Amount);
         }
 
         public long GetLimit(ItemSO item)
@@ -132,26 +149,30 @@ namespace InventorySystem
         }
 
         /// <summary>
-        /// Return all items of type T
+        /// Return all items of type T.
         /// </summary>
         public T[] GetItems<T>() where T : ItemSO
         {
             return _slotByID.Where(pair => pair.Value.Amount > 0).Select(pair => pair.Key as T).Where(item => item != null).ToArray();
         }
 
-        /// <summary>
-        /// Removes all items from the inventory.
-        /// </summary>
-        public void Clear()
+        public void RemoveLimit(ItemSO item, bool invokeActions = true)
         {
-            foreach (ItemSO item in _slotByID.Keys)
-            {
-                OnChanged(item, _slotByID[item].Amount);
-            }
-            
-            _slotByID.Clear();
+            SetLimit(item, -1, invokeActions);
         }
-        
+
+        [Obsolete("Use SetLimit() instead.")]
+        public void SetMax(ItemSO item, long max, bool invokeActions = true)
+        {
+            SetLimit(item, max, invokeActions);
+        }
+
+        [Obsolete("Use GetLimit() instead.")]
+        public long GetMax(ItemSO item)
+        {
+            return GetLimit(item);
+        }
+
         public override string ToString()
         {
             if (_slotByID.Count == 0)
@@ -198,13 +219,13 @@ namespace InventorySystem
                 {
                     if (!_slotByID.ContainsKey(item))
                     {
-                        Add(item, amount[i]);
-                        SetLimit(item, max[i]);
+                        Add(item, amount[i], false);
+                        SetLimit(item, max[i], false);
                     }
                     else
                     {
-                        SetLimit(item, max[i]);
-                        SetAmount(item, amount[i]);
+                        SetLimit(item, max[i], false);
+                        SetAmount(item, amount[i], false);
                     }
                 }
                 else
@@ -213,19 +234,53 @@ namespace InventorySystem
                 }
             }
         }
-
-        private void OnChanged(ItemSO item, long delta)
+        
+        public void Register(Action action)
         {
-            if (delta == 0)
+            _onChangedActions.Add(action);   
+        }
+
+        public void Register(Action<ItemSO, long> action)
+        {
+            _onChangedDeltaActions.Add(action);   
+        }
+        
+        public void Unregister(Action action)
+        {
+            _onChangedActions.Add(action);   
+        }
+
+        public void Unregister(Action<ItemSO, long> action)
+        {
+            _onChangedDeltaActions.Add(action);   
+        }
+
+        private void OnChanged(ItemSO item, long delta, bool invokeActions)
+        {
+            if (!invokeActions || delta == 0)
                 return;
             
+            foreach (Action<ItemSO, long> action in _onChangedDeltaActions)
+            {
+                action.Invoke(item, delta);
+            }
+
+#pragma warning disable CS0618
             ChangedAmount?.Invoke(item, delta);
+#pragma warning restore CS0618
             OnChanged();
         }
 
         private void OnChanged()
         {
+            foreach (Action action in _onChangedActions)
+            {
+                action.Invoke();
+            }
+            
+#pragma warning disable CS0618
             Changed?.Invoke();
+#pragma warning restore CS0618
         }
     }
 }
