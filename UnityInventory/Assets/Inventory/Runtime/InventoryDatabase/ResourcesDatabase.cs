@@ -10,7 +10,7 @@ namespace InventorySystem.InventoryDatabase
         public ResourcesDatabase()
         {
             _itemByID = new Dictionary<int, ItemSO>();
-            ItemSO[] items = Resources.LoadAll<ItemSO>("");
+            ItemSO[] items = Resources.LoadAll<ItemSO>("Items");
             
             foreach (ItemSO t in items)
             {
