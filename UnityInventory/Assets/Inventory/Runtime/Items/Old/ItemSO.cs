@@ -7,7 +7,7 @@ using UnityEditor;
 namespace InventorySystem
 {
     [CreateAssetMenu(fileName = "Simple Item", menuName = InventoryConstants.CREATE_ITEMS_SM + "Simple Item")]
-    public class ItemSO : ScriptableObject
+    public class ItemSO : ScriptableObject, IItem
     {
         [Tooltip("The ID is used by the inventory to store and load items. This must be unique!")]
         [SerializeField] private int _id;

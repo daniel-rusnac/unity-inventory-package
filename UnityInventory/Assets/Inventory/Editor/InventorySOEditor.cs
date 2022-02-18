@@ -15,7 +15,8 @@ namespace InventorySystem
         private bool _drawContent;
         private bool _drawEditor;
         private long _amount = 1;
-        private ItemSO _item;
+        private IItem _item;
+        private Object _itemSO;
         private InventorySO _inventory;
 
         private void OnEnable()
@@ -62,7 +63,18 @@ namespace InventorySystem
 
             GUI.enabled = Application.isPlaying;
 
-            _item = (ItemSO) EditorGUILayout.ObjectField(_item, typeof(ItemSO), _item);
+            _itemSO = EditorGUILayout.ObjectField(_itemSO, typeof(Object), _itemSO);
+
+            if (_itemSO != null)
+            {
+                _item = _itemSO as IItem;
+
+                if (_item == null)
+                {
+                    _itemSO = null;
+                }
+            }
+
             _amount = EditorGUILayout.LongField(_amount);
 
             EditorGUILayout.BeginHorizontal();
@@ -176,7 +188,7 @@ namespace InventorySystem
 
             int itemID = EditorPrefs.GetInt(ITEM_ID_KEY);
 
-            if (InventoryUtility.TryGetItem(itemID, out ItemSO item))
+            if (InventoryUtility.TryGetItem(itemID, out IItem item))
             {
                 _item = item;
             }

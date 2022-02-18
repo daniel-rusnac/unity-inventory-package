@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace InventorySystem
 {
-    [CustomEditor(typeof(ItemSO), true)]
+    // [CustomEditor(typeof(ItemSO), true)]
     public class ItemSOEditor : Editor
     {
         private SerializedProperty _normalIconProperty;

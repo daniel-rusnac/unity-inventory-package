@@ -32,7 +32,7 @@ namespace InventorySystem
         /// </summary>
         /// <param name="id">Item ID.</param>
         [CanBeNull]
-        public static ItemSO GetItem(int id)
+        public static IItem GetItem(int id)
         {
             return _database.GetItem(id);
         }
@@ -43,7 +43,7 @@ namespace InventorySystem
         /// <param name="id">Item ID.</param>
         /// <param name="item">The retrieved item.</param>
         /// <returns>True if the item was found.</returns>
-        public static bool TryGetItem(int id, out ItemSO item)
+        public static bool TryGetItem(int id, out IItem item)
         {
             return _database.TryGetItem(id, out item);
         }

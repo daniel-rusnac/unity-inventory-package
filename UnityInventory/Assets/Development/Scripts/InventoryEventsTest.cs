@@ -24,9 +24,18 @@ namespace Development.Scripts
             Debug.Log("Changed");
         }
 
-        private void OnChangedDelta(ItemSO item, long delta)
+        private void OnChangedDelta(IItem item, long delta)
         {
             Debug.Log($"Changed: {item.ItemName} {delta}");
+        }
+
+        private void ItemTest()
+        {
+            CompositeItem item = default;
+
+            string itemName = item.GetData<string>("Name");
+            Sprite icon = item.GetData<Sprite>("Icon");
+            int leve = item.GetData<int>("Level");
         }
     }
 }

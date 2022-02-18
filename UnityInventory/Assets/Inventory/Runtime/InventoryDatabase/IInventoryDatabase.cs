@@ -2,7 +2,7 @@
 {
     public interface IInventoryDatabase
     {
-        public ItemSO GetItem(int id);
-        public bool TryGetItem(int id, out ItemSO item);
+        public IItem GetItem(int id);
+        public bool TryGetItem(int id, out IItem item);
     }
 }
