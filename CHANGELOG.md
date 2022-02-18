@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.4.4] - 2022-02-18
 
-### Chnaged
+### Changed
 - Now all items must be under the "Resources/Items" path
 
 ## [1.4.3] - 2022-02-18
