@@ -10,15 +10,12 @@ namespace InventorySystem
         {
             Type t = AssetDatabase.GetMainAssetTypeAtPath(assetPath);
 
-            if (t == null)
+            if (t == null || !t.IsAssignableFrom(typeof(ItemSO)) && !t.IsSubclassOf(typeof(ItemSO)))
                 return AssetDeleteResult.DidNotDelete;
 
-            if (t.IsAssignableFrom(typeof(ItemSO)) || t.IsSubclassOf(typeof(ItemSO)))
-            {
-                ItemSO item = AssetDatabase.LoadAssetAtPath<ItemSO>(assetPath);
-                ReferenceDatabaseCollectionAllSO.RemoveDatabaseItem(item);
-            }
-            
+            ItemSO item = AssetDatabase.LoadAssetAtPath<ItemSO>(assetPath);
+            ReferenceDatabaseCollectionAllSO.RemoveDatabaseItem(item);
+
             return AssetDeleteResult.DidNotDelete;
         }
     }

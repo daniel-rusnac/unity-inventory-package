@@ -21,3 +21,5 @@ namespace InventorySystem
         }
     }
 }
+
+// OnWillDeleteAsset() callback not being triggered for assets in a folder.

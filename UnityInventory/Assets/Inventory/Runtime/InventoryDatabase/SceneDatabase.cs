@@ -8,7 +8,7 @@ namespace InventorySystem.InventoryDatabase
         protected readonly Dictionary<int, ItemSO> ItemByID = new Dictionary<int, ItemSO>();
         private bool _isInitialized;
 
-        protected virtual void Awake()
+        protected virtual void OnEnable()
         {
             if (OnInitialize())
             {
@@ -20,7 +20,7 @@ namespace InventorySystem.InventoryDatabase
             Debug.Log("Couldn't initialize database!", this);
         }
 
-        protected virtual void OnDestroy()
+        protected virtual void OnDisable()
         {
             if (!_isInitialized)
                 return;

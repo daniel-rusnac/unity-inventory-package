@@ -65,6 +65,7 @@ namespace InventorySystem
                 {
                     Debug.LogWarning("Inventory database is not initialized!");
                 }
+                
                 item = null;
                 return false;
             }
