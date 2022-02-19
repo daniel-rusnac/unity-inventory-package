@@ -1,8 +1,5 @@
 ﻿using InventorySystem.InventoryDatabase;
 using JetBrains.Annotations;
-#if UNITY_EDITOR
-using UnityEditor.Callbacks;
-#endif
 using UnityEngine;
 
 namespace InventorySystem
@@ -11,20 +8,28 @@ namespace InventorySystem
     {
         internal const long DEFAULT_LIMIT = -1;
 
-        private static readonly IInventoryDatabase _database;
+        private static IInventoryDatabase s_database;
+        
+        public static bool IsInitialized { get; private set; }
 
-        static InventoryUtility()
+        public static void SetDatabase(IInventoryDatabase database)
         {
-            _database = new ResourcesDatabase();
+            s_database = database;
+            IsInitialized = true;
         }
 
-#if UNITY_EDITOR
-        [DidReloadScripts]
-#endif
-        [RuntimeInitializeOnLoadMethod]
-        private static void Initialize()
+        public static void RemoveDatabase(IInventoryDatabase database)
         {
-            // a dummy method to trigger database initialization
+            if (s_database != database)
+                return;
+            
+            RemoveDatabase();
+        }
+
+        public static void RemoveDatabase()
+        {
+            s_database = null;
+            IsInitialized = false;
         }
 
         /// <summary>
@@ -34,7 +39,16 @@ namespace InventorySystem
         [CanBeNull]
         public static ItemSO GetItem(int id)
         {
-            return _database.GetItem(id);
+            if (!IsInitialized)
+            {
+                if (Application.isPlaying)
+                {
+                    Debug.LogWarning("Inventory database is not initialized!");
+                }
+                return null;
+            }
+            
+            return s_database.GetItem(id);
         }
 
         /// <summary>
@@ -45,7 +59,17 @@ namespace InventorySystem
         /// <returns>True if the item was found.</returns>
         public static bool TryGetItem(int id, out ItemSO item)
         {
-            return _database.TryGetItem(id, out item);
+            if (!IsInitialized)
+            {
+                if (Application.isPlaying)
+                {
+                    Debug.LogWarning("Inventory database is not initialized!");
+                }
+                item = null;
+                return false;
+            }
+            
+            return s_database.TryGetItem(id, out item);
         }
     }
 }

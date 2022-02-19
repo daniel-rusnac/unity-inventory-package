@@ -2,15 +2,13 @@
 
 namespace InventorySystem.InventoryDatabase
 {
-    public class ResourcesDatabase : SceneDatabase
+    public class ReferenceDatabase : SceneDatabase
     {
-        [SerializeField] private string _itemsPath = "";
-        
+        [SerializeField] private ItemSO[] _items;
+
         protected override bool OnInitialize()
         {
-            ItemSO[] items = Resources.LoadAll<ItemSO>(_itemsPath);
-            
-            foreach (ItemSO t in items)
+            foreach (ItemSO t in _items)
             {
                 if (ItemByID.ContainsKey(t.ID))
                 {
@@ -22,6 +20,12 @@ namespace InventorySystem.InventoryDatabase
             }
 
             return true;
+        }
+
+        [ContextMenu("Load All Items From Assets")]
+        private void LoadAllItemsFromAssets()
+        {
+            
         }
     }
 }

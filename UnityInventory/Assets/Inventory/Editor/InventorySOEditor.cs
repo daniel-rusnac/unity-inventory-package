@@ -31,6 +31,12 @@ namespace InventorySystem
 
         public override void OnInspectorGUI()
         {
+            if (!InventoryUtility.IsInitialized)
+            {
+                EditorGUILayout.HelpBox("Inventory database is not initialized! Editing is unavailable.", MessageType.Warning);
+                return;
+            }
+            
             _drawContent = EditorGUILayout.BeginFoldoutHeaderGroup(_drawContent, "Content");
             if (_drawContent)
             {
@@ -103,7 +109,9 @@ namespace InventorySystem
                     }
                 }
 
-                if (_inventory.GetLimit(_item) == -1)
+                long limit = _item == null ? -1 : _inventory.GetLimit(_item);
+
+                if (limit == -1)
                 {
                     if (GUILayout.Button("Set Limit"))
                     {
