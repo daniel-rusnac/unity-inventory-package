@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - InventoryUtility now must be initialized with a InventoryDatabase implementation
 - No longer bound to place Items in the resources folder
+- Inventory database is always initialized before the default time
 
 ### Removed
 -Removed obsolete code

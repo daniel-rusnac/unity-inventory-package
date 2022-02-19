@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace InventorySystem.InventoryDatabase
 {
+    [DefaultExecutionOrder(-10)]
     public abstract class SceneDatabase : MonoBehaviour, IInventoryDatabase
     {
         protected readonly Dictionary<int, ItemSO> ItemByID = new Dictionary<int, ItemSO>();
