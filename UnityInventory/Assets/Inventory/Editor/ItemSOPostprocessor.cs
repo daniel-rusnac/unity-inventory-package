@@ -12,7 +12,7 @@ namespace InventorySystem
             {
                 Type t = AssetDatabase.GetMainAssetTypeAtPath(str);
 
-                if (!t.IsAssignableFrom(typeof(ItemSO)) && !t.IsSubclassOf(typeof(ItemSO))) 
+                if (!t.IsDefined(typeof(ItemSO), true)) 
                     continue;
                 
                 ItemSO item = AssetDatabase.LoadAssetAtPath<ItemSO>(str);
@@ -21,5 +21,3 @@ namespace InventorySystem
         }
     }
 }
-
-// OnWillDeleteAsset() callback not being triggered for assets in a folder.

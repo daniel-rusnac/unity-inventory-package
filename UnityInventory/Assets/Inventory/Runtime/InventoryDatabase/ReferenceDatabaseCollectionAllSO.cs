@@ -8,7 +8,8 @@ using UnityEditor;
 
 namespace InventorySystem.InventoryDatabase
 {
-    [CreateAssetMenu(fileName = "Default Collection", menuName = InventoryConstants.CREATE_DATABASE_SUB_MENU + "Default Collection")]
+    [CreateAssetMenu(fileName = "Default Collection",
+        menuName = InventoryConstants.CREATE_DATABASE_SUB_MENU + "Default Collection")]
     public class ReferenceDatabaseCollectionAllSO : ReferenceDatabaseCollectionSO
     {
         public static Action<ItemSO> AddDatabaseItem = delegate { };
