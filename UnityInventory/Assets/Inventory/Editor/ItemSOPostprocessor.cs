@@ -16,7 +16,7 @@ namespace InventorySystem
                     continue;
                 
                 ItemSO item = AssetDatabase.LoadAssetAtPath<ItemSO>(str);
-                AssetPostprocessorDatabase.AddDatabaseItem(item);
+                ReferenceDatabaseCollectionAllSO.AddDatabaseItem(item);
             }
         }
     }

@@ -16,7 +16,7 @@ namespace InventorySystem
             if (t.IsAssignableFrom(typeof(ItemSO)) || t.IsSubclassOf(typeof(ItemSO)))
             {
                 ItemSO item = AssetDatabase.LoadAssetAtPath<ItemSO>(assetPath);
-                AssetPostprocessorDatabase.RemoveDatabaseItem(item);
+                ReferenceDatabaseCollectionAllSO.RemoveDatabaseItem(item);
             }
             
             return AssetDeleteResult.DidNotDelete;
