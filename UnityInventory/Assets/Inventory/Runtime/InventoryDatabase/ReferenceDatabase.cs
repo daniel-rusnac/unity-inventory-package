@@ -4,28 +4,25 @@ namespace InventorySystem.InventoryDatabase
 {
     public class ReferenceDatabase : SceneDatabase
     {
-        [SerializeField] private ItemSO[] _items;
+        [SerializeField] private ReferenceDatabaseCollectionSO[] _collections;
 
         protected override bool OnInitialize()
         {
-            foreach (ItemSO t in _items)
+            foreach (ReferenceDatabaseCollectionSO collection in _collections)
             {
-                if (ItemByID.ContainsKey(t.ID))
+                foreach (ItemSO t in collection.Items)
                 {
-                    Debug.LogWarning($"Item with ID: [{t.ID}] already registered!", t);
-                    continue;
+                    if (ItemByID.ContainsKey(t.ID))
+                    {
+                        Debug.LogWarning($"Item with ID: [{t.ID}] already registered!", t);
+                        continue;
+                    }
+
+                    ItemByID.Add(t.ID, t);
                 }
-                
-                ItemByID.Add(t.ID, t);
             }
 
             return true;
-        }
-
-        [ContextMenu("Load All Items From Assets")]
-        private void LoadAllItemsFromAssets()
-        {
-            
         }
     }
 }
