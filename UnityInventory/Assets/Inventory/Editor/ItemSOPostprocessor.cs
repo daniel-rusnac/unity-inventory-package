@@ -12,11 +12,16 @@ namespace InventorySystem
             {
                 Type t = AssetDatabase.GetMainAssetTypeAtPath(str);
 
-                if (!t.IsDefined(typeof(ItemSO), true)) 
+                if (!t.IsAssignableFrom(typeof(ItemSO)) && !t.IsSubclassOf(typeof(ItemSO))) 
                     continue;
                 
                 ItemSO item = AssetDatabase.LoadAssetAtPath<ItemSO>(str);
                 ReferenceDatabaseCollectionAllSO.AddDatabaseItem(item);
+            }
+
+            if (deleted.Length > 0)
+            {
+                ReferenceDatabaseCollectionAllSO.RefreshDatabase();
             }
         }
     }

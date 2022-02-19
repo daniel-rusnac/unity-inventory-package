@@ -10,7 +10,7 @@ namespace InventorySystem
         {
             Type t = AssetDatabase.GetMainAssetTypeAtPath(assetPath);
 
-            if (t == null || !t.IsDefined(typeof(ItemSO), true))
+            if (t == null || !t.IsAssignableFrom(typeof(ItemSO)) && !t.IsSubclassOf(typeof(ItemSO)))
                 return AssetDeleteResult.DidNotDelete;
 
             ItemSO item = AssetDatabase.LoadAssetAtPath<ItemSO>(assetPath);

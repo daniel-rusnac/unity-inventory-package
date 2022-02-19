@@ -14,6 +14,7 @@ namespace InventorySystem.InventoryDatabase
     {
         public static Action<ItemSO> AddDatabaseItem = delegate { };
         public static Action<ItemSO> RemoveDatabaseItem = delegate { };
+        public static Action RefreshDatabase = delegate { };
 
         [SerializeField] private string[] _itemFolders = {"Assets"};
 
@@ -26,12 +27,14 @@ namespace InventorySystem.InventoryDatabase
         {
             AddDatabaseItem += AddItem;
             RemoveDatabaseItem += RemoveItem;
+            RefreshDatabase += Refresh;
         }
 
         private void OnDisable()
         {
             AddDatabaseItem -= AddItem;
             RemoveDatabaseItem -= RemoveItem;
+            RefreshDatabase -= Refresh;
         }
 
         private void AddItem(ItemSO item)
@@ -62,6 +65,11 @@ namespace InventorySystem.InventoryDatabase
 #if UNITY_EDITOR
             EditorUtility.SetDirty(this);
 #endif
+        }
+
+        private void Refresh()
+        {
+            LoadAllItemsFromAssets();
         }
 
         [ContextMenu("Load All Items From Assets")]
