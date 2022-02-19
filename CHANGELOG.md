@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - InventoryUtility now must be initialized with a InventoryDatabase implementation
 - No longer bound to place Items in the resources folder
 
+### Removed
+-Removed obsolete code
+
 ## [1.4.4] - 2022-02-18
 
 ### Changed

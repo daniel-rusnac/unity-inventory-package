@@ -8,11 +8,6 @@ namespace InventorySystem
     [CreateAssetMenu(fileName = "Inventory", menuName = InventoryConstants.CREATE_SO_MENU + "Inventory")]
     public class InventorySO : ScriptableObject
     {
-        [Obsolete("Use Register/Unregister instead.")]
-        public event Action Changed;
-        [Obsolete("Use Register/Unregister instead.")]
-        public event Action<ItemSO, long> ChangedAmount;
-
         private HashSet<Action> _onChangedActions = new HashSet<Action>();
         private HashSet<Action<ItemSO, long>> _onChangedDeltaActions = new HashSet<Action<ItemSO, long>>();
         private readonly Dictionary<ItemSO, Slot> _slotByID = new Dictionary<ItemSO, Slot>();
@@ -161,18 +156,6 @@ namespace InventorySystem
             SetLimit(item, -1, invokeActions);
         }
 
-        [Obsolete("Use SetLimit() instead.")]
-        public void SetMax(ItemSO item, long max, bool invokeActions = true)
-        {
-            SetLimit(item, max, invokeActions);
-        }
-
-        [Obsolete("Use GetLimit() instead.")]
-        public long GetMax(ItemSO item)
-        {
-            return GetLimit(item);
-        }
-
         public override string ToString()
         {
             if (_slotByID.Count == 0)
@@ -264,10 +247,7 @@ namespace InventorySystem
             {
                 action.Invoke(item, delta);
             }
-
-#pragma warning disable CS0618
-            ChangedAmount?.Invoke(item, delta);
-#pragma warning restore CS0618
+            
             OnChanged();
         }
 
@@ -277,10 +257,6 @@ namespace InventorySystem
             {
                 action.Invoke();
             }
-            
-#pragma warning disable CS0618
-            Changed?.Invoke();
-#pragma warning restore CS0618
         }
     }
 }
