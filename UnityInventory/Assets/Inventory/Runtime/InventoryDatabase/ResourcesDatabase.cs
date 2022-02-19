@@ -1,23 +1,22 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace InventorySystem.InventoryDatabase
 {
     public class ResourcesDatabase : IInventoryDatabase
     {
-        private readonly Dictionary<int, IItem> _itemByID;
+        private readonly Dictionary<int, ItemSO> _itemByID;
 
         public ResourcesDatabase()
         {
-            _itemByID = new Dictionary<int, IItem>();
-            IItem[] items = Resources.LoadAll<ScriptableObject>("Items").Cast<IItem>().Where(o => o != null).ToArray();
+            _itemByID = new Dictionary<int, ItemSO>();
+            ItemSO[] items = Resources.LoadAll<ItemSO>("Items");
             
-            foreach (IItem t in items)
+            foreach (ItemSO t in items)
             {
                 if (_itemByID.ContainsKey(t.ID))
                 {
-                    Debug.LogWarning($"Item with ID: [{t.ID}] already registered!");
+                    Debug.LogWarning($"Item with ID: [{t.ID}] already registered!", t);
                     continue;
                 }
                 
@@ -25,14 +24,14 @@ namespace InventorySystem.InventoryDatabase
             }
         }
 
-        public IItem GetItem(int id)
+        public ItemSO GetItem(int id)
         {
-            TryGetItem(id, out IItem item);
+            TryGetItem(id, out ItemSO item);
             
             return item;
         }
 
-        public bool TryGetItem(int id, out IItem item)
+        public bool TryGetItem(int id, out ItemSO item)
         {
             if (_itemByID.ContainsKey(id))
             {

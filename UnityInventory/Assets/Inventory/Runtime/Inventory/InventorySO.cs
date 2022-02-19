@@ -11,13 +11,13 @@ namespace InventorySystem
         [Obsolete("Use Register/Unregister instead.")]
         public event Action Changed;
         [Obsolete("Use Register/Unregister instead.")]
-        public event Action<IItem, long> ChangedAmount;
+        public event Action<ItemSO, long> ChangedAmount;
 
         private HashSet<Action> _onChangedActions = new HashSet<Action>();
-        private HashSet<Action<IItem, long>> _onChangedDeltaActions = new HashSet<Action<IItem, long>>();
-        private readonly Dictionary<IItem, Slot> _slotByID = new Dictionary<IItem, Slot>();
+        private HashSet<Action<ItemSO, long>> _onChangedDeltaActions = new HashSet<Action<ItemSO, long>>();
+        private readonly Dictionary<ItemSO, Slot> _slotByID = new Dictionary<ItemSO, Slot>();
         
-        public void Add(IItem item, long amount, bool invokeActions = true)
+        public void Add(ItemSO item, long amount, bool invokeActions = true)
         {
             if (amount == 0)
                 return;
@@ -39,7 +39,7 @@ namespace InventorySystem
             OnChanged(item, delta, invokeActions);
         }
         
-        public void Remove(IItem item, long amount, bool invokeActions = true)
+        public void Remove(ItemSO item, long amount, bool invokeActions = true)
         {
             if (amount == 0)
                 return;
@@ -60,7 +60,7 @@ namespace InventorySystem
             OnChanged(item, delta, invokeActions);
         }
 
-        public void SetAmount(IItem item, long amount, bool invokeActions = true)
+        public void SetAmount(ItemSO item, long amount, bool invokeActions = true)
         {
             if (!_slotByID.ContainsKey(item))
             {
@@ -74,7 +74,7 @@ namespace InventorySystem
             OnChanged(item, delta, invokeActions);
         }
 
-        public void SetLimit(IItem item, long max, bool invokeActions = true)
+        public void SetLimit(ItemSO item, long max, bool invokeActions = true)
         {
             if (!_slotByID.ContainsKey(item))
             {
@@ -95,7 +95,7 @@ namespace InventorySystem
         /// </summary>
         public void Clear(bool invokeActions = true)
         {
-            foreach (IItem item in _slotByID.Keys)
+            foreach (ItemSO item in _slotByID.Keys)
             {
                 OnChanged(item, -_slotByID[item].Amount, invokeActions);
             }
@@ -103,7 +103,7 @@ namespace InventorySystem
             _slotByID.Clear();
         }
 
-        public bool Contains(IItem item, long amount = 1)
+        public bool Contains(ItemSO item, long amount = 1)
         {
             if (amount <= 0)
                 return true;
@@ -111,7 +111,7 @@ namespace InventorySystem
             return _slotByID.ContainsKey(item) && _slotByID[item].Amount >= amount;
         }
 
-        public long GetAmount(IItem item)
+        public long GetAmount(ItemSO item)
         {
             if (_slotByID.ContainsKey(item))
             {
@@ -127,7 +127,7 @@ namespace InventorySystem
             return _slotByID.Values.Sum(slot => slot.Amount);
         }
 
-        public long GetLimit(IItem item)
+        public long GetLimit(ItemSO item)
         {
             if (_slotByID.ContainsKey(item))
             {
@@ -143,7 +143,7 @@ namespace InventorySystem
             return _slotByID.Count(pair => pair.Value.Amount > 0);
         }
 
-        public IItem[] GetItems()
+        public ItemSO[] GetItems()
         {
             return _slotByID.Where(pair => pair.Value.Amount > 0).Select(pair => pair.Key).ToArray();
         }
@@ -151,24 +151,24 @@ namespace InventorySystem
         /// <summary>
         /// Return all items of type T.
         /// </summary>
-        public T[] GetItems<T>() where T : class, IItem
+        public T[] GetItems<T>() where T : ItemSO
         {
             return _slotByID.Where(pair => pair.Value.Amount > 0).Select(pair => pair.Key as T).Where(item => item != null).ToArray();
         }
 
-        public void RemoveLimit(IItem item, bool invokeActions = true)
+        public void RemoveLimit(ItemSO item, bool invokeActions = true)
         {
             SetLimit(item, -1, invokeActions);
         }
 
         [Obsolete("Use SetLimit() instead.")]
-        public void SetMax(IItem item, long max, bool invokeActions = true)
+        public void SetMax(ItemSO item, long max, bool invokeActions = true)
         {
             SetLimit(item, max, invokeActions);
         }
 
         [Obsolete("Use GetLimit() instead.")]
-        public long GetMax(IItem item)
+        public long GetMax(ItemSO item)
         {
             return GetLimit(item);
         }
@@ -215,7 +215,7 @@ namespace InventorySystem
 
             for (int i = 0; i < slotCount; i++)
             {
-                if (InventoryUtility.TryGetItem(ids[i], out IItem item))
+                if (InventoryUtility.TryGetItem(ids[i], out ItemSO item))
                 {
                     if (!_slotByID.ContainsKey(item))
                     {
@@ -240,7 +240,7 @@ namespace InventorySystem
             _onChangedActions.Add(action);   
         }
 
-        public void Register(Action<IItem, long> action)
+        public void Register(Action<ItemSO, long> action)
         {
             _onChangedDeltaActions.Add(action);   
         }
@@ -250,17 +250,17 @@ namespace InventorySystem
             _onChangedActions.Add(action);   
         }
 
-        public void Unregister(Action<IItem, long> action)
+        public void Unregister(Action<ItemSO, long> action)
         {
             _onChangedDeltaActions.Add(action);   
         }
 
-        private void OnChanged(IItem item, long delta, bool invokeActions)
+        private void OnChanged(ItemSO item, long delta, bool invokeActions)
         {
             if (!invokeActions || delta == 0)
                 return;
             
-            foreach (Action<IItem, long> action in _onChangedDeltaActions)
+            foreach (Action<ItemSO, long> action in _onChangedDeltaActions)
             {
                 action.Invoke(item, delta);
             }

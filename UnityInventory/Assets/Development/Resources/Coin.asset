@@ -9,15 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74ff8856481d4275a1d8534755ff1cf2, type: 3}
-  m_Name: Composite Item
+  m_Script: {fileID: 11500000, guid: 20008c11f5964182a0533bbde466f036, type: 3}
+  m_Name: Coin
   m_EditorClassIdentifier: 
-  _staticData:
-    _dataID:
-    - item_name
-    - icon
-    - glyph
-    _data:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+  _id: 257491647
+  _itemName: Coin
+  _glyph: 
+  _normalIcon: {fileID: 0}
+  _lockedIcon: {fileID: 0}
