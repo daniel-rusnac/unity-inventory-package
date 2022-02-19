@@ -69,7 +69,11 @@ namespace InventorySystem.InventoryDatabase
 
         private void Refresh()
         {
-            LoadAllItemsFromAssets();
+            _items = _items.Where(so => so != null).ToArray();
+            
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(this);
+#endif
         }
 
         [ContextMenu("Load All Items From Assets")]
@@ -83,8 +87,8 @@ namespace InventorySystem.InventoryDatabase
             }
 
             _items = AssetDatabase.FindAssets($"t:{nameof(ItemSO)}", _itemFolders)
-                .Select(guid => AssetDatabase.LoadAssetAtPath<ScriptableObject>(AssetDatabase.GUIDToAssetPath(guid)))
-                .Cast<ItemSO>().ToArray();
+                .Select(guid => AssetDatabase.LoadAssetAtPath<ItemSO>(AssetDatabase.GUIDToAssetPath(guid)))
+                .ToArray();
 
             EditorUtility.SetDirty(this);
 #endif
