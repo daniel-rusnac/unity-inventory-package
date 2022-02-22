@@ -9,9 +9,8 @@ namespace InventorySystem
         private readonly Dictionary<IDynamicItem<IDynamicData>, Dictionary<int, IDynamicData>> _instanceByDynamicID = 
             new Dictionary<IDynamicItem<IDynamicData>, Dictionary<int, IDynamicData>>();
 
-        public void Add<T>(IDynamicItem<T> item, long amount) where T : IDynamicData
+        public void AddDynamic<T>(IDynamicItem<T> item, long amount) where T : IDynamicData
         {
-            Debug.Log("Dynamic");
             IDynamicItem<IDynamicData> castItem = (IDynamicItem<IDynamicData>) item;
             
             if (_instanceByDynamicID.ContainsKey(castItem))
