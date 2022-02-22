@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -42,7 +41,7 @@ namespace InventorySystem
         private void RefreshID()
         {
 #if UNITY_EDITOR
-            _id = Guid.NewGuid().GetHashCode();
+            _id = InventoryUtility.GetID();
             EditorUtility.SetDirty(this);
 #endif
         }

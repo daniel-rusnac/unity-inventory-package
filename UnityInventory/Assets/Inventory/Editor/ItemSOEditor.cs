@@ -13,6 +13,7 @@ namespace InventorySystem
         private SerializedProperty _glyphProperty;
         private GUIStyle _style;
         private bool _isInitialized;
+        private bool _isDynamicItem;
         private float IconSize => EditorGUIUtility.standardVerticalSpacing * 3 + EditorGUIUtility.singleLineHeight * 3;
 
         protected virtual void OnEnable()
@@ -22,6 +23,7 @@ namespace InventorySystem
             _nameProperty = serializedObject.FindProperty("_itemName");
             _idProperty = serializedObject.FindProperty("_id");
             _glyphProperty = serializedObject.FindProperty("_glyph");
+            _isDynamicItem = ((ItemSO) target).IsDynamic();
         }
 
         public override void OnInspectorGUI()
@@ -35,8 +37,12 @@ namespace InventorySystem
             }
             GUILayout.EndHorizontal();
 
-            DrawPropertiesExcluding(serializedObject, "m_Script", "_itemName", "_id", "_glyph", "_normalIcon",
-                "_lockedIcon");
+            DrawPropertiesExcluding(serializedObject, "m_Script", "_itemName", "_id", "_glyph", "_normalIcon", "_lockedIcon");
+            
+            if (_isDynamicItem)
+            {
+                EditorGUILayout.HelpBox("Contains dynamic data.", MessageType.Info);
+            }
         }
 
         private void Initialize()

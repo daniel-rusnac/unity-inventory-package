@@ -1,13 +1,14 @@
-﻿namespace InventorySystem
+﻿using System.Linq;
+
+namespace InventorySystem
 {
     public static class ItemExtensions
     {
-        /// <summary>
-        /// Check is the inventory has at least on item.
-        /// </summary>
-        public static bool IsUnlocked(this ItemSO item, InventorySO inventory)
+        public static bool IsDynamic(this ItemSO item)
         {
-            return inventory.Contains(item);
+            return item.GetType().GetInterfaces().Any(t =>
+                t.IsGenericType &&
+                t.GetGenericTypeDefinition() == typeof(IDynamicItem<>));
         }
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace InventorySystem
 {
-    [CustomEditor(typeof(InventorySO))]
+    [CustomEditor(typeof(InventorySO), true)]
     public class InventorySOEditor : Editor
     {
         private const string DRAW_CONTENT_KEY = "ie_draw_content";

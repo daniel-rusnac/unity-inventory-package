@@ -5,21 +5,22 @@ using UnityEngine;
 
 namespace InventorySystem
 {
-    [CreateAssetMenu(fileName = "Inventory", menuName = InventoryConstants.CREATE_SO_MENU + "Inventory")]
+    [CreateAssetMenu(fileName = "Simple Inventory", menuName = InventoryConstants.CREATE_INVENTORY_SUB_MENU + "Simple Inventory")]
     public class InventorySO : ScriptableObject
     {
         private HashSet<Action> _onChangedActions = new HashSet<Action>();
         private HashSet<Action<ItemSO, long>> _onChangedDeltaActions = new HashSet<Action<ItemSO, long>>();
         private readonly Dictionary<ItemSO, Slot> _slotByID = new Dictionary<ItemSO, Slot>();
         
-        public void Add(ItemSO item, long amount, bool invokeActions = true)
+        public void Add(ItemSO item, long amount)
         {
+            Debug.Log("Static");
             if (amount == 0)
                 return;
 
             if (amount < 0)
             {
-                Remove(item, -amount, invokeActions);
+                Remove(item, -amount);
             }
 
             if (!_slotByID.ContainsKey(item))
@@ -31,17 +32,17 @@ namespace InventorySystem
             _slotByID[item].Add(amount);
             long delta = _slotByID[item].Amount - oldAmount;
             
-            OnChanged(item, delta, invokeActions);
+            OnChanged(item, delta);
         }
         
-        public void Remove(ItemSO item, long amount, bool invokeActions = true)
+        public void Remove(ItemSO item, long amount)
         {
             if (amount == 0)
                 return;
 
             if (amount < 0)
             {
-                Add(item, -amount, invokeActions);
+                Add(item, -amount);
                 return;
             }
             
@@ -52,10 +53,10 @@ namespace InventorySystem
             _slotByID[item].Remove(amount);
             long delta = _slotByID[item].Amount - oldAmount;
             
-            OnChanged(item, delta, invokeActions);
+            OnChanged(item, delta);
         }
 
-        public void SetAmount(ItemSO item, long amount, bool invokeActions = true)
+        public void SetAmount(ItemSO item, long amount)
         {
             if (!_slotByID.ContainsKey(item))
             {
@@ -66,10 +67,10 @@ namespace InventorySystem
             _slotByID[item].Add(amount - _slotByID[item].Amount);
             long delta = _slotByID[item].Amount - oldAmount;
             
-            OnChanged(item, delta, invokeActions);
+            OnChanged(item, delta);
         }
 
-        public void SetLimit(ItemSO item, long max, bool invokeActions = true)
+        public void SetLimit(ItemSO item, long max)
         {
             if (!_slotByID.ContainsKey(item))
             {
@@ -81,7 +82,7 @@ namespace InventorySystem
                 _slotByID[item].SetLimit(max);
                 long delta = _slotByID[item].Amount - oldAmount;
 
-                OnChanged(item, delta, invokeActions);
+                OnChanged(item, delta);
             }
         }
 
@@ -92,7 +93,7 @@ namespace InventorySystem
         {
             foreach (ItemSO item in _slotByID.Keys)
             {
-                OnChanged(item, -_slotByID[item].Amount, invokeActions);
+                OnChanged(item, -_slotByID[item].Amount);
             }
             
             _slotByID.Clear();
@@ -151,9 +152,9 @@ namespace InventorySystem
             return _slotByID.Where(pair => pair.Value.Amount > 0).Select(pair => pair.Key as T).Where(item => item != null).ToArray();
         }
 
-        public void RemoveLimit(ItemSO item, bool invokeActions = true)
+        public void RemoveLimit(ItemSO item)
         {
-            SetLimit(item, -1, invokeActions);
+            SetLimit(item, -1);
         }
 
         public override string ToString()
@@ -202,13 +203,13 @@ namespace InventorySystem
                 {
                     if (!_slotByID.ContainsKey(item))
                     {
-                        Add(item, amount[i], false);
-                        SetLimit(item, max[i], false);
+                        Add(item, amount[i]);
+                        SetLimit(item, max[i]);
                     }
                     else
                     {
-                        SetLimit(item, max[i], false);
-                        SetAmount(item, amount[i], false);
+                        SetLimit(item, max[i]);
+                        SetAmount(item, amount[i]);
                     }
                 }
                 else
@@ -238,9 +239,9 @@ namespace InventorySystem
             _onChangedDeltaActions.Add(action);   
         }
 
-        private void OnChanged(ItemSO item, long delta, bool invokeActions)
+        private void OnChanged(ItemSO item, long delta)
         {
-            if (!invokeActions || delta == 0)
+            if (delta == 0)
                 return;
             
             foreach (Action<ItemSO, long> action in _onChangedDeltaActions)

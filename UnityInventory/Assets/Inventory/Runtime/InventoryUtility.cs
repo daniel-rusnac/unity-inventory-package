@@ -1,4 +1,5 @@
-﻿using InventorySystem.InventoryDatabase;
+﻿using System;
+using InventorySystem.InventoryDatabase;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -71,6 +72,11 @@ namespace InventorySystem
             }
             
             return s_database.TryGetItem(id, out item);
+        }
+
+        public static int GetID()
+        {
+            return Guid.NewGuid().GetHashCode();
         }
     }
 }
