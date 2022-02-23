@@ -41,6 +41,11 @@ namespace InventorySystem.New
 
         public void Add(ItemSO item, long amount)
         {
+            if (amount < 0)
+            {
+                Remove(item, -amount);
+            }
+            
             if (!_slotByID.ContainsKey(item.DynamicID))
             {
                 _slotByID.Add(item.DynamicID, new Slot(item));    
@@ -53,6 +58,11 @@ namespace InventorySystem.New
 
         public void Remove(ItemSO item, long amount)
         {
+            if (amount < 0)
+            {
+                Add(item, -amount);
+            }
+            
             if (!_slotByID.ContainsKey(item.DynamicID))
                 return;
             
@@ -66,13 +76,29 @@ namespace InventorySystem.New
             if (!_slotByID.ContainsKey(item.DynamicID))
             {
                 Add(item, amount);
+                return;
+            }
+
+            long amountOffset = amount - Get(item);
+
+            if (amountOffset > 0)
+            {
+                Add(item, amountOffset);
             }
             else
             {
-                long delta = amount - _slotByID[item.DynamicID].Amount;
+                Remove(item, -amountOffset);
             }
-            
-            RefreshDebugSlots();
+        }
+
+        public long Get(ItemSO item)
+        {
+            if (!_slotByID.ContainsKey(item.DynamicID))
+            {
+                return 0;
+            }
+
+            return _slotByID[item.DynamicID].Amount;
         }
 
         public long GetLimit(ItemSO item)
