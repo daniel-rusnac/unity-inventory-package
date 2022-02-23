@@ -1,8 +1,23 @@
-﻿using UnityEditor;
+﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace InventorySystem
 {
+    internal class InventoryContent
+    {
+        public long Amount { get; private set; }
+        public long Limit { get; private set; }
+        public ItemSO Item { get; private set; }
+
+        public void Initialize(ItemSO item, long amount, long limit)
+        {
+            Item = item;
+            Amount = amount;
+            Limit = limit;
+        }
+    }
+
     [CustomEditor(typeof(InventorySO), true)]
     public class InventorySOEditor : Editor
     {
@@ -11,6 +26,7 @@ namespace InventorySystem
         private const string AMOUNT_KEY = "ie_amount";
         private const string ITEM_ID_KEY = "ie_item_id";
         private const string SAVE_KEY = "debug_inventory";
+        private const float ITEM_CONTENT_WIDTH = 200;
 
         private bool _drawContent;
         private bool _drawEditor;
@@ -18,45 +34,107 @@ namespace InventorySystem
         private ItemSO _item;
         private InventorySO _inventory;
 
+        private List<InventoryContent> _contentHolders = new List<InventoryContent>();
+
         private void OnEnable()
         {
             _inventory = (InventorySO) target;
+            _inventory.Register(RefreshContent);
             Load();
         }
 
         private void OnDisable()
         {
+            _inventory.Unregister(RefreshContent);
             Save();
         }
 
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            
+
             if (!InventoryUtility.IsInitialized)
             {
-                EditorGUILayout.HelpBox("Inventory database is not initialized! Editing is unavailable.", MessageType.Warning);
+                EditorGUILayout.HelpBox("Inventory database is not initialized! Editing is unavailable.",
+                    MessageType.Warning);
                 return;
             }
-            
+
             _drawEditor = EditorGUILayout.BeginFoldoutHeaderGroup(_drawEditor, "Editor");
             if (_drawEditor)
             {
                 DrawInventoryEditor();
             }
+
             EditorGUILayout.EndFoldoutHeaderGroup();
-            
+
             _drawContent = EditorGUILayout.BeginFoldoutHeaderGroup(_drawContent, "Content");
             if (_drawContent)
             {
                 DrawContent();
             }
+
             EditorGUILayout.EndFoldoutHeaderGroup();
         }
 
         private void DrawContent()
         {
-            EditorGUILayout.LabelField(_inventory.ToString());
+            if (_contentHolders.Count == 0)
+                return;
+
+            int drawn = 0;
+            int columns = 5;
+
+            while (drawn < _contentHolders.Count)
+            {
+                EditorGUILayout.BeginHorizontal();
+                
+                for (int i = 0; i < columns; i++)
+                {
+                    DrawContent(_contentHolders[drawn]);
+
+                    drawn++;
+                    
+                    if (drawn >= _contentHolders.Count)
+                        break;
+                }
+                
+                EditorGUILayout.EndHorizontal();
+            }
+        }
+
+        private void RefreshContent()
+        {
+            ItemSO[] items = _inventory.GetInstances();
+            _contentHolders.Clear();
+
+            foreach (ItemSO item in items)
+            {
+                InventoryContent content = new InventoryContent();
+                content.Initialize(item, _inventory.GetAmount(item), _inventory.GetLimit(item));
+                _contentHolders.Add(content);
+            }
+        }
+
+        private void DrawContent(InventoryContent content)
+        {
+            EditorGUILayout.BeginVertical("box");
+            {
+                string label = content.Item.Name;
+                if (content.Item.IsInstance)
+                {
+                    label += " (Instance)";
+                }
+                EditorGUILayout.LabelField(label);
+
+                string amount = content.Amount.ToString();
+                if (content.Limit != -1)
+                {
+                    amount += $" / {content.Limit}";
+                }
+                EditorGUILayout.LabelField(amount);
+            }
+            EditorGUILayout.EndVertical();
         }
 
         private void DrawInventoryEditor()
@@ -96,7 +174,7 @@ namespace InventorySystem
                         _inventory.RemoveAmount(_item, _amount);
                     }
                 }
-                
+
                 if (GUILayout.Button("Set Amount"))
                 {
                     if (_item == null)
@@ -123,7 +201,7 @@ namespace InventorySystem
                         {
                             _inventory.SetLimit(_item, _amount);
                         }
-                    } 
+                    }
                 }
                 else
                 {
@@ -138,10 +216,12 @@ namespace InventorySystem
                             _inventory.SetLimit(_item, -1);
                         }
                     }
+
+                    RefreshContent();
                 }
             }
             EditorGUILayout.EndHorizontal();
-            
+
             EditorGUILayout.BeginHorizontal();
             {
                 if (GUILayout.Button("Save"))
