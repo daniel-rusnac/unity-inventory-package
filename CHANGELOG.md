@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.5.1] - 2022-02-23
 
 ### Fixed
-- Empty inventory deserialization #9
+- Empty inventory deserialization
 
 ## [1.5.0] - 2022-02-19
 
