@@ -1,6 +1,6 @@
 {
   "name": "com.danielrusnac.inventory",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "displayName": "Inventory",
   "description": "An inventory system for unity that supports adding/removing items and saving/loading the content.",
   "documentationUrl": "https://github.com/danielrusnac/unity-inventory-package/blob/main/README.md",
