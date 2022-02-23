@@ -4,7 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-## [Unreleased]
+## [1.5.1] - 2022-02-23
+
+### Fixed
+- Empty inventory deserialization #9
+
+## [1.5.0] - 2022-02-19
 
 ### Added
 - Item database runtime implementations
@@ -15,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Inventory database is always initialized before the default time
 
 ### Removed
--Removed obsolete code
+- Removed obsolete code
 
 ## [1.4.4] - 2022-02-18
 
@@ -133,15 +138,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changelog
 
 [Unreleased]: https://github.com/danielrusnac/unity-inventory-package
-[1.0.0]: https://github.com/danielrusnac/unity-inventory-package/releases/tag/v1.0.0
-[1.0.1]: https://github.com/danielrusnac/unity-inventory-package/releases/tag/v1.0.1
-[1.1.0]: https://github.com/danielrusnac/unity-inventory-package/releases/tag/v1.1.0
-[1.2.0]: https://github.com/danielrusnac/unity-inventory-package/releases/tag/v1.2.0
-[1.3.0]: https://github.com/danielrusnac/unity-inventory-package/releases/tag/v1.3.0
-[1.3.1]: https://github.com/danielrusnac/unity-inventory-package/releases/tag/v1.3.1
-[1.3.2]: https://github.com/danielrusnac/unity-inventory-package/releases/tag/v1.3.2
-[1.4.0]: https://github.com/danielrusnac/unity-inventory-package/releases/tag/v1.4.0
-[1.4.1]: https://github.com/danielrusnac/unity-inventory-package/releases/tag/v1.4.1
-[1.4.2]: https://github.com/danielrusnac/unity-inventory-package/releases/tag/v1.4.2
-[1.4.3]: https://github.com/danielrusnac/unity-inventory-package/releases/tag/v1.4.3
+[1.5.1]: https://github.com/danielrusnac/unity-inventory-package/releases/tag/v1.5.1
+[1.5.0]: https://github.com/danielrusnac/unity-inventory-package/releases/tag/v1.5.0
 [1.4.4]: https://github.com/danielrusnac/unity-inventory-package/releases/tag/v1.4.4
+[1.4.3]: https://github.com/danielrusnac/unity-inventory-package/releases/tag/v1.4.3
+[1.4.2]: https://github.com/danielrusnac/unity-inventory-package/releases/tag/v1.4.2
+[1.4.1]: https://github.com/danielrusnac/unity-inventory-package/releases/tag/v1.4.1
+[1.4.0]: https://github.com/danielrusnac/unity-inventory-package/releases/tag/v1.4.0
+[1.3.2]: https://github.com/danielrusnac/unity-inventory-package/releases/tag/v1.3.2
+[1.3.1]: https://github.com/danielrusnac/unity-inventory-package/releases/tag/v1.3.1
+[1.3.0]: https://github.com/danielrusnac/unity-inventory-package/releases/tag/v1.3.0
+[1.2.0]: https://github.com/danielrusnac/unity-inventory-package/releases/tag/v1.2.0
+[1.1.0]: https://github.com/danielrusnac/unity-inventory-package/releases/tag/v1.1.0
+[1.0.1]: https://github.com/danielrusnac/unity-inventory-package/releases/tag/v1.0.1
+[1.0.0]: https://github.com/danielrusnac/unity-inventory-package/releases/tag/v1.0.0
