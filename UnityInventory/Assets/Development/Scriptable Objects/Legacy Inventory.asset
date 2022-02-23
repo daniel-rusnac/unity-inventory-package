@@ -9,10 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cb2cfce015144dfa59847aafa0b86d2, type: 3}
-  m_Name: Inventory
+  m_Script: {fileID: 11500000, guid: db5df373b6764613b4869a5ed4998675, type: 3}
+  m_Name: Legacy Inventory
   m_EditorClassIdentifier: 
-  _debugSlots:
-  - _item: {fileID: 11400000, guid: cf90fbe3520de0242903c5b514d4bd15, type: 2}
-    _amount: 45
-    _limit: 0

@@ -11,17 +11,17 @@ namespace InventorySystem
         /// <param name="to">Inventory to add items to.</param>
         /// <param name="item">The item to transfer.</param>
         /// <param name="amount">The amount to transfer. Will not add more items than removed.</param>
-        public static void TransferTo(this InventorySO from, InventorySO to, ItemSO item, long amount)
+        public static void TransferTo(this OldInventorySO from, OldInventorySO to, ItemSO item, long amount)
         {
             long itemsRemoved = from.GetAmount(item);
-            from.Remove(item, amount);
-            to.Add(item, itemsRemoved);
+            from.RemoveAmount(item, amount);
+            to.AddAmount(item, itemsRemoved);
         }
 
         /// <summary>
         /// Save the inventory using PlayerPrefs
         /// </summary>
-        public static void Save(this InventorySO inventory, string saveKey)
+        public static void Save(this OldInventorySO inventory, string saveKey)
         {
             PlayerPrefs.SetString(saveKey, inventory.Serialize());
             PlayerPrefs.Save();
@@ -30,7 +30,7 @@ namespace InventorySystem
         /// <summary>
         /// Load the inventory using PlayerPrefs
         /// </summary>
-        public static void Load(this InventorySO inventory, string saveKey)
+        public static void Load(this OldInventorySO inventory, string saveKey)
         {
             inventory.Deserialize(PlayerPrefs.GetString(saveKey));
         }

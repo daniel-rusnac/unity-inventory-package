@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace InventorySystem
 {
-    [CustomEditor(typeof(BetterInventorySO))]
+    [CustomEditor(typeof(InventorySO), true)]
     public class InventorySOEditor : Editor
     {
         private const string DRAW_CONTENT_KEY = "ie_draw_content";
@@ -17,11 +17,11 @@ namespace InventorySystem
         private bool _drawEditor;
         private long _amount = 1;
         private ItemSO _item;
-        private BetterInventorySO _inventory;
+        private InventorySO _inventory;
 
         private void OnEnable()
         {
-            _inventory = (BetterInventorySO) target;
+            _inventory = (InventorySO) target;
             Load();
         }
 
@@ -84,7 +84,7 @@ namespace InventorySystem
                     }
                     else
                     {
-                        _inventory.Add(_item, _amount);
+                        _inventory.AddAmount(_item, _amount);
                     }
                 }
 
@@ -96,7 +96,7 @@ namespace InventorySystem
                     }
                     else
                     {
-                        _inventory.Remove(_item, _amount);
+                        _inventory.RemoveAmount(_item, _amount);
                     }
                 }
                 

@@ -33,17 +33,17 @@ namespace InventorySystem.New
     }
     
     [CreateAssetMenu(fileName = "Inventory", menuName = InventoryConstants.CREATE_SO_MENU + "Inventory")]
-    public class BetterInventorySO : ScriptableObject
+    public class SimpleInventorySO : InventorySO
     {
         [SerializeField] private List<Slot> _debugSlots;
 
         private Dictionary<int, Slot> _slotByID = new Dictionary<int, Slot>();
 
-        public void Add(ItemSO item, long amount)
+        public override void AddAmount(ItemSO item, long amount)
         {
             if (amount < 0)
             {
-                Remove(item, -amount);
+                RemoveAmount(item, -amount);
             }
             
             if (!_slotByID.ContainsKey(item.DynamicID))
@@ -56,11 +56,11 @@ namespace InventorySystem.New
             RefreshDebugSlots();
         }
 
-        public void Remove(ItemSO item, long amount)
+        public override void RemoveAmount(ItemSO item, long amount)
         {
             if (amount < 0)
             {
-                Add(item, -amount);
+                AddAmount(item, -amount);
             }
             
             if (!_slotByID.ContainsKey(item.DynamicID))
@@ -71,27 +71,7 @@ namespace InventorySystem.New
             RefreshDebugSlots();
         }
 
-        public void SetAmount(ItemSO item, long amount)
-        {
-            if (!_slotByID.ContainsKey(item.DynamicID))
-            {
-                Add(item, amount);
-                return;
-            }
-
-            long amountOffset = amount - Get(item);
-
-            if (amountOffset > 0)
-            {
-                Add(item, amountOffset);
-            }
-            else
-            {
-                Remove(item, -amountOffset);
-            }
-        }
-
-        public long Get(ItemSO item)
+        public override long GetAmount(ItemSO item)
         {
             if (!_slotByID.ContainsKey(item.DynamicID))
             {
@@ -101,12 +81,32 @@ namespace InventorySystem.New
             return _slotByID[item.DynamicID].Amount;
         }
 
-        public long GetLimit(ItemSO item)
+        public override void SetAmount(ItemSO item, long amount)
+        {
+            if (!_slotByID.ContainsKey(item.DynamicID))
+            {
+                AddAmount(item, amount);
+                return;
+            }
+
+            long amountOffset = amount - GetAmount(item);
+
+            if (amountOffset > 0)
+            {
+                AddAmount(item, amountOffset);
+            }
+            else
+            {
+                RemoveAmount(item, -amountOffset);
+            }
+        }
+
+        public override long GetLimit(ItemSO item)
         {
             return -1;
         }
 
-        public void SetLimit(ItemSO item, long amount)
+        public override void SetLimit(ItemSO item, long amount)
         {
             
         }

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace InventorySystem
 {
     [Serializable]
-    public class Slot
+    public class OldSlot
     {
         [SerializeField] private long _amount;
         [SerializeField] private long _limit;
@@ -13,7 +13,7 @@ namespace InventorySystem
         public long Amount => _amount;
         public long Limit => _limit;
 
-        public Slot(int id, long count, long limit = InventoryUtility.DEFAULT_LIMIT)
+        public OldSlot(int id, long count, long limit = InventoryUtility.DEFAULT_LIMIT)
         {
             _id = id;
             _amount = ClampAmount(count);
