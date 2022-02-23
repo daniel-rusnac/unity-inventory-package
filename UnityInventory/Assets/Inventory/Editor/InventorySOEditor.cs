@@ -1,9 +1,10 @@
-﻿using UnityEditor;
+﻿using InventorySystem.New;
+using UnityEditor;
 using UnityEngine;
 
 namespace InventorySystem
 {
-    [CustomEditor(typeof(InventorySO))]
+    [CustomEditor(typeof(BetterInventorySO))]
     public class InventorySOEditor : Editor
     {
         private const string DRAW_CONTENT_KEY = "ie_draw_content";
@@ -16,11 +17,11 @@ namespace InventorySystem
         private bool _drawEditor;
         private long _amount = 1;
         private ItemSO _item;
-        private InventorySO _inventory;
+        private BetterInventorySO _inventory;
 
         private void OnEnable()
         {
-            _inventory = (InventorySO) target;
+            _inventory = (BetterInventorySO) target;
             Load();
         }
 
@@ -31,6 +32,8 @@ namespace InventorySystem
 
         public override void OnInspectorGUI()
         {
+            base.OnInspectorGUI();
+            
             if (!InventoryUtility.IsInitialized)
             {
                 EditorGUILayout.HelpBox("Inventory database is not initialized! Editing is unavailable.", MessageType.Warning);
@@ -146,12 +149,12 @@ namespace InventorySystem
             {
                 if (GUILayout.Button("Save"))
                 {
-                    _inventory.Save(SAVE_KEY);
+                    // _inventory.Save(SAVE_KEY);
                 }
 
                 if (GUILayout.Button("Load"))
                 {
-                    _inventory.Load(SAVE_KEY);
+                    // _inventory.Load(SAVE_KEY);
                 }
             }
             EditorGUILayout.EndHorizontal();

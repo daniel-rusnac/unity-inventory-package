@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Default Collection
   m_EditorClassIdentifier: 
   _items:
-  - {fileID: 11400000, guid: ba0ebf2d7fb174f40846b0bd9ea4b8c5, type: 2}
-  - {fileID: 11400000, guid: 58cac777dbc1ed749ac256fd00e992af, type: 2}
-  - {fileID: 11400000, guid: 7150e81bd6d89e24889fbc8485a3ab13, type: 2}
+  - {fileID: 11400000, guid: cf90fbe3520de0242903c5b514d4bd15, type: 2}
+  - {fileID: 11400000, guid: 111b828bbe1675c46b9c6d9b6899759e, type: 2}
   _itemFolders:
   - Assets

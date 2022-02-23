@@ -77,7 +77,7 @@ namespace InventorySystem
         public override string ToString()
         {
             InventoryUtility.TryGetItem(_id, out ItemSO item);
-            return $"{(item == null ? "???" : item.ItemName)}: {Amount}{(_limit > 0 ? $"/{_limit}" : "")}";
+            return $"{(item == null ? "???" : item.Name)}: {Amount}{(_limit > 0 ? $"/{_limit}" : "")}";
         }
     }
 }

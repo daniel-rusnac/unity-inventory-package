@@ -1,13 +1,13 @@
-﻿using UnityEditor;
+﻿using InventorySystem.New;
+using UnityEditor;
 using UnityEngine;
 
 namespace InventorySystem
 {
-    [CustomEditor(typeof(ItemSO), true)]
+    [CustomEditor(typeof(StaticItemSO), true)]
     public class ItemSOEditor : Editor
     {
-        private SerializedProperty _normalIconProperty;
-        private SerializedProperty _lockedIconProperty;
+        private SerializedProperty _iconProperty;
         private SerializedProperty _nameProperty;
         private SerializedProperty _idProperty;
         private SerializedProperty _glyphProperty;
@@ -17,9 +17,8 @@ namespace InventorySystem
 
         protected virtual void OnEnable()
         {
-            _normalIconProperty = serializedObject.FindProperty("_normalIcon");
-            _lockedIconProperty = serializedObject.FindProperty("_lockedIcon");
-            _nameProperty = serializedObject.FindProperty("_itemName");
+            _iconProperty = serializedObject.FindProperty("_icon");
+            _nameProperty = serializedObject.FindProperty("_name");
             _idProperty = serializedObject.FindProperty("_id");
             _glyphProperty = serializedObject.FindProperty("_glyph");
         }
@@ -35,8 +34,7 @@ namespace InventorySystem
             }
             GUILayout.EndHorizontal();
 
-            DrawPropertiesExcluding(serializedObject, "m_Script", "_itemName", "_id", "_glyph", "_normalIcon",
-                "_lockedIcon");
+            DrawPropertiesExcluding(serializedObject, "m_Script", "_name", "_id", "_glyph", "_icon");
         }
 
         private void Initialize()
@@ -64,19 +62,12 @@ namespace InventorySystem
 
         private void DrawIcon()
         {
-            _normalIconProperty.objectReferenceValue = EditorGUILayout.ObjectField(
-                _normalIconProperty.objectReferenceValue,
+            _iconProperty.objectReferenceValue = EditorGUILayout.ObjectField(
+                _iconProperty.objectReferenceValue,
                 typeof(Sprite), false, GUILayout.Width(IconSize), GUILayout.Height(IconSize));
 
             Rect rect = GUILayoutUtility.GetLastRect();
             EditorGUI.LabelField(rect, "Normal", _style);
-
-            _lockedIconProperty.objectReferenceValue = EditorGUILayout.ObjectField(
-                _lockedIconProperty.objectReferenceValue,
-                typeof(Sprite), false, GUILayout.Width(IconSize), GUILayout.Height(IconSize));
-
-            rect = GUILayoutUtility.GetLastRect();
-            EditorGUI.LabelField(rect, "Locked", _style);
 
             serializedObject.ApplyModifiedProperties();
         }

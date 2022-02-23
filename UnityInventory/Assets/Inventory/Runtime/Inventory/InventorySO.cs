@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace InventorySystem
 {
-    [CreateAssetMenu(fileName = "Inventory", menuName = InventoryConstants.CREATE_SO_MENU + "Inventory")]
+    // [CreateAssetMenu(fileName = "Inventory", menuName = InventoryConstants.CREATE_SO_MENU + "Inventory")]
     public class InventorySO : ScriptableObject
     {
         private HashSet<Action> _onChangedActions = new HashSet<Action>();
