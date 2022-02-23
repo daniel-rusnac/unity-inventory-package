@@ -190,14 +190,9 @@ namespace InventorySystem
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(values[0]) || values[0].Split(',').Length == 0)
-            {
-                return;
-            }
-            
             int[] ids = values[0].Split(',').Select(int.Parse).ToArray();
             long[] amount = values[1].Split(',').Select(long.Parse).ToArray();
-            long[] max = values[2].Split(',').Select(long.Parse).ToArray();
+            int[] max = values[2].Split(',').Select(int.Parse).ToArray();
 
             int slotCount = ids.Length;
 
