@@ -1,5 +1,4 @@
-﻿using InventorySystem.New;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace InventorySystem
@@ -40,20 +39,18 @@ namespace InventorySystem
                 return;
             }
             
-            _drawContent = EditorGUILayout.BeginFoldoutHeaderGroup(_drawContent, "Content");
-            if (_drawContent)
-            {
-                DrawContent();
-            }
-
-            EditorGUILayout.EndFoldoutHeaderGroup();
-
             _drawEditor = EditorGUILayout.BeginFoldoutHeaderGroup(_drawEditor, "Editor");
             if (_drawEditor)
             {
                 DrawInventoryEditor();
             }
-
+            EditorGUILayout.EndFoldoutHeaderGroup();
+            
+            _drawContent = EditorGUILayout.BeginFoldoutHeaderGroup(_drawContent, "Content");
+            if (_drawContent)
+            {
+                DrawContent();
+            }
             EditorGUILayout.EndFoldoutHeaderGroup();
         }
 

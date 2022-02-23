@@ -1,12 +1,7 @@
-﻿using System;
-using UnityEngine;
-
-namespace InventorySystem.New
+﻿namespace InventorySystem.Slots
 {
-    [Serializable]
     public abstract class Slot
     {
-        
         public abstract int StaticID { get; }
         public abstract int DynamicID { get; }
         public abstract long Amount { get; }
@@ -14,5 +9,6 @@ namespace InventorySystem.New
         
         public abstract void Add(long amount);
         public abstract void Remove(long amount);
+        public abstract void SetLimit(long limit);
     }
 }

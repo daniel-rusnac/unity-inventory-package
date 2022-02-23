@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace InventorySystem.New
+namespace InventorySystem
 {
     [CreateAssetMenu(fileName = "Static Item", menuName = InventoryConstants.CREATE_ITEMS_SUB_MENU + "Static Item")]
     public class StaticItemSO : ItemSO

@@ -1,5 +1,4 @@
 ﻿using InventorySystem.InventoryDatabase;
-using InventorySystem.New;
 using InventorySystem.Slots;
 using JetBrains.Annotations;
 using UnityEngine;

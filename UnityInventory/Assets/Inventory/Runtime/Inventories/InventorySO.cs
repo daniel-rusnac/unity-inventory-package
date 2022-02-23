@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace InventorySystem.New
+namespace InventorySystem
 {
     public abstract class InventorySO : ScriptableObject
     {

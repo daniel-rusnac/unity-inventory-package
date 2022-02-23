@@ -1,27 +1,27 @@
-﻿using System;
-using InventorySystem.New;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace InventorySystem.Slots
 {
-    [Serializable]
     public class DynamicSlot : Slot
     {
-        [SerializeField] private int _staticID;
-        [SerializeField] private int _dynamicID;
-        [SerializeField] private long _amount;
-        [SerializeField] private long _limit;
+        private int _staticID;
+        private int _dynamicID;
+        private long _amount;
+        private long _limit;
 
         public override int StaticID => _staticID;
         public override int DynamicID => _dynamicID;
         public override long Amount => _amount;
         public override long Limit => _limit;
 
+        private bool IsDynamicItem => _staticID != _dynamicID;
+
         public DynamicSlot(int staticID, int dynamicID)
         {
             _staticID = staticID;
             _dynamicID = dynamicID;
-            _limit = -1;
+
+            _limit = IsDynamicItem ? 1 : -1;
         }
 
         public override void Add(long amount)
@@ -57,7 +57,22 @@ namespace InventorySystem.Slots
             
             _amount = ClampAmount(_amount - amount);
         }
-        
+
+        public override void SetLimit(long limit)
+        {
+            if (limit < InventoryUtility.DEFAULT_LIMIT)
+                return;
+
+            if (IsDynamicItem)
+            {
+                Debug.Log($"Trying to set the limit [{limit}] for a dynamic item! Setting back to [1].");
+                limit = 1;
+            }
+
+            _limit = limit;
+            _amount = ClampAmount(_amount);
+        }
+
         private long ClampAmount(long unclampedCount)
         {
             if (unclampedCount < 0)

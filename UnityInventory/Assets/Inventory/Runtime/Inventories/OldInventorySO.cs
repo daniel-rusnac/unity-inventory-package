@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using InventorySystem.New;
+using InventorySystem.Slots;
 using UnityEngine;
 
 namespace InventorySystem

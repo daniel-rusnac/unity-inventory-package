@@ -1,5 +1,4 @@
-﻿using InventorySystem.New;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace InventorySystem

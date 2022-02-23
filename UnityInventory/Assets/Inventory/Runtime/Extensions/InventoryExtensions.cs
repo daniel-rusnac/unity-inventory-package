@@ -1,5 +1,4 @@
-﻿using InventorySystem.New;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace InventorySystem
 {

@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using InventorySystem.Slots;
 using UnityEngine;
 
-namespace InventorySystem.New
+namespace InventorySystem
 {
     [CreateAssetMenu(fileName = "Dynamic Inventory", menuName = InventoryConstants.CREATE_SO_MENU + "Dynamic Inventory")]
     public class DynamicInventorySO : InventorySO
