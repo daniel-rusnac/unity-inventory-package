@@ -65,9 +65,6 @@ namespace InventorySystem
                 _iconProperty.objectReferenceValue,
                 typeof(Sprite), false, GUILayout.Width(IconSize), GUILayout.Height(IconSize));
 
-            Rect rect = GUILayoutUtility.GetLastRect();
-            EditorGUI.LabelField(rect, "Normal", _style);
-
             serializedObject.ApplyModifiedProperties();
         }
     }

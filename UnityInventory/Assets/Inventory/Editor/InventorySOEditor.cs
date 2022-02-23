@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -26,6 +27,7 @@ namespace InventorySystem
         private const string AMOUNT_KEY = "ie_amount";
         private const string ITEM_ID_KEY = "ie_item_id";
         private const string SAVE_KEY = "debug_inventory";
+        private const float SLOT_WIDTH = 100;
 
         private bool _drawContent;
         private bool _drawEditor;
@@ -39,6 +41,11 @@ namespace InventorySystem
             _inventory = (InventorySO) target;
             _inventory.Register(RefreshContent);
             Load();
+
+            if (Application.isPlaying)
+            {
+                RefreshContent();
+            }
         }
 
         private void OnDisable()
@@ -62,6 +69,7 @@ namespace InventorySystem
             if (_drawEditor)
             {
                 DrawInventoryEditor();
+                EditorGUILayout.HelpBox($"Default save key is '{SAVE_KEY}'.", MessageType.Info);
             }
 
             EditorGUILayout.EndFoldoutHeaderGroup();
@@ -69,6 +77,7 @@ namespace InventorySystem
             _drawContent = EditorGUILayout.BeginFoldoutHeaderGroup(_drawContent, "Content");
             if (_drawContent)
             {
+                EditorGUILayout.HelpBox("Click on items to show them in the inspector.", MessageType.Info);
                 DrawContent();
             }
 
@@ -81,7 +90,7 @@ namespace InventorySystem
                 return;
 
             int drawn = 0;
-            int columns = 5;
+            int columns = (int) ((Screen.width + EditorGUIUtility.standardVerticalSpacing - SLOT_WIDTH * 0.5f) / (SLOT_WIDTH + EditorGUIUtility.standardVerticalSpacing));
 
             while (drawn < _contentHolders.Count)
             {
@@ -89,7 +98,7 @@ namespace InventorySystem
                 
                 for (int i = 0; i < columns; i++)
                 {
-                    DrawContent(_contentHolders[drawn]);
+                    DrawContent(_contentHolders[drawn], i == columns - 1);
 
                     drawn++;
                     
@@ -103,7 +112,7 @@ namespace InventorySystem
 
         private void RefreshContent()
         {
-            ItemSO[] items = _inventory.GetInstances();
+            ItemSO[] items = _inventory.GetInstances().OrderBy(so => so.IsDynamic).ThenBy(so => so.Name).ToArray();
             _contentHolders.Clear();
 
             foreach (ItemSO item in items)
@@ -112,27 +121,36 @@ namespace InventorySystem
                 content.Initialize(item, _inventory.GetAmount(item), _inventory.GetLimit(item));
                 _contentHolders.Add(content);
             }
+            
+            Repaint();
         }
 
-        private void DrawContent(InventoryContent content)
+        private void DrawContent(InventoryContent content, bool expand)
         {
-            EditorGUILayout.BeginVertical("box");
+            EditorGUILayout.BeginVertical("box", GUILayout.MinWidth(SLOT_WIDTH), GUILayout.MaxWidth(expand ? Screen.width : SLOT_WIDTH));
             {
                 string label = content.Item.Name;
-                if (content.Item.IsInstance)
+                if (content.Item.IsDynamic)
                 {
-                    label += " (Instance)";
+                    label += " (Dynamic)";
                 }
-                EditorGUILayout.LabelField(label);
-
+                EditorGUILayout.LabelField(label, GUILayout.MinWidth(SLOT_WIDTH));
+                
                 string amount = content.Amount.ToString();
                 if (content.Limit != -1)
                 {
                     amount += $" / {content.Limit}";
                 }
-                EditorGUILayout.LabelField(amount);
+                EditorGUILayout.LabelField(amount, GUILayout.MinWidth(SLOT_WIDTH));
             }
             EditorGUILayout.EndVertical();
+            
+            Rect rect = GUILayoutUtility.GetLastRect();
+                
+            if (GUI.Button(rect, "", GUIStyle.none))
+            {
+                Selection.SetActiveObjectWithContext(content.Item, content.Item);
+            }
         }
 
         private void DrawInventoryEditor()
@@ -235,11 +253,6 @@ namespace InventorySystem
             EditorGUILayout.EndHorizontal();
 
             GUI.enabled = true;
-
-            if (Application.isPlaying)
-            {
-                EditorGUILayout.HelpBox($"Default save key is '{SAVE_KEY}'.", MessageType.Info);
-            }
         }
 
         private void Save()
