@@ -5,8 +5,7 @@ namespace Development.Scripts
 {
     public class InventoryEventsTest : MonoBehaviour
     {
-        [SerializeField] private WeaponSO _weapon;
-        [SerializeField] private DynamicInventorySO _inventory;
+        [SerializeField] private InventorySO _inventory;
 
         private void OnEnable()
         {
@@ -23,7 +22,6 @@ namespace Development.Scripts
         private void OnChanged()
         {
             Debug.Log("Changed");
-            _inventory.Add(_weapon, 1);
         }
 
         private void OnChangedDelta(ItemSO item, long delta)
