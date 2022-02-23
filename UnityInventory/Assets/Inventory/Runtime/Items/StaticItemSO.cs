@@ -10,11 +10,11 @@ namespace InventorySystem
         [SerializeField] private string _glyph;
         [SerializeField] private Sprite _icon;
 
-        public override int ID => _id;
+        public override int StaticID => _id;
         public string Glyph => _glyph;
         public Sprite Icon => _icon;
 
-        public override int DynamicID => ID;
+        public override int DynamicID => StaticID;
         public override string Name => _name;
 
         public override ItemSO GetInstance()

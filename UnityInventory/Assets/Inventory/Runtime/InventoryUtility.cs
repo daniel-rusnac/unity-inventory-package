@@ -76,7 +76,7 @@ namespace InventorySystem
 
         internal static Slot CreateSlot(ItemSO item)
         {
-            return new DynamicSlot(item.ID, item.DynamicID);
+            return new DynamicSlot(item.StaticID, item.DynamicID);
         }
     }
 }

@@ -146,12 +146,12 @@ namespace InventorySystem
             {
                 if (GUILayout.Button("Save"))
                 {
-                    // _inventory.Save(SAVE_KEY);
+                    _inventory.Save(SAVE_KEY);
                 }
 
                 if (GUILayout.Button("Load"))
                 {
-                    // _inventory.Load(SAVE_KEY);
+                    _inventory.Load(SAVE_KEY);
                 }
             }
             EditorGUILayout.EndHorizontal();
@@ -172,7 +172,7 @@ namespace InventorySystem
 
             if (_item != null)
             {
-                EditorPrefs.SetInt(ITEM_ID_KEY, _item.ID);
+                EditorPrefs.SetInt(ITEM_ID_KEY, _item.StaticID);
             }
         }
 

@@ -4,9 +4,9 @@ namespace InventorySystem
 {
     public abstract class ItemSO : ScriptableObject
     {
-        public bool IsDynamic => ID != DynamicID;
+        public bool IsDynamic => StaticID != DynamicID;
         
-        public abstract int ID { get; }
+        public abstract int StaticID { get; }
         public abstract int DynamicID { get; }
         public abstract string Name { get; }
         public abstract ItemSO GetInstance();

@@ -23,7 +23,7 @@ namespace InventorySystem
             _slotByID.Clear();
         }
 
-        public bool Contains(ItemSO item, long amount = 1)
+        public override bool Contains(ItemSO item, long amount = 1)
         {
             if (amount <= 0)
                 return true;
@@ -136,19 +136,6 @@ namespace InventorySystem
             return _slotByID.Count(pair => pair.Value.Amount > 0);
         }
 
-        public ItemSO[] GetItems()
-        {
-            return _slotByID.Where(pair => pair.Value.Amount > 0).Select(pair => pair.Key).ToArray();
-        }
-
-        /// <summary>
-        /// Return all items of type T.
-        /// </summary>
-        public T[] GetItems<T>() where T : ItemSO
-        {
-            return _slotByID.Where(pair => pair.Value.Amount > 0).Select(pair => pair.Key as T).Where(item => item != null).ToArray();
-        }
-
         public void RemoveLimit(ItemSO item, bool invokeActions = true)
         {
             SetLimit(item, -1);
@@ -170,7 +157,7 @@ namespace InventorySystem
         {
             string[] values = 
             {
-                string.Join(",", _slotByID.Keys.Select(so => so.ID)),
+                string.Join(",", _slotByID.Keys.Select(so => so.StaticID)),
                 string.Join(",", _slotByID.Values.Select(slot => slot.Amount)),
                 string.Join(",", _slotByID.Values.Select(slot => slot.Limit))
             };
@@ -219,6 +206,16 @@ namespace InventorySystem
                     Debug.LogWarning($"Couldn't deserialize id: {ids[i]}! Maybe you changed it after saving?", this);
                 }
             }
+        }
+
+        public override ItemSO[] GetInstances()
+        {
+            return _slotByID.Where(pair => pair.Value.Amount > 0).Select(pair => pair.Key).ToArray();
+        }
+
+        public override T[] GetInstances<T>()
+        {
+            return _slotByID.Where(pair => pair.Value.Amount > 0).Select(pair => pair.Key as T).Where(item => item != null).ToArray();
         }
     }
 }

@@ -13,11 +13,14 @@ namespace InventorySystem
         public abstract void RemoveAmount(ItemSO item, long amount);
         public abstract void SetAmount(ItemSO item, long amount);
         public abstract long GetAmount(ItemSO item);
+        public abstract bool Contains(ItemSO item, long amount = 1);
         
         public abstract void SetLimit(ItemSO item, long limit);
         public abstract long GetLimit(ItemSO item);
         public abstract string Serialize();
         public abstract void Deserialize(string data);
+        public abstract ItemSO[] GetInstances();
+        public abstract T[] GetInstances<T>() where T : ItemSO;
         
         public void Register(Action action)
         {
