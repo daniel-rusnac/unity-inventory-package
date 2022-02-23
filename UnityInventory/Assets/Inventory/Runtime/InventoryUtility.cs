@@ -1,4 +1,6 @@
 ﻿using InventorySystem.InventoryDatabase;
+using InventorySystem.New;
+using InventorySystem.Slots;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -71,6 +73,11 @@ namespace InventorySystem
             }
             
             return s_database.TryGetItem(id, out item);
+        }
+
+        internal static Slot CreateSlot(ItemSO item)
+        {
+            return new DynamicSlot(item.ID, item.DynamicID);
         }
     }
 }

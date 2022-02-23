@@ -1,39 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace InventorySystem.New
 {
-    [Serializable]
-    public class Slot
-    {
-        [SerializeField] private ItemSO _item;
-        [SerializeField] private long _amount;
-        [SerializeField] private long _limit;
-
-        public ItemSO Item => _item;
-        public long Amount => _amount;
-        public long Limit => _limit;
-
-        public Slot(ItemSO item)
-        {
-            _item = item;
-        }
-
-        public void Add(long amount)
-        {
-            _amount += amount;
-        }
-
-        public void Remove(long amount)
-        {
-            _amount -= amount;
-        }
-    }
-    
-    [CreateAssetMenu(fileName = "Inventory", menuName = InventoryConstants.CREATE_SO_MENU + "Inventory")]
-    public class SimpleInventorySO : InventorySO
+    [CreateAssetMenu(fileName = "Dynamic Inventory", menuName = InventoryConstants.CREATE_SO_MENU + "Dynamic Inventory")]
+    public class DynamicInventorySO : InventorySO
     {
         [SerializeField] private List<Slot> _debugSlots;
 
@@ -48,7 +20,7 @@ namespace InventorySystem.New
             
             if (!_slotByID.ContainsKey(item.DynamicID))
             {
-                _slotByID.Add(item.DynamicID, new Slot(item));    
+                _slotByID.Add(item.DynamicID, InventoryUtility.CreateSlot(item));    
             }
             
             _slotByID[item.DynamicID].Add(amount);
@@ -104,6 +76,15 @@ namespace InventorySystem.New
         public override long GetLimit(ItemSO item)
         {
             return -1;
+        }
+
+        public override string Serialize()
+        {
+            return "";
+        }
+
+        public override void Deserialize(string data)
+        {
         }
 
         public override void SetLimit(ItemSO item, long amount)

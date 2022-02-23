@@ -16,6 +16,8 @@ namespace InventorySystem.New
         
         public abstract void SetLimit(ItemSO item, long limit);
         public abstract long GetLimit(ItemSO item);
+        public abstract string Serialize();
+        public abstract void Deserialize(string data);
         
         public void Register(Action action)
         {

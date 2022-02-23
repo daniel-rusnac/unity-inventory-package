@@ -8,7 +8,7 @@ namespace InventorySystem
     [CreateAssetMenu(fileName = "Legacy Inventory", menuName = InventoryConstants.CREATE_SO_MENU + "Legacy Inventory")]
     public class OldInventorySO : InventorySO
     {
-        private readonly Dictionary<ItemSO, OldSlot> _slotByID = new Dictionary<ItemSO, OldSlot>();
+        private readonly Dictionary<ItemSO, Slot> _slotByID = new Dictionary<ItemSO, Slot>();
 
         /// <summary>
         /// Removes all items from the inventory.
@@ -43,7 +43,7 @@ namespace InventorySystem
 
             if (!_slotByID.ContainsKey(item))
             {
-                _slotByID.Add(item, new OldSlot(item.ID, 0));
+                _slotByID.Add(item, InventoryUtility.CreateSlot(item));
             }
 
             long oldAmount = _slotByID[item].Amount; 
@@ -78,7 +78,7 @@ namespace InventorySystem
         {
             if (!_slotByID.ContainsKey(item))
             {
-                _slotByID.Add(item, new OldSlot(item.ID, 0));
+                _slotByID.Add(item,InventoryUtility.CreateSlot(item));
             }
 
             long oldAmount = _slotByID[item].Amount;
@@ -102,12 +102,12 @@ namespace InventorySystem
         {
             if (!_slotByID.ContainsKey(item))
             {
-                _slotByID.Add(item, new OldSlot(item.ID, 0, limit));
+                _slotByID.Add(item, InventoryUtility.CreateSlot(item));
             }
             else
             {
                 long oldAmount = _slotByID[item].Amount; 
-                _slotByID[item].SetLimit(limit);
+                // _slotByID[item].SetLimit(limit);
                 long delta = _slotByID[item].Amount - oldAmount;
 
                 OnChanged(item, delta);
@@ -166,7 +166,7 @@ namespace InventorySystem
             return result + "]";
         }
 
-        public string Serialize()
+        public override string Serialize()
         {
             string[] values = 
             {
@@ -178,7 +178,7 @@ namespace InventorySystem
             return string.Join("|", values);
         }
 
-        public void Deserialize(string content)
+        public override void Deserialize(string content)
         {
             string[] values = content.Split('|');
             
