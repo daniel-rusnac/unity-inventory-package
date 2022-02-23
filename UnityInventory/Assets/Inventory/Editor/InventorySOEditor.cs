@@ -26,15 +26,13 @@ namespace InventorySystem
         private const string AMOUNT_KEY = "ie_amount";
         private const string ITEM_ID_KEY = "ie_item_id";
         private const string SAVE_KEY = "debug_inventory";
-        private const float ITEM_CONTENT_WIDTH = 200;
 
         private bool _drawContent;
         private bool _drawEditor;
         private long _amount = 1;
         private ItemSO _item;
         private InventorySO _inventory;
-
-        private List<InventoryContent> _contentHolders = new List<InventoryContent>();
+        private readonly List<InventoryContent> _contentHolders = new List<InventoryContent>();
 
         private void OnEnable()
         {

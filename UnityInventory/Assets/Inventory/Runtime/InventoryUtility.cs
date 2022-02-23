@@ -1,4 +1,5 @@
-﻿using InventorySystem.InventoryDatabase;
+﻿using System;
+using InventorySystem.InventoryDatabase;
 using InventorySystem.Slots;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -76,7 +77,23 @@ namespace InventorySystem
 
         public static void AddItemToDatabase(ItemSO item)
         {
+            if (!IsInitialized)
+                return;
+            
             s_database.AddItem(item);
+        }
+        
+        public static void RemoveItemToDatabase(ItemSO item)
+        {
+            if (!IsInitialized)
+                return;
+            
+            s_database.RemoveItem(item);
+        }
+        
+        public static int GetID()
+        {
+            return Guid.NewGuid().GetHashCode();
         }
 
         internal static Slot CreateSlot(ItemSO item)

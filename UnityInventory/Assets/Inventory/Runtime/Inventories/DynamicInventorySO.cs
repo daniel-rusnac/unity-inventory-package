@@ -12,6 +12,11 @@ namespace InventorySystem
 
         public override void AddAmount(ItemSO item, long amount)
         {
+            if (!item.IsInstance)
+            {
+                item = item.GetInstance();
+            }
+            
             if (amount < 0)
             {
                 RemoveAmount(item, -amount);
@@ -19,7 +24,7 @@ namespace InventorySystem
 
             if (!_slotByID.ContainsKey(item.StaticID))
             {
-                _slotByID.Add(item.DynamicID, new Dictionary<int, Slot>());
+                _slotByID.Add(item.StaticID, new Dictionary<int, Slot>());
             }
 
             if (!_slotByID[item.StaticID].ContainsKey(item.DynamicID))

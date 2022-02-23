@@ -7,6 +7,7 @@ namespace InventorySystem
         private bool _isInstance = false;
         
         public bool IsInstance => _isInstance;
+        public bool IsDynamic => StaticID != DynamicID;
         
         public abstract int StaticID { get; }
         public abstract int DynamicID { get; }
