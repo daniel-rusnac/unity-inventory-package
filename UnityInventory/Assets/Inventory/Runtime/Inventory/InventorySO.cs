@@ -14,6 +14,7 @@ namespace InventorySystem
         
         public void Add(ItemSO item, long amount)
         {
+            Debug.Log("Static");
             if (amount == 0)
                 return;
 

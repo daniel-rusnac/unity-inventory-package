@@ -5,7 +5,7 @@
         
     }
     
-    public interface IDynamicItem<T> : IDynamicItemBase where T : IDynamicData
+    public interface IDynamicItem<T> where T : IDynamicData
     {
         public T CreateDataInstance { get; }
     }

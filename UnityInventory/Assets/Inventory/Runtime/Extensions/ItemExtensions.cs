@@ -1,10 +1,14 @@
-﻿namespace InventorySystem
+﻿using System.Linq;
+
+namespace InventorySystem
 {
     public static class ItemExtensions
     {
         public static bool IsDynamic(this ItemSO item)
         {
-            return item is IDynamicItemBase;
+            return item.GetType().GetInterfaces().Any(t =>
+                t.IsGenericType &&
+                t.GetGenericTypeDefinition() == typeof(IDynamicItem<>));
         }
     }
 }
