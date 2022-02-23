@@ -74,6 +74,11 @@ namespace InventorySystem
             return s_database.TryGetItem(id, out item);
         }
 
+        public static void AddItemToDatabase(ItemSO item)
+        {
+            s_database.AddItem(item);
+        }
+
         internal static Slot CreateSlot(ItemSO item)
         {
             return new DynamicSlot(item.StaticID, item.DynamicID);

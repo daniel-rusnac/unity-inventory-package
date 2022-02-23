@@ -48,6 +48,25 @@ namespace InventorySystem.InventoryDatabase
             return false;
         }
 
+        public void AddItem(ItemSO item)
+        {
+            if (ItemByID.ContainsKey(item.DynamicID))
+            {
+                Debug.LogWarning($"Item with ID: [{item.DynamicID}] already registered!", item);
+                return;
+            }
+
+            ItemByID.Add(item.DynamicID, item);
+        }
+
+        public void RemoveItem(ItemSO item)
+        {
+            if (!ItemByID.ContainsKey(item.DynamicID))
+                return;
+
+            ItemByID.Remove(item.DynamicID);
+        }
+
         protected abstract bool OnInitialize();
     }
 }

@@ -12,13 +12,13 @@ namespace InventorySystem.InventoryDatabase
             
             foreach (ItemSO t in items)
             {
-                if (ItemByID.ContainsKey(t.StaticID))
+                if (ItemByID.ContainsKey(t.DynamicID))
                 {
-                    Debug.LogWarning($"Item with ID: [{t.StaticID}] already registered!", t);
+                    Debug.LogWarning($"Item with ID: [{t.DynamicID}] already registered!", t);
                     continue;
                 }
                 
-                ItemByID.Add(t.StaticID, t);
+                ItemByID.Add(t.DynamicID, t);
             }
 
             return true;

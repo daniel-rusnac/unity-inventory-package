@@ -17,7 +17,7 @@ namespace InventorySystem
         public override int DynamicID => StaticID;
         public override string Name => _name;
 
-        public override ItemSO GetInstance()
+        protected override ItemSO OnGetInstance()
         {
             return this;
         }
