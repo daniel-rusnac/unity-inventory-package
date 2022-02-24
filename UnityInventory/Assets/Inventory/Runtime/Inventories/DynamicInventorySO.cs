@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using InventorySystem.Slots;
 using UnityEngine;
 
 namespace InventorySystem
