@@ -11,23 +11,24 @@ namespace InventorySystem
         private readonly Dictionary<int, Dictionary<int, Slot>> _slotByID = new Dictionary<int, Dictionary<int, Slot>>();
         private readonly Dictionary<int, long> _limitByID = new Dictionary<int, long>();
 
-        public override void AddAmount(ItemSO item, long amount)
+        
+        public override void Add(ItemSO item, long amount = 1)
         {
-            ItemSO originalItem = item;
+            ItemSO originalItem = InventoryUtility.GetItem(item.StaticID);
             long oldAmount = GetAmount(item);
             long iteration = item.IsDynamic ? (ClampAmount(oldAmount + amount, GetLimit(item)) - oldAmount) : 1;
             amount = item.IsDynamic ? 1 : amount;
 
             for (long i = 0; i < iteration; i++)
             {
-                if (!originalItem.IsInstance)
+                if (i > 0 || !item.IsInstance)
                 {
                     item = originalItem.GetInstance();
                 }
             
                 if (amount < 0)
                 {
-                    RemoveAmount(item, -amount);
+                    Remove(item, -amount);
                     return;
                 }
 
@@ -55,11 +56,14 @@ namespace InventorySystem
             OnChanged(item, delta);
         }
 
-        public override void RemoveAmount(ItemSO item, long amount)
+        /// <summary>
+        /// If you pass an item instance, it will remove it first, then start removing random items.
+        /// </summary>
+        public override void Remove(ItemSO item, long amount = 1)
         {
             if (amount < 0)
             {
-                AddAmount(item, -amount);
+                Add(item, -amount);
                 return;
             }
 
@@ -72,6 +76,12 @@ namespace InventorySystem
             {
                 if (_slotByID[item.StaticID].Count > 0)
                 {
+                    if (_slotByID[item.StaticID].ContainsKey(item.DynamicID))
+                    {
+                        _slotByID[item.StaticID].Remove(item.DynamicID);
+                        amount--;
+                    }
+                    
                     long i = 0;
 
                     while (i < amount)
@@ -104,7 +114,7 @@ namespace InventorySystem
         {
             if (!Contains(item, 0))
             {
-                AddAmount(item, amount);
+                Add(item, amount);
                 return;
             }
 
@@ -112,11 +122,11 @@ namespace InventorySystem
 
             if (amountOffset > 0)
             {
-                AddAmount(item, amountOffset);
+                Add(item, amountOffset);
             }
             else
             {
-                RemoveAmount(item, -amountOffset);
+                Remove(item, -amountOffset);
             }
         }
 

@@ -8,13 +8,12 @@ namespace Development.Scripts
         [SerializeField] private WeaponSO _weaponShop;
         [SerializeField] private WeaponSO _myWeapon;
         [SerializeField] private int _equippedID;
-        
         [SerializeField] private InventorySO _inventory;
 
         [ContextMenu(nameof(Buy))]
         private void Buy()
         {
-            _inventory.AddAmount(_weaponShop, 1);
+            _inventory.Add(_weaponShop);
         }
 
         [ContextMenu(nameof(Equip))]
@@ -32,6 +31,12 @@ namespace Development.Scripts
         private void Unequip()
         {
             _myWeapon = null;
+        }
+
+        [ContextMenu(nameof(Sell))]
+        private void Sell()
+        {
+            _inventory.Remove(_myWeapon);
         }
     }
 }

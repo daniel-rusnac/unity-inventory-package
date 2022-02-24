@@ -14,8 +14,8 @@ namespace InventorySystem
         public static void TransferTo(this InventorySO from, InventorySO to, ItemSO item, long amount)
         {
             long itemsRemoved = from.GetAmount(item);
-            from.RemoveAmount(item, amount);
-            to.AddAmount(item, itemsRemoved);
+            from.Remove(item, amount);
+            to.Add(item, itemsRemoved);
         }
 
         /// <summary>

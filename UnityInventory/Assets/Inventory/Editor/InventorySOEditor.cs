@@ -175,7 +175,7 @@ namespace InventorySystem
                     }
                     else
                     {
-                        _inventory.AddAmount(_item, _amount);
+                        _inventory.Add(_item, _amount);
                     }
                 }
 
@@ -187,7 +187,7 @@ namespace InventorySystem
                     }
                     else
                     {
-                        _inventory.RemoveAmount(_item, _amount);
+                        _inventory.Remove(_item, _amount);
                     }
                 }
 

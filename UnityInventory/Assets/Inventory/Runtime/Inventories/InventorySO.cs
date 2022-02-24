@@ -9,8 +9,8 @@ namespace InventorySystem
         private HashSet<Action> _onChangedActions = new HashSet<Action>();
         private HashSet<Action<ItemSO, long>> _onChangedDeltaActions = new HashSet<Action<ItemSO, long>>();
 
-        public abstract void AddAmount(ItemSO item, long amount);
-        public abstract void RemoveAmount(ItemSO item, long amount);
+        public abstract void Add(ItemSO item, long amount = 1);
+        public abstract void Remove(ItemSO item, long amount = 1);
         public abstract void SetAmount(ItemSO item, long amount);
         public abstract long GetAmount(ItemSO item);
         public abstract bool Contains(ItemSO item, long amount = 1);
