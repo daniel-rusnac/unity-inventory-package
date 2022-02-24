@@ -1,30 +1,29 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace InventorySystem.Slots
 {
-    public class DynamicSlot : Slot
+    public class StaticSlot : Slot
     {
         private int _staticID;
         private int _dynamicID;
         private long _amount;
         private long _limit;
-        private Dictionary<int, Slot> _slotByDynamicID = new Dictionary<int, Slot>();
 
         public override int StaticID => _staticID;
         public override int DynamicID => _dynamicID;
         public override long Amount => _amount;
         public override long Limit => _limit;
+
         private bool IsDynamicItem => _staticID != _dynamicID;
-        
-        public DynamicSlot(int staticID, int dynamicID)
+
+        public StaticSlot(int staticID, int dynamicID)
         {
             _staticID = staticID;
             _dynamicID = dynamicID;
 
             _limit = IsDynamicItem ? 1 : -1;
         }
-        
+
         public override void Add(long amount)
         {
             if (amount == 0)
