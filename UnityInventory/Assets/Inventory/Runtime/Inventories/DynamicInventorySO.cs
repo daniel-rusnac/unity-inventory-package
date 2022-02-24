@@ -12,48 +12,41 @@ namespace InventorySystem
 
         public override void AddAmount(ItemSO item, long amount)
         {
-            long iteration = item.IsDynamic ? amount : 1;
-            amount = item.IsDynamic ? 1 : amount;
-            ItemSO originalItem = item;
-
-            for (long i = 0; i < iteration; i++)
+            if (!item.IsInstance)
             {
-                if (!originalItem.IsInstance)
-                {
-                    item = item.GetInstance();
-                }
-            
-                if (amount < 0)
-                {
-                    RemoveAmount(item, -amount);
-                    return;
-                }
-
-                if (!_slotByID.ContainsKey(item.StaticID))
-                {
-                    _slotByID.Add(item.StaticID, new Dictionary<int, Slot>());
-                }
-
-                if (!_slotByID[item.StaticID].ContainsKey(item.DynamicID))
-                {
-                    CreateSlot(item);
-                }
-            
-                long oldAmount = GetAmount(item);
-            
-                if (long.MaxValue - amount < _slotByID[item.StaticID][item.DynamicID].Amount)
-                {
-                    _slotByID[item.StaticID][item.DynamicID].Amount = long.MaxValue;
-                }
-                else
-                {
-                    _slotByID[item.StaticID][item.DynamicID].Amount += amount;
-                }
-           
-                ClampAmount(item);
-                long delta = GetAmount(item) - oldAmount;
-                OnChanged(item, delta);
+                item = item.GetInstance();
             }
+            
+            if (amount < 0)
+            {
+                RemoveAmount(item, -amount);
+                return;
+            }
+
+            if (!_slotByID.ContainsKey(item.StaticID))
+            {
+                _slotByID.Add(item.StaticID, new Dictionary<int, Slot>());
+            }
+
+            if (!_slotByID[item.StaticID].ContainsKey(item.DynamicID))
+            {
+                CreateSlot(item);
+            }
+            
+            long oldAmount = GetAmount(item);
+            
+            if (long.MaxValue - amount < _slotByID[item.StaticID][item.DynamicID].Amount)
+            {
+                _slotByID[item.StaticID][item.DynamicID].Amount = long.MaxValue;
+            }
+            else
+            {
+                _slotByID[item.StaticID][item.DynamicID].Amount += amount;
+            }
+           
+            ClampAmount(item);
+            long delta = GetAmount(item) - oldAmount;
+            OnChanged(item, delta);
         }
 
         public override void RemoveAmount(ItemSO item, long amount)
