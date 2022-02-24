@@ -17,8 +17,8 @@ namespace InventorySystem
         
         public abstract void SetLimit(ItemSO item, long limit);
         public abstract long GetLimit(ItemSO item);
-        public abstract string Serialize();
-        public abstract void Deserialize(string data);
+        public abstract InventoryData Serialize();
+        public abstract void Deserialize(InventoryData data);
         public abstract ItemSO[] GetInstances();
         public abstract T[] GetInstances<T>() where T : ItemSO;
         public abstract T GetInstance<T>(T item, int dynamicID) where T : ItemSO;

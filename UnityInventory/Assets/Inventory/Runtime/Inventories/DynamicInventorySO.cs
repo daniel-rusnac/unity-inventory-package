@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 namespace InventorySystem
@@ -186,13 +188,24 @@ namespace InventorySystem
             return -1;
         }
 
-        public override string Serialize()
+        public override InventoryData Serialize()
         {
-            return "";
+            var data = new InventoryData();
+            
+            data.StaticIDs = _slotByID.Keys.Select(i => i).ToArray();
+            data.DynamicIDs = _slotByID.Values.SelectMany(slots => slots.Keys.Select(i => i)).ToArray();
+            data.Limits = data.StaticIDs.Select(staticID => GetLimit(InventoryUtility.GetItem(staticID))).ToArray();
+            data.Amounts = (from dynamicID in data.DynamicIDs let item = InventoryUtility.GetItem(dynamicID) select _slotByID[item.StaticID][dynamicID].Amount).ToArray();
+
+            return data;
         }
 
-        public override void Deserialize(string data)
+        public override void Deserialize(InventoryData data)
         {
+            foreach (long amount in data.Amounts)
+            {
+                Debug.Log(amount);
+            }
         }
 
         public override ItemSO[] GetInstances()

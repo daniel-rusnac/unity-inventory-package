@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine;
 
 namespace InventorySystem
 {
@@ -7,32 +9,29 @@ namespace InventorySystem
         /// <summary>
         /// Removed the items from an inventory and ads them to another.
         /// </summary>
-        /// <param name="from">Inventory to remove items from.</param>
-        /// <param name="to">Inventory to add items to.</param>
-        /// <param name="item">The item to transfer.</param>
-        /// <param name="amount">The amount to transfer. Will not add more items than removed.</param>
-        public static void TransferTo(this InventorySO from, InventorySO to, ItemSO item, long amount)
+        public static void TransferTo(this InventorySO from, InventorySO to, ItemSO item, long amount = 1)
         {
-            long itemsRemoved = from.GetAmount(item);
+            long oldAmount = from.GetAmount(item);
             from.Remove(item, amount);
-            to.Add(item, itemsRemoved);
+            to.Add(item, oldAmount - from.GetAmount(item));
         }
 
-        /// <summary>
-        /// Save the inventory using PlayerPrefs
-        /// </summary>
         public static void Save(this InventorySO inventory, string saveKey)
         {
-            PlayerPrefs.SetString(saveKey, inventory.Serialize());
-            PlayerPrefs.Save();
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Create(Application.persistentDataPath + $"/{saveKey}.inv");
+            bf.Serialize(file, inventory.Serialize());
+            file.Close();
         }
 
-        /// <summary>
-        /// Load the inventory using PlayerPrefs
-        /// </summary>
         public static void Load(this InventorySO inventory, string saveKey)
         {
-            inventory.Deserialize(PlayerPrefs.GetString(saveKey));
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + $"/{saveKey}.inv", FileMode.Open);
+            InventoryData data = (InventoryData)bf.Deserialize(file);
+            file.Close();
+            
+            inventory.Deserialize(data);
         }
     }
 }
