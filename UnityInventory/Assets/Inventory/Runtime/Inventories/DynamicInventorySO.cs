@@ -236,6 +236,26 @@ namespace InventorySystem
             return instances.ToArray();
         }
 
+        public override T GetInstance<T>(T item, int dynamicID)
+        {
+            if (_slotByID.ContainsKey(item.StaticID) && _slotByID[item.StaticID].ContainsKey(item.DynamicID) && _slotByID[item.StaticID][item.DynamicID].Amount > 0)
+            {
+                return (T) InventoryUtility.GetItem(dynamicID);
+            }
+
+            return GetAnyInstance(item);
+        }
+
+        public override T GetAnyInstance<T>(T item)
+        {
+            if (Contains(item))
+            {
+                return (T) InventoryUtility.GetItem(_slotByID[item.StaticID].First().Value.DynamicID);
+            }
+
+            return default;
+        }
+
         private void CreateSlot(ItemSO item)
         {
             _slotByID[item.StaticID].Add(item.DynamicID,  new Slot(item.StaticID, item.DynamicID));

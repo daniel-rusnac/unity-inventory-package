@@ -21,6 +21,8 @@ namespace InventorySystem
         public abstract void Deserialize(string data);
         public abstract ItemSO[] GetInstances();
         public abstract T[] GetInstances<T>() where T : ItemSO;
+        public abstract T GetInstance<T>(T item, int dynamicID) where T : ItemSO;
+        public abstract T GetAnyInstance<T>(T item) where T : ItemSO;
         
         public void Register(Action action)
         {

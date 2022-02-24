@@ -245,6 +245,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b649a840ec6c4d978b60dfc581420aaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _weaponShop: {fileID: 11400000, guid: 58cac777dbc1ed749ac256fd00e992af, type: 2}
+  _myWeapon: {fileID: 0}
+  _equippedID: 0
+  _inventory: {fileID: 11400000, guid: 771c13667b79bcd40a49619fba69aee0, type: 2}
 --- !u!4 &729201630
 Transform:
   m_ObjectHideFlags: 0
