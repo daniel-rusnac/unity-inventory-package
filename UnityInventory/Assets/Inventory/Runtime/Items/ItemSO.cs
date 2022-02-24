@@ -4,7 +4,7 @@ namespace InventorySystem
 {
     public abstract class ItemSO : ScriptableObject
     {
-        private bool _isInstance = false;
+        private bool _isInstance;
         
         public bool IsInstance => _isInstance;
         public bool IsDynamic => StaticID != DynamicID;
@@ -17,7 +17,12 @@ namespace InventorySystem
         {
             ItemSO item = OnGetInstance();
             item._isInstance = true;
-            InventoryUtility.AddItemToDatabase(item);
+
+            if (item.IsDynamic)
+            {
+                InventoryUtility.AddItemToDatabase(item);
+            }
+            
             return item;
         }
 

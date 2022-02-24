@@ -26,9 +26,9 @@ namespace InventorySystem
         private const string DRAW_EDITOR_KEY = "ie_draw_editor";
         private const string AMOUNT_KEY = "ie_amount";
         private const string ITEM_ID_KEY = "ie_item_id";
-        private const string SAVE_KEY = "debug_inventory";
         private const float SLOT_WIDTH = 100;
 
+        private string _saveKey;
         private bool _drawContent;
         private bool _drawEditor;
         private long _amount = 1;
@@ -39,6 +39,7 @@ namespace InventorySystem
         private void OnEnable()
         {
             _inventory = (InventorySO) target;
+            _saveKey = AssetDatabase.GUIDFromAssetPath(AssetDatabase.GetAssetPath(target)).ToString() + "_inventory";
             _inventory.Register(RefreshContent);
             Load();
 
@@ -69,7 +70,6 @@ namespace InventorySystem
             if (_drawEditor)
             {
                 DrawInventoryEditor();
-                EditorGUILayout.HelpBox($"Default save key is '{SAVE_KEY}'.", MessageType.Info);
             }
 
             EditorGUILayout.EndFoldoutHeaderGroup();
@@ -242,12 +242,12 @@ namespace InventorySystem
             {
                 if (GUILayout.Button("Save"))
                 {
-                    _inventory.Save(SAVE_KEY);
+                    _inventory.Save(_saveKey);
                 }
 
                 if (GUILayout.Button("Load"))
                 {
-                    _inventory.Load(SAVE_KEY);
+                    _inventory.Load(_saveKey);
                 }
             }
             EditorGUILayout.EndHorizontal();
