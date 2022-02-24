@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace InventorySystem.InventoryDatabase
+namespace InventorySystem.Database
 {
     [CreateAssetMenu(fileName = "Manual Collection", menuName = InventoryConstants.CREATE_DATABASE_SUB_MENU + "Manual Collection")]
     public class ReferenceDatabaseCollectionSO : ScriptableObject

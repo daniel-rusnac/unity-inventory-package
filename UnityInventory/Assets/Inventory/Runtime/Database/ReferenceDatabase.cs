@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace InventorySystem.InventoryDatabase
+namespace InventorySystem.Database
 {
     public class ReferenceDatabase : SceneDatabase
     {

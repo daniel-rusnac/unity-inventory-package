@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace InventorySystem.InventoryDatabase
+namespace InventorySystem.Database
 {
     [DefaultExecutionOrder(-10)]
     public abstract class SceneDatabase : MonoBehaviour, IInventoryDatabase

@@ -1,5 +1,5 @@
 ﻿using System;
-using InventorySystem.InventoryDatabase;
+using InventorySystem.Database;
 using UnityEditor;
 
 namespace InventorySystem

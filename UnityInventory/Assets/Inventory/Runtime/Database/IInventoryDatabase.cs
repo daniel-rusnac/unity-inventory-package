@@ -1,4 +1,4 @@
-﻿namespace InventorySystem.InventoryDatabase
+﻿namespace InventorySystem.Database
 {
     public interface IInventoryDatabase
     {
