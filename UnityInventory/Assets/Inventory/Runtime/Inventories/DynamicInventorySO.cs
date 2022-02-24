@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 
 namespace InventorySystem
 {
-    [CreateAssetMenu(fileName = "Dynamic Inventory", menuName = InventoryConstants.CREATE_INVENTORY_SUB_MENU + "Dynamic Inventory")]
+    [CreateAssetMenu(fileName = "Dynamic Inventory",
+        menuName = InventoryConstants.CREATE_INVENTORY_SUB_MENU + "Dynamic Inventory")]
     public class DynamicInventorySO : InventorySO
     {
-        private readonly Dictionary<int, Dictionary<int, Slot>> _slotByID = new Dictionary<int, Dictionary<int, Slot>>();
+        private readonly Dictionary<int, Dictionary<int, Slot>>
+            _slotByID = new Dictionary<int, Dictionary<int, Slot>>();
+
         private readonly Dictionary<int, long> _limitByID = new Dictionary<int, long>();
-       
+
         /// <summary>
         /// If you pass an item instance, it will add it first, then start creating new instances random items.
         /// </summary>
@@ -28,7 +29,7 @@ namespace InventorySystem
                 {
                     item = originalItem.GetInstance();
                 }
-            
+
                 if (amount < 0)
                 {
                     Remove(item, -amount);
@@ -51,10 +52,11 @@ namespace InventorySystem
                 }
                 else
                 {
-                    _slotByID[item.StaticID][item.DynamicID].Amount = ClampAmount(oldAmount + amount, item.IsDynamic ? 1 : GetLimit(item));
+                    _slotByID[item.StaticID][item.DynamicID].Amount =
+                        ClampAmount(oldAmount + amount, item.IsDynamic ? 1 : GetLimit(item));
                 }
             }
-            
+
             long delta = GetAmount(item) - oldAmount;
             OnChanged(item, delta);
         }
@@ -70,7 +72,8 @@ namespace InventorySystem
                 return;
             }
 
-            if (!_slotByID.ContainsKey(item.StaticID) || !item.IsDynamic && !_slotByID[item.StaticID].ContainsKey(item.DynamicID))
+            if (!_slotByID.ContainsKey(item.StaticID) ||
+                !item.IsDynamic && !_slotByID[item.StaticID].ContainsKey(item.DynamicID))
                 return;
 
             long oldAmount = GetAmount(item);
@@ -84,14 +87,14 @@ namespace InventorySystem
                         _slotByID[item.StaticID].Remove(item.DynamicID);
                         amount--;
                     }
-                    
+
                     long i = 0;
 
                     while (i < amount)
                     {
                         _slotByID[item.StaticID].Remove(_slotByID[item.StaticID].Keys.First());
                         i++;
-                        
+
                         if (_slotByID[item.StaticID].Count == 0)
                             break;
                     }
@@ -102,14 +105,14 @@ namespace InventorySystem
                 _slotByID[item.StaticID][item.DynamicID].Amount = ClampAmount(oldAmount - amount, GetLimit(item));
             }
 
-            long newAmount = GetAmount(item); 
-            long delta = newAmount- oldAmount;
+            long newAmount = GetAmount(item);
+            long delta = newAmount - oldAmount;
 
             if (newAmount == 0 && GetLimit(item) == -1)
             {
                 _slotByID[item.StaticID].Remove(item.DynamicID);
             }
-            
+
             OnChanged(item, delta);
         }
 
@@ -139,7 +142,7 @@ namespace InventorySystem
             {
                 limit = -1;
             }
-            
+
             if (!_limitByID.ContainsKey(item.StaticID))
             {
                 _limitByID.Add(item.StaticID, limit);
@@ -148,13 +151,13 @@ namespace InventorySystem
             {
                 _limitByID[item.StaticID] = limit;
             }
-            
+
             long oldAmount = GetAmount(item);
             long clampedAmount = ClampAmount(oldAmount, limit);
-            
+
             if (clampedAmount == oldAmount)
                 return;
-            
+
             SetAmount(item, clampedAmount);
         }
 
@@ -162,9 +165,9 @@ namespace InventorySystem
         {
             if (!_slotByID.ContainsKey(item.StaticID))
                 return 0;
-            
+
             long amount = 0;
-            
+
             foreach (Slot slot in _slotByID[item.StaticID].Values)
             {
                 amount += slot.Amount;
@@ -184,28 +187,28 @@ namespace InventorySystem
             {
                 return _limitByID[item.StaticID];
             }
-            
+
             return -1;
         }
 
         public override InventoryData Serialize()
         {
             var data = new InventoryData();
-            
+
             data.StaticIDs = _slotByID.Keys.Select(i => i).ToArray();
             data.DynamicIDs = _slotByID.Values.SelectMany(slots => slots.Keys.Select(i => i)).ToArray();
             data.Limits = data.StaticIDs.Select(staticID => GetLimit(InventoryUtility.GetItem(staticID))).ToArray();
-            data.Amounts = (from dynamicID in data.DynamicIDs let item = InventoryUtility.GetItem(dynamicID) select _slotByID[item.StaticID][dynamicID].Amount).ToArray();
+            data.Amounts = (from dynamicID in data.DynamicIDs
+                let item = InventoryUtility.GetItem(dynamicID)
+                select _slotByID[item.StaticID][dynamicID].Amount).ToArray();
 
             return data;
         }
 
         public override void Deserialize(InventoryData data)
         {
-            foreach (long amount in data.Amounts)
-            {
-                Debug.Log(amount);
-            }
+            _slotByID.Clear();
+            _limitByID.Clear();
         }
 
         public override ItemSO[] GetInstances()
@@ -262,7 +265,8 @@ namespace InventorySystem
 
         public override T GetInstance<T>(T item, int dynamicID)
         {
-            if (_slotByID.ContainsKey(item.StaticID) && _slotByID[item.StaticID].ContainsKey(item.DynamicID) && _slotByID[item.StaticID][item.DynamicID].Amount > 0)
+            if (_slotByID.ContainsKey(item.StaticID) && _slotByID[item.StaticID].ContainsKey(item.DynamicID) &&
+                _slotByID[item.StaticID][item.DynamicID].Amount > 0)
             {
                 return (T) InventoryUtility.GetItem(dynamicID);
             }
@@ -282,7 +286,7 @@ namespace InventorySystem
 
         private void CreateSlot(ItemSO item)
         {
-            _slotByID[item.StaticID].Add(item.DynamicID,  new Slot(item.StaticID, item.DynamicID));
+            _slotByID[item.StaticID].Add(item.DynamicID, new Slot(item.StaticID, item.DynamicID));
         }
 
         private long ClampAmount(long unclampedAmount, long limit)

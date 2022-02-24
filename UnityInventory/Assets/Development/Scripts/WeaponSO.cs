@@ -14,5 +14,14 @@ namespace Development.Scripts
             WeaponSO weapon = (WeaponSO)instance;
             weapon._level = Random.Range(_levelRange.x, _levelRange.y);
         }
+
+        protected override ItemData OnSerialize()
+        {
+            return new ItemData();
+        }
+
+        protected override void OnDeserialize(ItemData data)
+        {
+        }
     }
 }

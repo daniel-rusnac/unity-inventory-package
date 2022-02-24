@@ -4,9 +4,7 @@ namespace InventorySystem
 {
     public abstract class ItemSO : ScriptableObject
     {
-        private bool _isInstance;
-        
-        public bool IsInstance => _isInstance;
+        public bool IsInstance { get; protected set; }
         public bool IsDynamic => StaticID != DynamicID;
         
         public abstract int StaticID { get; }
@@ -16,7 +14,7 @@ namespace InventorySystem
         public ItemSO GetInstance()
         {
             ItemSO item = OnGetInstance();
-            item._isInstance = true;
+            item.IsInstance = true;
 
             if (item.IsDynamic)
             {
@@ -26,19 +24,14 @@ namespace InventorySystem
             return item;
         }
 
-        public string Serialize()
+        public virtual ItemData Serialize()
         {
-            return OnSerialize();
+            return new ItemData();
         }
 
-        public virtual ItemSO Deserialize(string data)
+        public virtual ItemSO Deserialize(ItemData data)
         {
             return GetInstance();
-        }
-
-        protected virtual string OnSerialize()
-        {
-            return "";
         }
 
         protected abstract ItemSO OnGetInstance();
