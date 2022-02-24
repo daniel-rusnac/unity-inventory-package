@@ -9,6 +9,7 @@ namespace InventorySystem
     public class DynamicInventorySO : InventorySO
     {
         private Dictionary<int, Dictionary<int, Slot>> _slotByID = new Dictionary<int, Dictionary<int, Slot>>();
+        private Dictionary<int, Dictionary<int, long>> _limitByID = new Dictionary<int, Dictionary<int, long>>();
 
         public override void AddAmount(ItemSO item, long amount)
         {
@@ -20,6 +21,7 @@ namespace InventorySystem
             if (amount < 0)
             {
                 RemoveAmount(item, -amount);
+                return;
             }
 
             if (!_slotByID.ContainsKey(item.StaticID))
@@ -29,11 +31,21 @@ namespace InventorySystem
 
             if (!_slotByID[item.StaticID].ContainsKey(item.DynamicID))
             {
-                _slotByID[item.StaticID].Add(item.DynamicID, InventoryUtility.CreateSlot(item));
+                CreateSlot(item);
             }
-
+            
             long oldAmount = GetAmount(item);
-            _slotByID[item.StaticID][item.DynamicID].Add(amount);
+            
+            if (long.MaxValue - amount < _slotByID[item.StaticID][item.DynamicID].Amount)
+            {
+                _slotByID[item.StaticID][item.DynamicID].Amount = long.MaxValue;
+            }
+            else
+            {
+                _slotByID[item.StaticID][item.DynamicID].Amount += amount;
+            }
+           
+            ClampAmount(item);
             long delta = GetAmount(item) - oldAmount;
             OnChanged(item, delta);
         }
@@ -43,13 +55,15 @@ namespace InventorySystem
             if (amount < 0)
             {
                 AddAmount(item, -amount);
+                return;
             }
 
             if (!Contains(item, 0))
                 return;
 
             long oldAmount = GetAmount(item);
-            _slotByID[item.StaticID][item.DynamicID].Remove(amount);
+            _slotByID[item.StaticID][item.DynamicID].Amount -= amount;
+            ClampAmount(item);
             long delta = GetAmount(item) - oldAmount;
             OnChanged(item, delta);
 
@@ -79,15 +93,26 @@ namespace InventorySystem
             }
         }
 
-        public override void SetLimit(ItemSO item, long amount)
+        public override void SetLimit(ItemSO item, long limit)
         {
-            if (!Contains(item, 0))
+            if (limit < -1)
             {
-                AddAmount(item, 0);
+                limit = -1;
+            }
+            
+            if (!_limitByID.ContainsKey(item.StaticID))
+            {
+                _limitByID.Add(item.StaticID, new Dictionary<int, long>());
+            }
+
+            if (!_limitByID.ContainsKey(item.StaticID))
+            {
+                _limitByID[item.StaticID].Add(item.DynamicID, item.IsDynamic ? 1 : limit);
             }
 
             long oldAmount = GetAmount(item);
-            _slotByID[item.StaticID][item.DynamicID].SetLimit(amount);
+            _limitByID[item.StaticID][item.DynamicID] = item.IsDynamic ? 1 : limit;
+            ClampAmount(item);
             long delta = GetAmount(item) - oldAmount;
             OnChanged(item, delta);
         }
@@ -111,7 +136,7 @@ namespace InventorySystem
         {
             if (Contains(item, 0))
             {
-                return _slotByID[item.StaticID][item.DynamicID].Limit;
+                return _limitByID[item.StaticID][item.DynamicID];
             }
             
             return -1;
@@ -176,6 +201,33 @@ namespace InventorySystem
             }
 
             return instances.ToArray();
+        }
+
+        private void CreateSlot(ItemSO item)
+        {
+            _slotByID[item.StaticID].Add(item.DynamicID, InventoryUtility.CreateSlot(item));
+            SetLimit(item, -1);
+        }
+
+        private void ClampAmount(ItemSO item)
+        {
+            if (!Contains(item, 0))
+                return;
+            
+            long amount = _slotByID[item.StaticID][item.DynamicID].Amount;
+            long limit = GetLimit(item);
+
+            if (amount < 0)
+            {
+                amount = 0;
+            }
+
+            if (limit != -1 && amount > limit)
+            {
+                amount = limit;
+            }
+
+            _slotByID[item.StaticID][item.DynamicID].Amount = amount;
         }
     }
 }
