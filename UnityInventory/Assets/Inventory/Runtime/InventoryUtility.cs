@@ -94,10 +94,5 @@ namespace InventorySystem
         {
             return Guid.NewGuid().GetHashCode();
         }
-
-        internal static Slot CreateSlot(ItemSO item)
-        {
-            return new Slot(item.StaticID, item.DynamicID);
-        }
     }
 }

@@ -2,7 +2,6 @@
 {
     public class Slot
     {
-        public bool ShouldBeRemoved => Amount <= 0;
         private int _staticID;
         private int _dynamicID;
 
