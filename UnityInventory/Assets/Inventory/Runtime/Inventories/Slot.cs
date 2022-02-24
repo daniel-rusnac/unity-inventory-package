@@ -1,4 +1,4 @@
-﻿namespace InventorySystem.Slots
+﻿namespace InventorySystem
 {
     public class Slot
     {
