@@ -4,14 +4,15 @@ using UnityEngine;
 
 namespace InventorySystem
 {
-    [CreateAssetMenu(fileName = "Dynamic Inventory",
-        menuName = InventoryConstants.CREATE_SO_MENU + "Dynamic Inventory")]
+    [CreateAssetMenu(fileName = "Dynamic Inventory", menuName = InventoryConstants.CREATE_INVENTORY_SUB_MENU + "Dynamic Inventory")]
     public class DynamicInventorySO : InventorySO
     {
         private readonly Dictionary<int, Dictionary<int, Slot>> _slotByID = new Dictionary<int, Dictionary<int, Slot>>();
         private readonly Dictionary<int, long> _limitByID = new Dictionary<int, long>();
-
-        
+       
+        /// <summary>
+        /// If you pass an item instance, it will add it first, then start creating new instances random items.
+        /// </summary>
         public override void Add(ItemSO item, long amount = 1)
         {
             ItemSO originalItem = InventoryUtility.GetItem(item.StaticID);
