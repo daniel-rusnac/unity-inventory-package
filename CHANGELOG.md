@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved inventory serialization
 - The inventory is now saved as a binary file.
 
+### Removed
+- Old inventory
+- Old item
+
 ## [1.5.1] - 2022-02-23
 
 ### Fixed
