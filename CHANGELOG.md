@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A better content view for inventory inspector
 
 ### Changed
-- Reworked the while inventory system.
+- Reworked the whole inventory system.
 - Improved inventory serialization
 - The inventory is now saved as a binary file.
 
