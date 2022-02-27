@@ -57,7 +57,7 @@ namespace InventorySystem
             OnChanged();
         }
         
-        private void OnChanged()
+        protected void OnChanged()
         {
             foreach (Action action in _onChangedActions)
             {

@@ -195,12 +195,27 @@ namespace InventorySystem
         {
             var data = new InventoryData();
 
-            data.StaticIDs = _slotByID.Keys.Select(i => i).ToArray();
-            data.DynamicIDs = _slotByID.Values.SelectMany(slots => slots.Keys.Select(i => i)).ToArray();
-            data.Limits = data.StaticIDs.Select(staticID => GetLimit(InventoryUtility.GetItem(staticID))).ToArray();
-            data.Amounts = (from dynamicID in data.DynamicIDs
-                let item = InventoryUtility.GetItem(dynamicID)
-                select _slotByID[item.StaticID][dynamicID].Amount).ToArray();
+            int staticIDCount = _slotByID.Keys.Count;
+
+            data.StaticIDs = _slotByID.Keys.ToArray();
+            data.DynamicIDs = new int[staticIDCount][];
+            data.Limits = new long[staticIDCount];
+            List<long> amounts = new List<long>();
+
+            for (var i = 0; i < data.StaticIDs.Length; i++)
+            {
+                int staticID = data.StaticIDs[i];
+                
+                data.DynamicIDs[i] = _slotByID[staticID].Keys.ToArray();
+                data.Limits[i] = _limitByID.ContainsKey(staticID) ? _limitByID[staticID] : -1;
+                
+                for (var j = 0; j < data.DynamicIDs[i].Length; j++)
+                {
+                    amounts.Add(_slotByID[staticID][data.DynamicIDs[i][j]].Amount);
+                }
+            }
+
+            data.Amounts = amounts.ToArray();
 
             return data;
         }
@@ -209,6 +224,22 @@ namespace InventorySystem
         {
             _slotByID.Clear();
             _limitByID.Clear();
+            
+            int dynamicIdCount = 0;
+            for (int i = 0; i < data.StaticIDs.Length; i++)
+            {
+                _slotByID.Add(data.StaticIDs[i], new Dictionary<int, Slot>());
+                _limitByID.Add(data.StaticIDs[i], data.Limits[i]);
+
+                for (var j = 0; j < data.DynamicIDs[i].Length; j++)
+                {
+                    _slotByID[data.StaticIDs[i]].Add(data.DynamicIDs[i][j], new Slot(data.StaticIDs[i], data.DynamicIDs[i][j]));
+                    _slotByID[data.StaticIDs[i]][data.DynamicIDs[i][j]].Amount = data.Amounts[dynamicIdCount];
+                    dynamicIdCount++;
+                }
+            }
+            
+            OnChanged();
         }
 
         public override ItemSO[] GetInstances()
