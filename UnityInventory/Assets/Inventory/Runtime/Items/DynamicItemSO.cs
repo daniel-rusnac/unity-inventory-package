@@ -8,8 +8,8 @@
 
         protected abstract void OnInstanceCreated(DynamicItemSO instance);
 
-        protected abstract ItemData OnSerialize();
-        protected abstract void OnDeserialize(ItemData data);
+        protected abstract object OnSerialize();
+        protected abstract void OnDeserialize(object data);
 
         protected override ItemSO OnGetInstance()
         {
@@ -19,20 +19,28 @@
             return item;
         }
 
-        public override ItemData Serialize()
+        public override object Serialize()
         {
-            ItemData data = OnSerialize();
-            data.DynamicID = DynamicID;
-
-            return data;
+            return OnSerialize();
         }
 
-        public override ItemSO Deserialize(ItemData data)
+        public override ItemSO Deserialize(int dynamicID, object data)
         {
+            if (InventoryUtility.TryGetItem(dynamicID, out ItemSO existingItem))
+            {
+                if (existingItem.IsDynamic)
+                {
+                    ((DynamicItemSO)existingItem).OnDeserialize(data);
+                }
+                
+                return existingItem;
+            }
+
             DynamicItemSO item = Instantiate(this);
             item.IsInstance = true;
-            item._dynamicID = InventoryUtility.GetID();
+            item._dynamicID = dynamicID;
             item.OnDeserialize(data);
+            InventoryUtility.AddItemToDatabase(item);
 
             return item;
         }

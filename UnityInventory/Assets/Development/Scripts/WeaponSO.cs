@@ -15,13 +15,14 @@ namespace Development.Scripts
             weapon._level = Random.Range(_levelRange.x, _levelRange.y);
         }
 
-        protected override ItemData OnSerialize()
+        protected override object OnSerialize()
         {
-            return new ItemData();
+            return _level;
         }
 
-        protected override void OnDeserialize(ItemData data)
+        protected override void OnDeserialize(object data)
         {
+            _level = (int) data;
         }
     }
 }

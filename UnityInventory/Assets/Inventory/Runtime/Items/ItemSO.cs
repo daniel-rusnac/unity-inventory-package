@@ -24,12 +24,12 @@ namespace InventorySystem
             return item;
         }
 
-        public virtual ItemData Serialize()
+        public virtual object Serialize()
         {
-            return new ItemData();
+            return default;
         }
 
-        public virtual ItemSO Deserialize(ItemData data)
+        public virtual ItemSO Deserialize(int dynamicId, object data)
         {
             return GetInstance();
         }
