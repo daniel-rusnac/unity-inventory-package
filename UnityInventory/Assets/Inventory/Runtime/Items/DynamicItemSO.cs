@@ -6,9 +6,14 @@
 
         public override int DynamicID => _dynamicID;
 
+        /// <summary>
+        /// Called when a new instance of this item was created. Use it to setup custom data.
+        /// </summary>
+        /// <param name="instance">The new item instance.</param>
         protected abstract void OnInstanceCreated(DynamicItemSO instance);
 
         protected abstract object OnSerialize();
+        
         protected abstract void OnDeserialize(object data);
 
         protected override ItemSO OnGetInstance()
