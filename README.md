@@ -11,6 +11,8 @@ To get a specific version of the package, go to releases and copy the "Package L
 
 ## Usage
 
+!!! The usage of the of the version 2.0.0 and up is different, I will update the readme as soon as possible.
+
 ### Item
 
 All items **MUST** be in the *Resources* folder, so they can be loaded by the Inventory System.
