@@ -77,7 +77,7 @@ namespace InventorySystem
             _drawContent = EditorGUILayout.BeginFoldoutHeaderGroup(_drawContent, "Content");
             if (_drawContent)
             {
-                EditorGUILayout.HelpBox("Click on items to show them in the inspector.", MessageType.Info);
+                EditorGUILayout.HelpBox("Click an item to display it in the inspector.", MessageType.Info);
                 DrawContent();
             }
 
