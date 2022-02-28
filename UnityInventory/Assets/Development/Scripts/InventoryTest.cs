@@ -5,6 +5,7 @@ namespace Development.Scripts
 {
     public class InventoryTest : MonoBehaviour
     {
+        [SerializeField] private string _saveKey = "sk";
         [SerializeField] private WeaponSO _weaponShop;
         [SerializeField] private WeaponSO _myWeapon;
         [SerializeField] private int _equippedID;
@@ -37,6 +38,18 @@ namespace Development.Scripts
         private void Sell()
         {
             _inventory.Remove(_myWeapon);
+        }
+
+        [ContextMenu(nameof(Save))]
+        private void Save()
+        {
+            ES3.Save(_saveKey, _inventory.Serialize());
+        }
+
+        [ContextMenu(nameof(Load))]
+        private void Load()
+        {
+            _inventory.Deserialize(ES3.Load(_saveKey, _inventory.Serialize()));
         }
     }
 }
