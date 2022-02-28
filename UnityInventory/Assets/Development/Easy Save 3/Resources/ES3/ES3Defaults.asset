@@ -29,41 +29,9 @@ MonoBehaviour:
     referenceMode: 2
     serializationDepthLimit: 64
     assemblyNames:
-    - NaughtyAttributes.Test
-    - Assembly-CSharp
-    - DOTweenPro.Scripts
-    - Assembly-CSharp-firstpass
-    - Dreamteck.Utilities
-    - LunarConsole
-    - MoreMountains.NiceVibrations.Haptics
-    - com.danielrusnac.viewmanagement
-    - Dreamteck.Splines
-    - NaughtyAttributes.Core
-    - Cinemachine
     - com.danielrusnac.inventorysystem
-    - VehicleBehaviour
-    - SoftMask
-    - ToonyColorsPro.Runtime
-    - CodeStage.AFPSCounter.Runtime
-    - com.danielrusnac.soarchitecture
-    - MoreMountains.NiceVibrations
-    - DOTween.Modules
-    - NavMeshComponents
-    - MoreMountains.NiceVibrations.Rumble.Editor
-    - MoreMountains.NiceVibrations.Rumble
-    - CodeStage.Maintainer.Editor
-    - Dreamteck.Splines.Editor
-    - NaughtyAttributes.Editor
-    - LunarConsoleEditor
-    - ToonyColorsPro.Editor
-    - Dreamteck.Utilities.Editor
-    - CodeStage.AFPSCounter.Editor
-    - MoreMountains.NiceVibrations.Editor
-    - com.danielrusnac.soarchitecture.editor
-    - DOTweenPro.EditorScripts
-    - com.danielrusnac.viewmanagement.editor
+    - Assembly-CSharp
     - com.danielrusnac.inventorysystem.editor
-    - NavMeshComponentsEditor
     showAdvancedSettings: 1
   addMgrToSceneAutomatically: 0
   autoUpdateReferences: 1
