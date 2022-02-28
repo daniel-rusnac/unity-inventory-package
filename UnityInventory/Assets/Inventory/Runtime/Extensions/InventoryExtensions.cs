@@ -26,12 +26,22 @@ namespace InventorySystem
 
         public static void Load(this InventorySO inventory, string saveKey)
         {
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + $"/{saveKey}.inv", FileMode.Open);
-            InventoryData data = (InventoryData)bf.Deserialize(file);
-            file.Close();
-            
+            InventoryData data = new InventoryData();
+
+            if (File.Exists(GetInventorySavePath(saveKey)))
+            {
+                FileStream file = File.Open(GetInventorySavePath(saveKey), FileMode.Open);
+                BinaryFormatter bf = new BinaryFormatter();
+                data = (InventoryData)bf.Deserialize(file);
+                file.Close();
+            }
+
             inventory.Deserialize(data);
+        }
+
+        private static string GetInventorySavePath(string saveKey)
+        {
+            return Application.persistentDataPath + $"/{saveKey}.inv";
         }
     }
 }

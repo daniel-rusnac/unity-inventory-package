@@ -11,5 +11,7 @@ namespace InventorySystem
         public int[][] DynamicIDs;
         public long[] Amounts;
         public object[] DynamicItemsData;
+
+        public bool IsEmpty => StaticIDs == null || StaticIDs.Length == 0;
     }
 }

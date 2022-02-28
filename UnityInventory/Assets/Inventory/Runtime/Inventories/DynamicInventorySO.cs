@@ -228,21 +228,38 @@ namespace InventorySystem
         {
             _slotByID.Clear();
             _limitByID.Clear();
-            
+
+            if (data.IsEmpty)
+            {
+                OnChanged();
+                return;
+            }
+
             int dynamicIdCount = 0;
             for (int i = 0; i < data.StaticIDs.Length; i++)
             {
                 _slotByID.Add(data.StaticIDs[i], new Dictionary<int, Slot>());
                 _limitByID.Add(data.StaticIDs[i], data.Limits[i]);
-
-                ItemSO staticItem = InventoryUtility.GetItem(data.StaticIDs[i]);
                 
-                for (var j = 0; j < data.DynamicIDs[i].Length; j++)
+                if (data.DynamicIDs[i].Length == 0)
+                    continue;
+                
+                ItemSO staticItem = InventoryUtility.GetItem(data.StaticIDs[i]);
+
+                if (staticItem == null)
                 {
-                    ItemSO dynamicItem = staticItem.Deserialize(data.DynamicIDs[i][j], data.DynamicItemsData[dynamicIdCount]);
+                    Debug.LogWarning($"Trying to deserialize an item with id {data.StaticIDs[i]} but is doesn't exist in the database! " +
+                                     "Maybe you changed the Static ID, or are trying to load before the database was initialized.");
+                    continue;
+                }
+                
+                for (int j = 0; j < data.DynamicIDs[i].Length; j++)
+                {
+                    staticItem.Deserialize(data.DynamicIDs[i][j], data.DynamicItemsData[dynamicIdCount]);
                     
                     _slotByID[data.StaticIDs[i]].Add(data.DynamicIDs[i][j], new Slot(data.StaticIDs[i], data.DynamicIDs[i][j]));
                     _slotByID[data.StaticIDs[i]][data.DynamicIDs[i][j]].Amount = data.Amounts[dynamicIdCount];
+                    
                     dynamicIdCount++;
                 }
             }
