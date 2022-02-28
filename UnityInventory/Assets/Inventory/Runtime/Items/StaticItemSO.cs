@@ -12,7 +12,7 @@ namespace InventorySystem
 
         public override int StaticID => _id;
         public virtual string Glyph => _glyph;
-        public virtual Sprite Icon => _icon;
+        public override Sprite Icon => _icon;
 
         public override int DynamicID => StaticID;
         public override string Name => _name;

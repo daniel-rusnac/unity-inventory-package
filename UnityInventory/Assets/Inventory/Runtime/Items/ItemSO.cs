@@ -9,6 +9,7 @@ namespace InventorySystem
         
         public abstract int StaticID { get; }
         public abstract int DynamicID { get; }
+        public abstract Sprite Icon { get; }
         public abstract string Name { get; }
 
         public ItemSO GetInstance()
