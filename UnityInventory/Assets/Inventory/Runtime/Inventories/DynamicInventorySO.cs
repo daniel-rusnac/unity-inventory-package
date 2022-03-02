@@ -12,20 +12,20 @@ namespace InventorySystem
             _slotByID = new Dictionary<int, Dictionary<int, Slot>>();
 
         private readonly Dictionary<int, long> _limitByID = new Dictionary<int, long>();
-
+        
         /// <summary>
         /// If you pass an item instance, it will add it first, then start creating new instances random items.
         /// </summary>
         public override void Add(ItemSO item, long amount = 1)
         {
-            ItemSO originalItem = InventoryUtility.GetItem(item.StaticID);
+            ItemSO originalItem = item.IsInstance ? item : item.GetInstance();
             long oldAmount = GetAmount(item);
             long iteration = item.IsDynamic ? (ClampAmount(oldAmount + amount, GetLimit(item)) - oldAmount) : 1;
             amount = item.IsDynamic ? 1 : amount;
 
             for (long i = 0; i < iteration; i++)
             {
-                if (i > 0 || !item.IsInstance)
+                if (i > 1)
                 {
                     item = originalItem.GetInstance();
                 }
