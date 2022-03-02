@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Default Collection
   m_EditorClassIdentifier: 
   _items:
-  - {fileID: 11400000, guid: cf90fbe3520de0242903c5b514d4bd15, type: 2}
   - {fileID: 11400000, guid: 111b828bbe1675c46b9c6d9b6899759e, type: 2}
   - {fileID: 11400000, guid: 84261bf352b9aba4b835319e258fd836, type: 2}
   - {fileID: 11400000, guid: 58cac777dbc1ed749ac256fd00e992af, type: 2}
   - {fileID: 11400000, guid: 13139e63224756046bc2cd1aa8aac3de, type: 2}
   - {fileID: 11400000, guid: 38fec62eabc492c41b1b7b800a906de0, type: 2}
   - {fileID: 11400000, guid: 2babb1bab557eb2438cf9b0dec288a27, type: 2}
+  - {fileID: 11400000, guid: b600e45c1e7002c4ea8c61458dc1eb0c, type: 2}
   _itemFolders:
   - Assets

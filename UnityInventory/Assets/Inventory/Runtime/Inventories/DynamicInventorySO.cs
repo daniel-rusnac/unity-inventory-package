@@ -19,17 +19,18 @@ namespace InventorySystem
         public override void Add(ItemSO item, long amount = 1)
         {
             ItemSO originalItem = item.IsInstance ? item : item.GetInstance();
+            item = originalItem;
             long oldAmount = GetAmount(item);
             long iteration = item.IsDynamic ? (ClampAmount(oldAmount + amount, GetLimit(item)) - oldAmount) : 1;
             amount = item.IsDynamic ? 1 : amount;
 
             for (long i = 0; i < iteration; i++)
             {
-                if (i > 1)
+                if (i >= 1 && item.IsDynamic)
                 {
                     item = originalItem.GetInstance();
                 }
-
+                
                 if (amount < 0)
                 {
                     Remove(item, -amount);

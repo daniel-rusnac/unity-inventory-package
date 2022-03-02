@@ -2,7 +2,7 @@
 {
     public abstract class DynamicItemSO : StaticItemSO
     {
-        private int _dynamicID;
+        private int _dynamicID = -1;
 
         public override int DynamicID => _dynamicID;
 

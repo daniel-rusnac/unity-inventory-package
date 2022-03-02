@@ -29,8 +29,8 @@ MonoBehaviour:
     referenceMode: 2
     serializationDepthLimit: 64
     assemblyNames:
-    - com.danielrusnac.inventorysystem
     - Assembly-CSharp
+    - com.danielrusnac.inventorysystem
     - com.danielrusnac.inventorysystem.editor
     showAdvancedSettings: 1
   addMgrToSceneAutomatically: 0
