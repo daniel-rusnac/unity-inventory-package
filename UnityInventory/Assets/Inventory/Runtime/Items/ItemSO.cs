@@ -35,6 +35,11 @@ namespace InventorySystem
             return GetInstance();
         }
 
+        public virtual string GetDebugString()
+        {
+            return "";
+        }
+
         protected abstract ItemSO OnGetInstance();
     }
 }
