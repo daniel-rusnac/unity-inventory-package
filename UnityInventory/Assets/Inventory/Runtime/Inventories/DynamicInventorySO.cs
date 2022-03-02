@@ -193,7 +193,7 @@ namespace InventorySystem
 
         public override InventoryData Serialize()
         {
-            var data = new InventoryData();
+            InventoryData data = new InventoryData();
 
             int staticIDCount = _slotByID.Keys.Count;
 
@@ -204,17 +204,24 @@ namespace InventorySystem
             List<long> amounts = new List<long>();
             List<object> dynamicData = new List<object>();
 
-            for (var i = 0; i < data.StaticIDs.Length; i++)
+            if (data.StaticIDs.Length > 0)
             {
-                int staticID = data.StaticIDs[i];
-                
-                data.DynamicIDs[i] = _slotByID[staticID].Keys.ToArray();
-                data.Limits[i] = _limitByID.ContainsKey(staticID) ? _limitByID[staticID] : -1;
-                
-                for (var j = 0; j < data.DynamicIDs[i].Length; j++)
+                for (int i = 0; i < data.StaticIDs.Length; i++)
                 {
-                    amounts.Add(_slotByID[staticID][data.DynamicIDs[i][j]].Amount);
-                    dynamicData.Add(InventoryUtility.GetItem(_slotByID[staticID][data.DynamicIDs[i][j]].DynamicID).Serialize());
+                    int staticID = data.StaticIDs[i];
+
+                    data.DynamicIDs[i] = _slotByID[staticID].Keys.ToArray();
+                    data.Limits[i] = _limitByID.ContainsKey(staticID) ? _limitByID[staticID] : -1;
+                    
+                    if (data.DynamicIDs[i].Length == 0)
+                        continue;
+
+                    for (int j = 0; j < data.DynamicIDs[i].Length; j++)
+                    {
+                        amounts.Add(_slotByID[staticID][data.DynamicIDs[i][j]].Amount);
+                        dynamicData.Add(InventoryUtility.GetItem(_slotByID[staticID][data.DynamicIDs[i][j]].DynamicID)
+                            .Serialize());
+                    }
                 }
             }
 
