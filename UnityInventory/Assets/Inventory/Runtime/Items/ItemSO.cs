@@ -4,13 +4,18 @@ namespace InventorySystem
 {
     public abstract class ItemSO : ScriptableObject
     {
-        public bool IsInstance { get; protected set; }
+        [SerializeField] private int _id;
+        [SerializeField] private string _name;
+        [SerializeField] private string _glyph;
+        [SerializeField] private Sprite _icon;
+
         public bool IsDynamic => StaticID != DynamicID;
-        
-        public abstract int StaticID { get; }
-        public abstract int DynamicID { get; }
-        public abstract Sprite Icon { get; }
-        public abstract string Name { get; }
+        public int StaticID => _id;
+        public virtual int DynamicID => StaticID;
+        public virtual string Glyph => _glyph;
+        public virtual Sprite Icon => _icon;
+        public virtual string Name => _name;
+        public bool IsInstance { get; protected set; }
 
         public ItemSO GetInstance()
         {
@@ -21,7 +26,7 @@ namespace InventorySystem
             {
                 InventoryUtility.AddItemToDatabase(item);
             }
-            
+
             return item;
         }
 
