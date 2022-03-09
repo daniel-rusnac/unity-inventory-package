@@ -17,6 +17,11 @@ namespace InventorySystem
         public virtual string Name => _name;
         public bool IsInstance { get; protected set; }
 
+        public void SetStaticID(int id)
+        {
+            _id = id;
+        }
+
         public ItemSO GetInstance()
         {
             ItemSO item = OnGetInstance();

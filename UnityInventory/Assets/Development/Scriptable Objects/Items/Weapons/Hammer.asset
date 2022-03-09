@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1082b769081440c8a5812a8ebebcbe3, type: 3}
   m_Name: Hammer
   m_EditorClassIdentifier: 
-  _id: 4
+  _id: 1145023218
   _name: Hammer
   _glyph: 
   _icon: {fileID: 0}

@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System;
+using UnityEditor;
 using UnityEngine;
 
 namespace InventorySystem
@@ -6,15 +7,15 @@ namespace InventorySystem
     [CustomEditor(typeof(StaticItemSO), true)]
     public class ItemSOEditor : Editor
     {
+        private static ItemSOEditor s_currentItemEditor;
         private SerializedProperty _iconProperty;
         private SerializedProperty _nameProperty;
         private SerializedProperty _idProperty;
         private SerializedProperty _glyphProperty;
-        private GUIStyle _style;
         private bool _isInitialized;
         private float IconSize => EditorGUIUtility.standardVerticalSpacing * 3 + EditorGUIUtility.singleLineHeight * 3;
 
-        protected virtual void OnEnable()
+        private void OnEnable()
         {
             _iconProperty = serializedObject.FindProperty("_icon");
             _nameProperty = serializedObject.FindProperty("_name");
@@ -41,8 +42,7 @@ namespace InventorySystem
             if (_isInitialized)
                 return;
 
-            _style = new GUIStyle(EditorStyles.toolbarButton) {alignment = TextAnchor.UpperCenter};
-
+            s_currentItemEditor = this;
             _isInitialized = true;
         }
 
@@ -66,6 +66,19 @@ namespace InventorySystem
                 typeof(Sprite), false, GUILayout.Width(IconSize), GUILayout.Height(IconSize));
 
             serializedObject.ApplyModifiedProperties();
+        }
+
+        [MenuItem("CONTEXT/ItemSO/Refresh ID")]
+        private static void RefreshID(MenuCommand command)
+        {
+            ItemSO item = (ItemSO)command.context;
+            item.SetStaticID(InventoryUtility.GetID());
+            EditorUtility.SetDirty(item);
+            
+            if (s_currentItemEditor == null)
+                return;
+
+            s_currentItemEditor.serializedObject.Update();
         }
     }
 }

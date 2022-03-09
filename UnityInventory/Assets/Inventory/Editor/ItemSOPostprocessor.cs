@@ -16,6 +16,9 @@ namespace InventorySystem
                     continue;
                 
                 ItemSO item = AssetDatabase.LoadAssetAtPath<ItemSO>(str);
+                item.SetStaticID(InventoryUtility.GetID());
+                EditorUtility.SetDirty(item);
+                
                 ReferenceDatabaseCollectionAllSO.AddDatabaseItem(item);
             }
 
