@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### [Unreleased]
 
 ### Changed
+- Static id is now assigned by default, even when an item was duplicated
 - No longer creating an instance from the added item (if it's an instance already)
 
 ### Fixed
