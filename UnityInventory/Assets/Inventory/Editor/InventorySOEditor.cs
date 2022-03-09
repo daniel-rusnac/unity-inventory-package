@@ -26,35 +26,19 @@ namespace InventorySystem
         private const string DRAW_EDITOR_KEY = "ie_draw_editor";
         private const string AMOUNT_KEY = "ie_amount";
         private const string ITEM_ID_KEY = "ie_item_id";
-        private const string SLOT_WIDTH_KEY = "ie_slot_width_id";
-        private const string SLOT_HEIGHT_KEY = "ie_slot_height_id";
+        private const float SLOT_WIDTH = 100;
 
         private string _saveKey;
-        private Vector2 _slotSize = new Vector2(100, 100);
         private bool _drawContent;
         private bool _drawEditor;
         private long _amount = 1;
         private ItemSO _item;
         private InventorySO _inventory;
         private readonly List<InventoryContent> _contentHolders = new List<InventoryContent>();
-        private GUIStyle _slotLabelStyle;
-        private GUIStyle _slotContentStyle;
 
         private void OnEnable()
         {
-            _slotLabelStyle = new GUIStyle(EditorStyles.boldLabel)
-            {
-                alignment = TextAnchor.UpperLeft,
-                richText = true
-            };
-            
-            _slotContentStyle = new GUIStyle(EditorStyles.label)
-            {
-                alignment = TextAnchor.UpperLeft,
-                richText = true
-            };
-            
-            _inventory = (InventorySO) target;
+            _inventory = (InventorySO)target;
             _saveKey = AssetDatabase.GUIDFromAssetPath(AssetDatabase.GetAssetPath(target)).ToString() + "_inventory";
             _inventory.Register(RefreshContent);
             Load();
@@ -106,25 +90,23 @@ namespace InventorySystem
                 return;
 
             int drawn = 0;
-            int columns = (int) ((Screen.width + EditorGUIUtility.standardVerticalSpacing - _slotSize.x * 0.5f) / (_slotSize.x + EditorGUIUtility.standardVerticalSpacing));
-
-            if (columns < 1)
-                columns = 1;
+            int columns = (int)((Screen.width + EditorGUIUtility.standardVerticalSpacing - SLOT_WIDTH * 0.5f) /
+                                (SLOT_WIDTH + EditorGUIUtility.standardVerticalSpacing));
 
             while (drawn < _contentHolders.Count)
             {
                 EditorGUILayout.BeginHorizontal();
-                
+
                 for (int i = 0; i < columns; i++)
                 {
                     DrawContent(_contentHolders[drawn], i == columns - 1);
 
                     drawn++;
-                    
+
                     if (drawn >= _contentHolders.Count)
                         break;
                 }
-                
+
                 EditorGUILayout.EndHorizontal();
             }
         }
@@ -140,37 +122,35 @@ namespace InventorySystem
                 content.Initialize(item, _inventory.GetAmount(item), _inventory.GetLimit(item));
                 _contentHolders.Add(content);
             }
-            
+
             Repaint();
         }
 
         private void DrawContent(InventoryContent content, bool expand)
         {
-            EditorGUILayout.BeginVertical("box", GUILayout.Width(_slotSize.x), GUILayout.Height(_slotSize.y));
+            EditorGUILayout.BeginVertical("box", GUILayout.MinWidth(SLOT_WIDTH),
+                GUILayout.MaxWidth(expand ? Screen.width : SLOT_WIDTH));
             {
-                EditorGUILayout.BeginHorizontal();
                 string label = content.Item.Name;
                 if (content.Item.IsDynamic)
                 {
-                    label = $"<color=blue>{label}</color>";
+                    label += " (Dynamic)";
                 }
-                
-                EditorGUILayout.LabelField(label, _slotLabelStyle);
-                
+
+                EditorGUILayout.LabelField(label, GUILayout.MinWidth(SLOT_WIDTH));
+
                 string amount = content.Amount.ToString();
                 if (content.Limit != -1)
                 {
                     amount += $" / {content.Limit}";
                 }
-                EditorGUILayout.LabelField(amount, _slotLabelStyle);
-                EditorGUILayout.EndHorizontal();
-                
-                EditorGUILayout.LabelField(content.Item.GetDebugString(), _slotContentStyle);
+
+                EditorGUILayout.LabelField(amount, GUILayout.MinWidth(SLOT_WIDTH));
             }
             EditorGUILayout.EndVertical();
-            
+
             Rect rect = GUILayoutUtility.GetLastRect();
-                
+
             if (GUI.Button(rect, "", GUIStyle.none))
             {
                 Selection.SetActiveObjectWithContext(content.Item, content.Item);
@@ -186,13 +166,8 @@ namespace InventorySystem
 
             GUI.enabled = Application.isPlaying;
 
-            EditorGUILayout.BeginHorizontal();
-            _item = (ItemSO) EditorGUILayout.ObjectField(_item, typeof(ItemSO), _item);
+            _item = (ItemSO)EditorGUILayout.ObjectField(_item, typeof(ItemSO), _item);
             _amount = EditorGUILayout.LongField(_amount);
-            EditorGUILayout.EndHorizontal();
-
-            _slotSize = EditorGUILayout.Vector2Field("Slot Size", _slotSize);
-            
 
             EditorGUILayout.BeginHorizontal();
             {
@@ -289,8 +264,6 @@ namespace InventorySystem
             EditorPrefs.SetBool(DRAW_CONTENT_KEY, _drawContent);
             EditorPrefs.SetBool(DRAW_EDITOR_KEY, _drawEditor);
             EditorPrefs.SetString(AMOUNT_KEY, _amount.ToString());
-            EditorPrefs.SetFloat(SLOT_WIDTH_KEY, _slotSize.x);
-            EditorPrefs.SetFloat(SLOT_HEIGHT_KEY, _slotSize.y);
 
             if (_item != null)
             {
@@ -303,8 +276,6 @@ namespace InventorySystem
             _drawContent = EditorPrefs.GetBool(DRAW_CONTENT_KEY, true);
             _drawEditor = EditorPrefs.GetBool(DRAW_EDITOR_KEY, true);
             _amount = long.Parse(EditorPrefs.GetString(AMOUNT_KEY, "1"));
-            _slotSize.x = EditorPrefs.GetFloat(SLOT_WIDTH_KEY, 100);
-            _slotSize.y = EditorPrefs.GetFloat(SLOT_HEIGHT_KEY, 100);
 
             int itemID = EditorPrefs.GetInt(ITEM_ID_KEY);
 
