@@ -13,6 +13,7 @@ namespace InventorySystem
         public abstract void Remove(ItemSO item, long amount = 1);
         public abstract void SetAmount(ItemSO item, long amount);
         public abstract long GetAmount(ItemSO item);
+        public abstract long GetTotalAmount();
         public abstract bool Contains(ItemSO item, long amount = 1);
         
         public abstract void SetLimit(ItemSO item, long limit);

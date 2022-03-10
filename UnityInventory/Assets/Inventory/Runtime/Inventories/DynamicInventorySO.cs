@@ -177,6 +177,11 @@ namespace InventorySystem
             return amount;
         }
 
+        public override long GetTotalAmount()
+        {
+            return _slotByID.Values.Sum(slots => slots.Values.Sum(slot => slot.Amount));
+        }
+
         public override bool Contains(ItemSO item, long amount = 1)
         {
             return GetAmount(item) >= amount;

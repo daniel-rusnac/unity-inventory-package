@@ -1,7 +1,6 @@
 ﻿using System;
 using InventorySystem.Database;
 using UnityEditor;
-using UnityEngine;
 
 namespace InventorySystem
 {
