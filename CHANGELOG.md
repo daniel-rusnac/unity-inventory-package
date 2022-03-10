@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Add GetTotalAmount() method to inventory~~~~
+- Add GetTotalAmount() method to inventory
 
 ### Fixed
 - Static ID being regenerated on every asset import
