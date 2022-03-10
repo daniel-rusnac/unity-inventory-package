@@ -20,5 +20,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 38fec62eabc492c41b1b7b800a906de0, type: 2}
   - {fileID: 11400000, guid: 2babb1bab557eb2438cf9b0dec288a27, type: 2}
   - {fileID: 11400000, guid: b600e45c1e7002c4ea8c61458dc1eb0c, type: 2}
+  - {fileID: 11400000, guid: 6023545012b3def4a81adf4dd159bfde, type: 2}
   _itemFolders:
   - Assets

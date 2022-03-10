@@ -1,6 +1,7 @@
 ﻿using System;
 using InventorySystem.Database;
 using UnityEditor;
+using UnityEngine;
 
 namespace InventorySystem
 {
@@ -16,9 +17,6 @@ namespace InventorySystem
                     continue;
                 
                 ItemSO item = AssetDatabase.LoadAssetAtPath<ItemSO>(str);
-                item.SetStaticID(InventoryUtility.GetID());
-                EditorUtility.SetDirty(item);
-                
                 ReferenceDatabaseCollectionAllSO.AddDatabaseItem(item);
             }
 

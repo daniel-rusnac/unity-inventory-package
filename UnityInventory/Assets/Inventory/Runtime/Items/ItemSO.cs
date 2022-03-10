@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
 
 namespace InventorySystem
 {
@@ -16,6 +17,14 @@ namespace InventorySystem
         public virtual Sprite Icon => _icon;
         public virtual string Name => _name;
         public bool IsInstance { get; protected set; }
+
+        protected virtual void Reset()
+        {
+            SetStaticID(InventoryUtility.GetID());
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(this);
+#endif
+        }
 
         public void SetStaticID(int id)
         {
