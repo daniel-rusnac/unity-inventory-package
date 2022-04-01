@@ -37,12 +37,12 @@ namespace InventorySystem
         
         public void Unregister(Action action)
         {
-            _onChangedActions.Add(action);   
+            _onChangedActions.Remove(action);   
         }
 
         public void Unregister(Action<ItemSO, long> action)
         {
-            _onChangedDeltaActions.Add(action);   
+            _onChangedDeltaActions.Remove(action);   
         }
 
         protected void OnChanged(ItemSO item, long delta)
