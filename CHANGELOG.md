@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [2.0.4] - 2022-04-01
 
 ### Fixed
-- Fixed avent unregistration
+- Fixed event unregistration
 
 ## [2.0.3] - 2022-03-10
 
