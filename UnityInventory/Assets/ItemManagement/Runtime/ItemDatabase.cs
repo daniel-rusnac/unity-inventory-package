@@ -6,9 +6,12 @@ namespace ItemManagement
     {
         private readonly Dictionary<string, IItemDefinition> _itemById;
 
-        public ItemDatabase(IEnumerable<IItemDefinition> items)
+        public ItemDatabase(params IItemDefinition[] items)
         {
             _itemById = new Dictionary<string, IItemDefinition>();
+            
+            if (items is null || items.Length == 0)
+                return;
 
             foreach (IItemDefinition item in items)
                 AddItem(item);
@@ -16,7 +19,7 @@ namespace ItemManagement
 
         public void AddItem(IItemDefinition item)
         {
-            if (item == null)
+            if (item is null)
                 return;
 
             if (_itemById.ContainsKey(item.Id))
@@ -27,6 +30,9 @@ namespace ItemManagement
 
         public void RemoveItem(string id)
         {
+            if (string.IsNullOrWhiteSpace(id))
+                return;
+            
             if (!_itemById.ContainsKey(id))
                 return;
 
@@ -35,7 +41,13 @@ namespace ItemManagement
 
         public IItemDefinition GetItem(string id)
         {
-            return _itemById.ContainsKey(id) ? _itemById[id] : null;
+            if (string.IsNullOrWhiteSpace(id))
+                return null;
+
+            if (!_itemById.ContainsKey(id))
+                return null;
+            
+            return _itemById[id];
         }
     }
 }
