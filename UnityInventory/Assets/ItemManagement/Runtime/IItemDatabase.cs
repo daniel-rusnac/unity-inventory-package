@@ -2,6 +2,8 @@ namespace ItemManagement
 {
     public interface IItemDatabase
     {
-        IItem GetItem(string id);
+        void AddItem(IItemDefinition item);
+        void RemoveItem(string id);
+        IItemDefinition GetItem(string id);
     }
 }
