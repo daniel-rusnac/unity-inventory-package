@@ -2,6 +2,6 @@ namespace ItemManagement
 {
     public interface IItemDatabase
     {
-        IItem LoadItem(string id);
+        IItem GetItem(string id);
     }
 }
