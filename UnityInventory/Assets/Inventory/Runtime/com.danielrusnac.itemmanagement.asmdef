@@ -1,12 +1,8 @@
 {
-    "name": "com.danielrusnac.inventorysystem.editor",
-    "rootNamespace": "InventorySystem",
-    "references": [
-        "GUID:16e59b9180d9dab49bb8ba5b4f259ee1"
-    ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "name": "com.danielrusnac.itemmanagement",
+    "rootNamespace": "ItemManagement",
+    "references": [],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
