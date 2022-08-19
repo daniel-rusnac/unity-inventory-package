@@ -1,4 +1,4 @@
-namespace InventorySystem
+namespace ItemManagement
 {
     public interface IItemDatabase
     {
