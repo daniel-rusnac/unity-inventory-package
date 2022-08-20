@@ -18,7 +18,18 @@ namespace ItemManagement.Database
                 AddItem(item);
         }
 
-        public void AddItem(IItemDefinition item)
+        public IItemDefinition GetItem(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                return null;
+
+            if (!_itemById.ContainsKey(id))
+                return null;
+            
+            return _itemById[id];
+        }
+
+        private void AddItem(IItemDefinition item)
         {
             if (item is null)
                 return;
@@ -29,7 +40,7 @@ namespace ItemManagement.Database
             _itemById.Add(item.Id, item);
         }
 
-        public void RemoveItem(string id)
+        private void RemoveItem(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
                 return;
@@ -38,17 +49,6 @@ namespace ItemManagement.Database
                 return;
 
             _itemById.Remove(id);
-        }
-
-        public IItemDefinition GetItem(string id)
-        {
-            if (string.IsNullOrWhiteSpace(id))
-                return null;
-
-            if (!_itemById.ContainsKey(id))
-                return null;
-            
-            return _itemById[id];
         }
     }
 }

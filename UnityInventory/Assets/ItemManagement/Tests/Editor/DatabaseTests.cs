@@ -25,20 +25,7 @@ namespace ItemManagement.Tests
             
             Assert.IsTrue(database.GetItem(id) == item);
         }
-        
-        [Test]
-        public void Removed_Item_IsNull()
-        {
-            const string id = "id";
-            IItemDefinition item = Substitute.For<IItemDefinition>();
-            item.Id.Returns(id);
-            
-            IItemDatabase database = new ItemDatabase(item);
-            database.RemoveItem(id);
-            
-            Assert.IsNull(database.GetItem(id));
-        }
-        
+
         [Test]
         public void Add_Same_Item()
         {
