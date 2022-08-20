@@ -1,35 +1,35 @@
 ﻿using System.Collections.Generic;
 using ItemManagement.Items;
+using UnityEngine;
 
 namespace ItemManagement.Database
 {
-    public class ItemDatabase : IItemDatabase
+    [CreateAssetMenu(menuName = "Item Management/Databases/Database", fileName = "New Database")]
+    public class ItemDatabase : ScriptableObject, IItemDatabase, ISerializationCallbackReceiver
     {
-        private readonly Dictionary<string, IItemDefinition> _itemById;
+        [SerializeField] private ItemDefinition[] _items;
 
-        public ItemDatabase(params IItemDefinition[] items)
-        {
-            _itemById = new Dictionary<string, IItemDefinition>();
-            
-            if (items is null || items.Length == 0)
-                return;
+        private Dictionary<string, IItem> _itemById;
 
-            foreach (IItemDefinition item in items)
-                AddItem(item);
-        }
-
-        public IItemDefinition GetItem(string id)
+        public IItem GetItem(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
                 return null;
 
             if (!_itemById.ContainsKey(id))
                 return null;
-            
+
             return _itemById[id];
         }
 
-        private void AddItem(IItemDefinition item)
+        public void OnBeforeSerialize() { }
+
+        public void OnAfterDeserialize()
+        {
+            _itemById = CreateDatabaseDictionary(_items);
+        }
+
+        private void AddItem(IItem item)
         {
             if (item is null)
                 return;
@@ -40,15 +40,17 @@ namespace ItemManagement.Database
             _itemById.Add(item.Id, item);
         }
 
-        private void RemoveItem(string id)
+        private Dictionary<string, IItem> CreateDatabaseDictionary(ItemDefinition[] items)
         {
-            if (string.IsNullOrWhiteSpace(id))
-                return;
-            
-            if (!_itemById.ContainsKey(id))
-                return;
+            if (items is null || items.Length == 0)
+                return new Dictionary<string, IItem>();
 
-            _itemById.Remove(id);
+            var itemById = new Dictionary<string, IItem>();
+            
+            foreach (var item in items)
+                AddItem(item);
+
+            return itemById;
         }
     }
 }

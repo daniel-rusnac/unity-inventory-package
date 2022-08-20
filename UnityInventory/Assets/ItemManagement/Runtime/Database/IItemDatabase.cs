@@ -4,6 +4,6 @@ namespace ItemManagement.Database
 {
     public interface IItemDatabase
     {
-        IItemDefinition GetItem(string id);
+        IItem GetItem(string id);
     }
 }

@@ -1,4 +1,7 @@
 ﻿namespace ItemManagement.Inventories
 {
-    public interface IInventory { }
+    public interface IInventory
+    {
+
+    }
 }

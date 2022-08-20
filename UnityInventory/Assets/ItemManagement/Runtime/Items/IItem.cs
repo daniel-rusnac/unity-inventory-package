@@ -1,7 +1,8 @@
 ﻿namespace ItemManagement.Items
 {
-    public interface IItemDefinition
+    public interface IItem
     {
         string Id { get; }
+        bool IsStackable { get; }
     }
 }
