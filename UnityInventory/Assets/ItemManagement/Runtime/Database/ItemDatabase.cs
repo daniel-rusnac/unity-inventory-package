@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using ItemManagement.Items;
 
-namespace ItemManagement
+namespace ItemManagement.Database
 {
     public class ItemDatabase : IItemDatabase
     {

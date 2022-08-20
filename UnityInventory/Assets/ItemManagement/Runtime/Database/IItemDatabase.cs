@@ -1,4 +1,6 @@
-namespace ItemManagement
+using ItemManagement.Items;
+
+namespace ItemManagement.Database
 {
     public interface IItemDatabase
     {

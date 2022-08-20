@@ -1,4 +1,4 @@
-﻿namespace ItemManagement
+﻿namespace ItemManagement.Items
 {
     public interface IItemDefinition
     {

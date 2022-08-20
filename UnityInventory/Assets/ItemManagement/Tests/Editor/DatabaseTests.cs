@@ -1,3 +1,5 @@
+using ItemManagement.Database;
+using ItemManagement.Items;
 using NSubstitute;
 using NUnit.Framework;
 
