@@ -50,7 +50,7 @@ namespace ItemManagement.Inventories
 
         private ISlot CreateSlot(IItem item)
         {
-            ISlot slot = null;
+            ISlot slot = new Slot(item);
             slot.Changed += OnSlotChanged;
             return slot;
         }
