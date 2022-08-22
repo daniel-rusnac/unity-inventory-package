@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ItemManagement.Factories;
 using ItemManagement.Items;
 
@@ -17,21 +18,27 @@ namespace ItemManagement.Inventories
             _slotFactory = slotFactory;
             _slotByID = new Dictionary<string, ISlot>();
         }
+        
+        public IItem[] GetItems()
+        {
+            return _slotByID.Values.Select(slot => slot.Item).ToArray();
+        }
+
+        public ISlot[] GetSlots()
+        {
+            return _slotByID.Values.ToArray();
+        }
 
         public int GetAmount(IItem item)
         {
-            if (_slotByID.ContainsKey(item.Id))
-                return _slotByID[item.Id].Amount;
-
-            return 0;
+            return _slotByID.ContainsKey(item.Id) 
+                ? _slotByID[item.Id].Amount 
+                : 0;
         }
 
         public void Add(IItem item, int amount)
         {
-            if (_slotByID.ContainsKey(item.Id))
-                _slotByID.Add(item.Id, CreateSlot(item));
-
-            _slotByID[item.Id].Add(amount);
+            GetOrCreateSlot(item).Add(amount);
         }
 
         public void Remove(IItem item, int amount)
@@ -40,9 +47,6 @@ namespace ItemManagement.Inventories
                 return;
 
             _slotByID[item.Id].Remove(amount);
-
-            if (_slotByID[item.Id].Amount <= 0)
-                RemoveSlot(item);
         }
 
         public void Clear()
@@ -53,14 +57,18 @@ namespace ItemManagement.Inventories
             _slotByID.Clear();
         }
 
-        private ISlot CreateSlot(IItem item)
+        public ISlot GetOrCreateSlot(IItem item)
         {
-            ISlot slot = _slotFactory.Create(item);
+            if (_slotByID.ContainsKey(item.Id))
+                return _slotByID[item.Id];
+
+            var slot = _slotFactory.Create(item);
+            _slotByID.Add(item.Id, slot);
             slot.Changed += OnSlotChanged;
             return slot;
         }
 
-        private void RemoveSlot(IItem item)
+        public void RemoveSlot(IItem item)
         {
             if (!_slotByID.ContainsKey(item.Id))
                 return;
