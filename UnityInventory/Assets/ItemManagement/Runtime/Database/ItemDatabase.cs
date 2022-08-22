@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ItemManagement.Items;
 using UnityEngine;
 
@@ -28,27 +29,21 @@ namespace ItemManagement.Database
         {
             _itemById = CreateDatabaseDictionary(_items);
         }
-
-        private void AddItem(IItem item)
-        {
-            if (item is null)
-                return;
-
-            if (_itemById.ContainsKey(item.Id))
-                return;
-
-            _itemById.Add(item.Id, item);
-        }
-
+        
         private Dictionary<string, IItem> CreateDatabaseDictionary(ItemDefinition[] items)
         {
-            if (items is null || items.Length == 0)
-                return new Dictionary<string, IItem>();
-
             var itemById = new Dictionary<string, IItem>();
             
+            if (items is null || items.Length == 0)
+                return itemById;
+
             foreach (var item in items)
-                AddItem(item);
+            {
+                if (item is null || itemById.ContainsKey(item.Id))
+                    continue;
+
+                itemById.Add(item.Id, item);
+            }
 
             return itemById;
         }
