@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ItemManagement.Items;
 using UnityEngine;
 
@@ -14,10 +13,7 @@ namespace ItemManagement.Database
 
         public IItem GetItem(string id)
         {
-            if (string.IsNullOrWhiteSpace(id))
-                return null;
-
-            if (!_itemById.ContainsKey(id))
+            if (string.IsNullOrWhiteSpace(id) || !_itemById.ContainsKey(id))
                 return null;
 
             return _itemById[id];
