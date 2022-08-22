@@ -7,7 +7,11 @@ namespace ItemManagement.Inventories
     {
         event Action<IItem, int> Changed;
 
-        int Amount { get; set; }
+        int Amount { get; }
         IItem Item { get; }
+
+        void Add(int amount);
+        void Remove(int amount);
+        void Clear();
     }
 }

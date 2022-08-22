@@ -7,8 +7,7 @@ namespace ItemManagement.Inventories
     {
         event Action<IItem, int> Changed;
         
-        ISlot[] GetSlots();
-        
+        int GetAmount(IItem item);
         void Add(IItem item, int amount);
         void Remove(IItem item, int amount);
         void Clear();
