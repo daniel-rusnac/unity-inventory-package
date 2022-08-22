@@ -1,22 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
+using ItemManagement.Database;
 using ItemManagement.Factories;
 using ItemManagement.Items;
 
 namespace ItemManagement.Inventories
 {
+    [Serializable]
     public class Inventory : IInventory
     {
+        private const string IDS = "ids";
+        private const string AMOUNTS = "amounts";
+        
         public event Action<IItem, int> Changed;
 
         private readonly Dictionary<string, ISlot> _slotByID;
         private readonly ISlotFactory _slotFactory;
+        private readonly IItemDatabase _database;
 
-        public Inventory(ISlotFactory slotFactory)
+        public Inventory(ISlotFactory slotFactory, IItemDatabase database)
         {
+            _database = database;
             _slotFactory = slotFactory;
             _slotByID = new Dictionary<string, ISlot>();
+        }
+
+        public Inventory(SerializationInfo info, StreamingContext context)
+        {
+            string[] ids = (string[])info.GetValue(IDS, typeof(string[]));
+            int[] amounts = (int[])info.GetValue(AMOUNTS, typeof(int[]));
+            
+            for (int i = 0; i < ids.Length; i++)
+            {
+                // _database.GetItem(ids[i])
+            }
         }
         
         public IItem[] GetItems()
@@ -80,6 +99,15 @@ namespace ItemManagement.Inventories
         private void OnSlotChanged(IItem item, int delta)
         {
             Changed?.Invoke(item, delta);
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            string[] ids = _slotByID.Keys.ToArray();
+            int[] amounts = _slotByID.Values.Select(slot => slot.Amount).ToArray();
+            
+            info.AddValue(IDS, ids, typeof(string[]));
+            info.AddValue(AMOUNTS, amounts, typeof(int[]));
         }
     }
 }

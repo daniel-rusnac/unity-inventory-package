@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using ItemManagement.Items;
 
 namespace ItemManagement.Inventories
 {
-    public interface IInventory
+    public interface IInventory : ISerializable
     {
         event Action<IItem, int> Changed;
 
