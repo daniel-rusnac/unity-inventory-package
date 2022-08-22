@@ -1,6 +1,8 @@
-﻿namespace ItemManagement.Items
+﻿using System;
+
+namespace ItemManagement.Items
 {
-    public interface IItem
+    public interface IItem : ICloneable
     {
         string Id { get; }
         bool IsStackable { get; }

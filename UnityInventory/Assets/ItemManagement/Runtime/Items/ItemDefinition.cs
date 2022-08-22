@@ -10,5 +10,28 @@ namespace ItemManagement.Items
 
         public string Id => _id;
         public bool IsStackable => _isStackable;
+        
+        public object Clone()
+        {
+            var instance = Instantiate(this);
+
+            IncrementInstanceCounter(instance);
+
+            return instance;
+        }
+
+        private void IncrementInstanceCounter(ItemDefinition instance)
+        {
+            string[] parts = _id.Split('_');
+
+            if (parts.Length > 0 && int.TryParse(parts[parts.Length - 1], out int counter))
+            {
+                instance._id += $"_{counter:00}";
+            }
+            else
+            {
+                instance._id += "_01";
+            }
+        }
     }
 }
