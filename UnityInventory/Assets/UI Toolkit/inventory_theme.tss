@@ -1,0 +1,4 @@
+@import url("UnityThemes/UnityDefaultRuntimeTheme.tss");
+
+@import url("inventory_uss.uss");
+VisualElement {}

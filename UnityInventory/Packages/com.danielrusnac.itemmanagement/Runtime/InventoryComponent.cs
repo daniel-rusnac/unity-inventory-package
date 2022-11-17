@@ -6,9 +6,13 @@ namespace ItemManagement
 {
     public class InventoryComponent : MonoBehaviour, IInventory
     {
-        public event Action<ItemChangedData> Changed;
+        public event Action<ItemChangedData> ItemChanged;
+        public event Action<ISlot> SlotAdded;
+        public event Action<ISlot> SlotRemoved;
 
         private Dictionary<int, ISlot> _slots;
+
+        public IEnumerable<ISlot> AllSlots => _slots.Values;
 
         private void Awake()
         {
@@ -34,6 +38,8 @@ namespace ItemManagement
                 return false;
 
             _slots.Add(id, slot);
+            slot.Changed += OnItemChanged;
+            SlotAdded?.Invoke(slot);
             return true;
         }
 
@@ -42,8 +48,17 @@ namespace ItemManagement
             if (!ContainsSlot(id))
                 return false;
 
+            ISlot slot = _slots[id];
             _slots.Remove(id);
+            slot.Changed += OnItemChanged;
+            SlotRemoved?.Invoke(slot);
+            
             return true;
+        }
+
+        private void OnItemChanged(ItemChangedData data)
+        {
+            ItemChanged?.Invoke(data);
         }
     }
 }

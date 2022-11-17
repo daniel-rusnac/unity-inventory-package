@@ -1,0 +1,13 @@
+{
+  "name": "com.danielrusnac.itemmanagement.ui",
+  "version": "0.1.0",
+  "displayName": "Item Management UI",
+  "description": "UI for Item Management package.",
+  "author": {
+    "name": "Daniel Rusnac",
+    "email": "daniel.rusnac.personal@gmail.com",
+    "url": "https://github.com/danielrusnac"
+  },
+  "unity": "2021.1",
+  "dependencies": {}
+}
