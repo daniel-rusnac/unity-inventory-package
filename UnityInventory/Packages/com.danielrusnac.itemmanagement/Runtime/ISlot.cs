@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ItemManagement
+namespace Items
 {
     public interface ISlot
     {

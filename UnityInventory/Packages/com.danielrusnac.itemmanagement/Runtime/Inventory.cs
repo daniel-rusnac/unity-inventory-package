@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ItemManagement
+namespace Items
 {
     public class Inventory : IInventory
     {
@@ -22,9 +22,14 @@ namespace ItemManagement
             return _slots.Values;
         }
 
+        public bool ContainsSlot(IItem item)
+        {
+            return _slots.ContainsKey(item.ID);
+        }
+
         public ISlot GetSlotOrCreate(IItem item)
         {
-            if (!_slots.ContainsKey(item.ID))
+            if (!ContainsSlot(item))
                 CreateSlot(item);
 
             return _slots[item.ID];

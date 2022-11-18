@@ -1,12 +1,10 @@
 {
-    "name": "com.danielrusnac.inventorysystem.ui.editor",
-    "rootNamespace": "ItemManagement.UI",
+    "name": "com.danielrusnac.items.ui",
+    "rootNamespace": "Items.UI",
     "references": [
-        "GUID:fbb8fc067cfe5ee43bee648e32789982"
+        "GUID:16e59b9180d9dab49bb8ba5b4f259ee1"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

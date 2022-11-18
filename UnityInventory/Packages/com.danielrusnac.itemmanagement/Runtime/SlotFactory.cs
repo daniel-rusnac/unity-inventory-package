@@ -1,4 +1,4 @@
-﻿namespace ItemManagement
+﻿namespace Items
 {
     public class SlotFactory : ISlotFactory
     {

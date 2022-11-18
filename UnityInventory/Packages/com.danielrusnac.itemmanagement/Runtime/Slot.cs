@@ -1,15 +1,14 @@
 ﻿using System;
 using UnityEngine;
 
-namespace ItemManagement
+namespace Items
 {
-    [Serializable]
     public class Slot : ISlot
     {
         public event Action<ItemChangedData> Changed;
 
         private int _amount;
-        
+
         public ItemID ID { get; }
 
         public IItem Item { get; }
@@ -21,7 +20,7 @@ namespace ItemManagement
             {
                 if (_amount == value)
                     return;
-                
+
                 int oldAmount = _amount;
                 _amount = Mathf.Max(value, 0);
                 Changed?.Invoke(new ItemChangedData(Item, oldAmount, _amount));

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ItemManagement.UI
+namespace Items.UI
 {
     public class InventoryUI : MonoBehaviour
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ItemManagement
+namespace Items
 {
     [Serializable]
     public struct ItemID : IEquatable<ItemID>

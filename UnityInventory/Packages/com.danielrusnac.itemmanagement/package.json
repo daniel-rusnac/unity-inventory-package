@@ -1,11 +1,8 @@
 {
-  "name": "com.danielrusnac.as",
+  "name": "com.danielrusnac.items",
   "version": "3.0.0",
-  "displayName": "Item Management",
+  "displayName": "Items",
   "description": "A simple system to manage items and inventories.",
-  "documentationUrl": "https://github.com/danielrusnac/unity-inventory-package/blob/main/README.md",
-  "changelogUrl": "https://github.com/danielrusnac/unity-inventory-package/blob/main/CHANGELOG.md",
-  "licensesUrl": "https://github.com/danielrusnac/unity-inventory-package/blob/main/LICENSE",
   "author": {
     "name": "Daniel Rusnac",
     "email": "daniel.rusnac.personal@gmail.com",

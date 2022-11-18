@@ -1,9 +1,7 @@
 {
-    "name": "com.danielrusnac.itemmanagement.ui",
-    "rootNamespace": "ItemManagement.UI",
-    "references": [
-        "GUID:16e59b9180d9dab49bb8ba5b4f259ee1"
-    ],
+    "name": "com.danielrusnac.items",
+    "rootNamespace": "Items",
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

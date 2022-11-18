@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ItemManagement
+namespace Items
 {
     public interface IInventory
     {
@@ -10,6 +10,7 @@ namespace ItemManagement
         event Action<ISlot> SlotRemoved;
         
         IEnumerable<ISlot> GetAllSlots();
+        bool ContainsSlot(IItem item);
         ISlot GetSlotOrCreate(IItem item);
     }
 }
