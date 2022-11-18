@@ -1,12 +1,7 @@
-﻿using UnityEngine;
-
-namespace ItemManagement
+﻿namespace ItemManagement
 {
     public interface IItem
     {
-        int ID { get; }
-        string Name { get; }
-        Sprite Icon { get; }
-        IItemDefinition Definition { get; }
+        ItemID ID { get; }
     }
 }

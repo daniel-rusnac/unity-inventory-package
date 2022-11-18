@@ -5,9 +5,9 @@ namespace ItemManagement
     public interface ISlot
     {
         event Action<ItemChangedData> Changed;
-        int Amount { get; set; }
-        int MaxAmount { get; set; }
-        IItemDefinition ItemDefinition { get; }
+        
+        ItemID ID { get; }
         IItem Item { get; }
+        int Amount { get; set; }
     }
 }

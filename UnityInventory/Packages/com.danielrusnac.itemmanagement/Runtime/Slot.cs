@@ -3,14 +3,15 @@ using UnityEngine;
 
 namespace ItemManagement
 {
+    [Serializable]
     public class Slot : ISlot
     {
         public event Action<ItemChangedData> Changed;
 
         private int _amount;
         
-        public int MaxAmount { get; set; }
-        public IItemDefinition ItemDefinition { get; }
+        public ItemID ID { get; }
+
         public IItem Item { get; }
 
         public int Amount
@@ -20,18 +21,20 @@ namespace ItemManagement
             {
                 if (_amount == value)
                     return;
-
+                
                 int oldAmount = _amount;
                 _amount = Mathf.Max(value, 0);
                 Changed?.Invoke(new ItemChangedData(Item, oldAmount, _amount));
             }
         }
 
-        public Slot(IItem item)
+        public Slot() { }
+
+        public Slot(ItemID id, IItem item, int amount = 0)
         {
+            ID = id;
             Item = item;
-            ItemDefinition = item.Definition;
-            MaxAmount = -1;
+            _amount = amount;
         }
     }
 }
