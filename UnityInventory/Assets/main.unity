@@ -250,7 +250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _amount: 10
-  _itemDefinition: {fileID: 11400000, guid: 7b665838dcc1ba442842367eeb5dd031, type: 2}
+  _item: {fileID: 11400000, guid: 7b665838dcc1ba442842367eeb5dd031, type: 2}
   _inventoryUI: {fileID: 878818883}
 --- !u!4 &878818885
 Transform:
