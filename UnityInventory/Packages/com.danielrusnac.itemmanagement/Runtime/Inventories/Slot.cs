@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Items
+namespace Items.Inventories
 {
     public class Slot : ISlot
     {

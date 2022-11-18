@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Items
+namespace Items.Inventories
 {
     public interface IInventory
     {

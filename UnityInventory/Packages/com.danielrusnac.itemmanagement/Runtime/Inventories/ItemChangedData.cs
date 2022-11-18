@@ -1,4 +1,4 @@
-﻿namespace Items
+﻿namespace Items.Inventories
 {
     public struct ItemChangedData
     {

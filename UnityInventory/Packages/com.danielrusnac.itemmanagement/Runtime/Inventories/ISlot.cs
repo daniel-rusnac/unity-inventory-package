@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Items
+namespace Items.Inventories
 {
     public interface ISlot
     {

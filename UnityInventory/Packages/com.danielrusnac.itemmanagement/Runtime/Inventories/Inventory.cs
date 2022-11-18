@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Items.Factories;
 
-namespace Items
+namespace Items.Inventories
 {
     public class Inventory : IInventory
     {
@@ -14,6 +15,7 @@ namespace Items
 
         public Inventory(ISlotFactory slotFactory)
         {
+            _slots = new Dictionary<ItemID, ISlot>();
             _slotFactory = slotFactory;
         }
 

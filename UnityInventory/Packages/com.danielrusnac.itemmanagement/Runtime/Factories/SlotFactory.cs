@@ -1,4 +1,6 @@
-﻿namespace Items
+﻿using Items.Inventories;
+
+namespace Items.Factories
 {
     public class SlotFactory : ISlotFactory
     {

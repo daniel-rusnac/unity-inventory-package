@@ -1,17 +1,39 @@
-﻿using UnityEngine;
+﻿using System;
+using Items.Factories;
+using Items.Inventories;
+using UnityEngine;
 
 namespace Items.UI
 {
     public class InventoryUser : MonoBehaviour
     {
+        [SerializeField] private int _amount = 10;
+        [SerializeField] private StaticItem _item;
         [SerializeField] private InventoryUI _inventoryUI;
 
         private IInventory _inventory;
 
-        private void Initialize()
+        private void Awake()
         {
             _inventory = new Inventory(new SlotFactory());
+        }
+
+        [ContextMenu(nameof(AssignToUI))]
+        private void AssignToUI()
+        {
             _inventoryUI.SetInventory(_inventory);
+        }
+
+        [ContextMenu(nameof(RemoveFromUI))]
+        private void RemoveFromUI()
+        {
+            _inventoryUI.RemoveInventory();
+        }
+
+        [ContextMenu(nameof(AddItems))]
+        private void AddItems()
+        {
+            _inventory.GetSlotOrCreate(_item).Amount += _amount;
         }
     }
 }
