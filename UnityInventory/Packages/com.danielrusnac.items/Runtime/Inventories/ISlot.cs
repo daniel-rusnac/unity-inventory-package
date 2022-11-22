@@ -9,5 +9,6 @@ namespace Items.Inventories
         ItemID ID { get; }
         IItem Item { get; }
         int Amount { get; set; }
+        int Limit { get; set; }
     }
 }
