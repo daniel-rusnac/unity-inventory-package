@@ -1,13 +1,13 @@
 {
   "dependencies": {
     "com.danielrusnac.items": {
-      "version": "file:com.danielrusnac.itemmanagement",
+      "version": "file:com.danielrusnac.items",
       "depth": 0,
       "source": "embedded",
       "dependencies": {}
     },
     "com.danielrusnac.items.ui": {
-      "version": "file:com.danielrusnac.itemmanagement.ui",
+      "version": "file:com.danielrusnac.items.ui",
       "depth": 0,
       "source": "embedded",
       "dependencies": {}
