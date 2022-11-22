@@ -9,7 +9,7 @@ namespace Code
     public class InventoryUser : MonoBehaviour
     {
         [SerializeField] private int _amount = 10;
-        [SerializeField] private StaticItem _item;
+        [SerializeField] private Item _item;
         [SerializeField] private InventoryUI _inventoryUI;
 
         private IInventory _inventory;
