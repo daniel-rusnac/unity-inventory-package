@@ -1,0 +1,17 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/inventory_uss.uss?fileID=7433441132597879392&amp;guid=72f3b2e25ea2bc54e9015e4b8bca60f5&amp;type=3#inventory_uss" />
+    <ui:VisualElement name="inventory" class="inventory-background" style="flex-grow: 1;">
+        <ui:Label text="Inventory" display-tooltip-when-elided="true" name="label-inventory" class="inventory-label" />
+        <ui:VisualElement name="info" style="flex-direction: row; flex-wrap: nowrap; justify-content: space-between;">
+            <ui:Label text="Slots: 0" display-tooltip-when-elided="true" name="total-slot-amount" />
+            <ui:Label text="Items: 0" display-tooltip-when-elided="true" name="total-item-amount" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="controls" class="inventory-background" style="flex-grow: 1;">
+        <ui:Label text="Controls" display-tooltip-when-elided="true" name="label-controls" class="inventory-label" />
+        <ui:VisualElement name="buttons">
+            <ui:SliderInt picking-mode="Ignore" label="Amount" value="1" high-value="50" low-value="-50" name="amount" />
+            <ui:Button text="Add" display-tooltip-when-elided="true" name="button-add" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
