@@ -5,18 +5,16 @@ namespace Items
     [Serializable]
     public struct ItemID : IEquatable<ItemID>
     {
-        public int ItemInstanceID;
-        public int DefinitionID;
+        public int ID;
 
-        public ItemID(int definitionID, int itemInstanceID)
+        public ItemID(int id)
         {
-            DefinitionID = definitionID;
-            ItemInstanceID = itemInstanceID;
+            ID = id;
         }
 
         public bool Equals(ItemID other)
         {
-            return ItemInstanceID == other.ItemInstanceID && DefinitionID == other.DefinitionID;
+            return ID == other.ID;
         }
 
         public override bool Equals(object obj)
@@ -26,7 +24,7 @@ namespace Items
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(ItemInstanceID, DefinitionID);
+            return ID;
         }
     }
 }

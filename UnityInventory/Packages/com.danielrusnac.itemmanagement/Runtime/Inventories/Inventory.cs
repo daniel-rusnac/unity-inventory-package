@@ -7,21 +7,16 @@ namespace Items.Inventories
     public class Inventory : IInventory
     {
         public event Action<ItemChangedData> Changed;
-        public event Action<ISlot> SlotAdded;
-        public event Action<ISlot> SlotRemoved;
 
-        private Dictionary<ItemID, ISlot> _slots;
-        private ISlotFactory _slotFactory;
+        private readonly Dictionary<ItemID, ISlot> _slots;
+        private readonly ISlotFactory _slotFactory;
+
+        public IEnumerable<ISlot> Slots => _slots.Values;
 
         public Inventory(ISlotFactory slotFactory)
         {
             _slots = new Dictionary<ItemID, ISlot>();
             _slotFactory = slotFactory;
-        }
-
-        public IEnumerable<ISlot> GetAllSlots()
-        {
-            return _slots.Values;
         }
 
         public bool ContainsSlot(IItem item)
@@ -42,14 +37,12 @@ namespace Items.Inventories
             ISlot slot = _slotFactory.Create(item);
             slot.Changed += OnSlotChanged;
             _slots.Add(item.ID, slot);
-            SlotAdded?.Invoke(slot);
         }
 
         private void RemoveSlot(IItem item)
         {
             ISlot slot = _slots[item.ID];
             _slots.Remove(item.ID);
-            SlotRemoved?.Invoke(slot);
         }
 
         private void OnSlotChanged(ItemChangedData data)
