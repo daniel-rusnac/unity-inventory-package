@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Items.Factories;
 
 namespace Items.Inventories
 {
-    public class Inventory : IInventory
+    public class BasicInventory : IInventory
     {
         public event Action<ItemChangedData> Changed;
 
@@ -13,7 +12,7 @@ namespace Items.Inventories
 
         public IEnumerable<ISlot> Slots => _slots.Values;
 
-        public Inventory(ISlotFactory slotFactory)
+        public BasicInventory(ISlotFactory slotFactory)
         {
             _slots = new Dictionary<ItemID, ISlot>();
             _slotFactory = slotFactory;

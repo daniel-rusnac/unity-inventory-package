@@ -2,7 +2,7 @@
 
 namespace Items
 {
-    [CreateAssetMenu(menuName = "Items/Static Item", fileName = "item_")]
+    [CreateAssetMenu(menuName = "Items/Item", fileName = "item_")]
     public class StaticItem : ScriptableObject, IItem
     {
         [SerializeField] private int _id;

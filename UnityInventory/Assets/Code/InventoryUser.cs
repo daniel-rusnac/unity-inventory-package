@@ -16,7 +16,7 @@ namespace Code
 
         private void Awake()
         {
-            _inventory = new Inventory(new SlotFactory());
+            _inventory = new BasicInventory(new SlotFactory());
         }
 
         [ContextMenu(nameof(AssignToUI))]
