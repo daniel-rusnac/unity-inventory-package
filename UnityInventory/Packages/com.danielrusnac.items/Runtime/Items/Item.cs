@@ -10,13 +10,11 @@ namespace Items
     public class Item : ScriptableObject, IItem, ISerializationCallbackReceiver
     {
         [SerializeField] private int _id;
-        [SerializeField] private string _name;
         [SerializeField] private ItemModulePair[] _modules = Array.Empty<ItemModulePair>();
 
         private Dictionary<string, ItemModuleBase> _moduleByKey = new();
 
         public ItemID ID => new(_id);
-        public string Name => _name;
 
         public T GetModule<T>(string id) where T : class, IItemModule
         {
@@ -34,7 +32,7 @@ namespace Items
         public void OnAfterDeserialize()
         {
             _moduleByKey = new Dictionary<string, ItemModuleBase>();
-            
+
             foreach (ItemModulePair modulePair in _modules)
             {
                 string key = modulePair.Key;
@@ -42,13 +40,13 @@ namespace Items
                 if (_moduleByKey.ContainsKey(key))
                 {
                     string modifiedKey = $"{key}_copy";
-                
+
                     while (_moduleByKey.ContainsKey(modifiedKey))
                         modifiedKey = key + "_copy";
 
                     key = modifiedKey;
                 }
-                
+
                 _moduleByKey.Add(key, modulePair.Module);
             }
         }
