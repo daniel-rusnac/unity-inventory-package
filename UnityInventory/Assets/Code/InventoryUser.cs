@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Items;
 using Items.Factories;
 using Items.Inventories;
+using Items.UI;
 using UnityEngine;
 
-namespace Items.UI
+namespace Code
 {
     public class InventoryUser : MonoBehaviour
     {

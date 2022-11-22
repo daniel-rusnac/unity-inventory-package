@@ -1,6 +1,7 @@
 ﻿using System;
+using Items.Inventories;
 
-namespace Items.Inventories
+namespace Items
 {
     public interface ISlot
     {

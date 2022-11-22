@@ -26,5 +26,15 @@ namespace Items
         {
             return ID;
         }
+
+        public static bool operator ==(ItemID a, ItemID b)
+        {
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(ItemID a, ItemID b)
+        {
+            return !(a == b);
+        }
     }
 }

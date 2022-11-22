@@ -1,5 +1,4 @@
-﻿using Items.Inventories;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Items.UI
 {

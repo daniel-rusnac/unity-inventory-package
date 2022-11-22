@@ -1,6 +1,6 @@
 ﻿using Items.Inventories;
 
-namespace Items.Factories
+namespace Items
 {
     public interface ISlotFactory
     {
