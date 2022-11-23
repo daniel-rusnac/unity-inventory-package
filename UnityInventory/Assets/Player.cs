@@ -6,7 +6,6 @@ public class Player : MonoBehaviour
     [SerializeField] private int _amount = 1;
     [SerializeField] private Item _item;
     [SerializeField] private Inventory _inventory;
-    [SerializeField] private ItemChangedData _lastChange;
 
     private void OnValidate()
     {
@@ -31,6 +30,5 @@ public class Player : MonoBehaviour
 
     private void OnInventoryChanged(ItemChangedData data)
     {
-        _lastChange = data;
     }
 }

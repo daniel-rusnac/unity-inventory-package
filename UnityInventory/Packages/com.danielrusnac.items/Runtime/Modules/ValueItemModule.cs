@@ -4,6 +4,8 @@ namespace Items.Modules
 {
     public abstract class ValueItemModule<T> : ItemModule
     {
-        [field: SerializeField] public T Value { get; private set; }
+        [SerializeField] private T _value;
+
+        public T Value => _value;
     }
 }

@@ -8,12 +8,12 @@ namespace Items
     {
         public event Action<ItemChangedData> Changed;
 
-        private int _amount;
-        private int _limit;
+        [SerializeField] private int _amount;
+        [SerializeField] private int _limit;
 
         public int ID { get; }
 
-        public Item Item { get; }
+        [field: SerializeField] public Item Item { get; private set; }
 
         public int Amount
         {

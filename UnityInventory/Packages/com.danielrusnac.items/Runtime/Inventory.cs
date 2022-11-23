@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Items
 {
     [CreateAssetMenu(menuName = "Items/Inventory", fileName = "inventory_")]
-    public class Inventory : ScriptableObject
+    public class Inventory : ScriptableObject, ISerializationCallbackReceiver
     {
         public event Action<ItemChangedData> Changed;
+
+        // TODO Remove this array after creating a custom editor.
+        [SerializeField] private Slot[] _slots;
 
         private Dictionary<int, Slot> _slotByID = new();
 
@@ -44,6 +48,16 @@ namespace Items
 
             if (data.NewAmount == 0)
                 RemoveSlot(data.Item);
+        }
+
+        public void OnBeforeSerialize()
+        {
+            _slots = _slotByID.Values.ToArray();
+        }
+
+        public void OnAfterDeserialize()
+        {
+            
         }
     }
 }

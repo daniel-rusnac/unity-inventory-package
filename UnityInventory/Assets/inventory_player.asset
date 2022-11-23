@@ -12,3 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 179dfb1e501a42b99baf17e361206101, type: 3}
   m_Name: inventory_player
   m_EditorClassIdentifier: 
+  _slots:
+  - _amount: 224
+    _limit: -1
+    <Item>k__BackingField: {fileID: 11400000, guid: 6427c8bd2d1162442a0994d2ed319451, type: 2}
