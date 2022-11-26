@@ -7,9 +7,9 @@ namespace Items
     {
         event Action<ItemChangedData> Changed;
         
-        IReadOnlyList<ISlot> Slots { get; }
+        IEnumerable<ISlot> Slots { get; }
 
         bool ContainsSlot(IItem item);
-        bool GetSlotOrCreate(IItem item);
+        ISlot GetOrCreateSlot(IItem item);
     }
 }
