@@ -1,10 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <Style src="project://database/Packages/com.foggywoods.inventories/Editor/UI/InventoriesStyles.uss?fileID=7433441132597879392&amp;guid=3ab6197944869c44fb00aeb3f43a4816&amp;type=3#InventoriesStyles" />
     <ui:VisualElement name="container">
-        <ui:Label text="item_id" display-tooltip-when-elided="true" name="id" class="label container" style="font-size: 17px; padding-left: 10px;" />
+        <ui:Label text="item_id" display-tooltip-when-elided="true" name="id" tooltip="Item ID. Same as asset name." class="label container" style="font-size: 17px; padding-left: 10px;" />
         <ui:VisualElement name="content" />
-        <ui:VisualElement name="controls" style="align-items: center;">
-            <ui:Button text="+" display-tooltip-when-elided="true" name="add-button" enable-rich-text="false" style="width: 35px;" />
-        </ui:VisualElement>
+        <ui:Button text="+" display-tooltip-when-elided="true" name="add-button" enable-rich-text="false" tooltip="Add property." class="container" style="background-color: rgba(0, 0, 0, 0); margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0;" />
     </ui:VisualElement>
 </ui:UXML>
