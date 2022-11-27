@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -14,8 +13,6 @@ namespace FoggyWoods.Inventories.Properties
         public string Key => _key;
 
         public object Value => _value;
-
-        public Type Type => _value.GetType();
 
         private void OnValidate()
         {

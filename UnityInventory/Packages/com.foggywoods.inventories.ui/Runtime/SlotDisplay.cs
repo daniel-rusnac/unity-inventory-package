@@ -6,7 +6,7 @@ namespace FoggyWoods.Inventories.UI
 {
     public class SlotDisplay : MonoBehaviour
     {
-        [SerializeField] private TMP_Text _name;
+        [SerializeField] private ItemDisplay _itemDisplay;
         [SerializeField] private TMP_Text _amount;
 
         private ISlot _slot;
@@ -20,8 +20,8 @@ namespace FoggyWoods.Inventories.UI
         {
             _slot = slot;
             _slot.Changed += OnChanged;
-            
-            _name.SetText(slot.Item.ID);
+
+            _itemDisplay.Display(slot.Item);
             RefreshAmount();
         }
 

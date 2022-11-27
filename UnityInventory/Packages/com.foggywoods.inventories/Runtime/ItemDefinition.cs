@@ -24,7 +24,7 @@ namespace FoggyWoods.Inventories
             {
                 if (so is IItemProperty itemProperty &&
                     string.Equals(itemProperty.Key, key) &&
-                    itemProperty.Type is T castedProperty)
+                    itemProperty.Value is T castedProperty)
                 {
                     property = castedProperty;
                     return true;
