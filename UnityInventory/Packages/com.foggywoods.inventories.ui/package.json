@@ -1,0 +1,12 @@
+{
+  "name": "com.foggywoods.inventories.ui",
+  "version": "1.0.0",
+  "displayName": "Inventories UI",
+  "description": "UI elements for inventories, slots and items.",
+  "author": {
+    "name": "Foggy Woods",
+    "email": "",
+    "url": ""
+  },
+  "unity": "2021.1"
+}
