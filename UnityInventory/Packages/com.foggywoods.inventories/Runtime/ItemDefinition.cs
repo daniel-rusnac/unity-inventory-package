@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace FoggyWoods.Inventories
@@ -7,17 +6,11 @@ namespace FoggyWoods.Inventories
     [CreateAssetMenu(menuName = "Inventories/Item")]
     public class ItemDefinition : ScriptableObject, IItem
     {
-        [SerializeField] private string _id;
         [SerializeField] private List<ScriptableObject> _properties = new();
 
         public List<ScriptableObject> Properties => _properties;
 
-        public string ID => _id;
-
-        private void Reset()
-        {
-            _id = name;
-        }
+        public string ID => name;
 
         public T GetProperty<T>(string key)
         {

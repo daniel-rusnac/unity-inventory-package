@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35e16f1bf1933be4bb1175d75ded7d6c, type: 3}
   m_Name: currency_gem
   m_EditorClassIdentifier: 
-  _id: gem
   _properties: []

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -11,7 +9,7 @@ namespace FoggyWoods.Inventories
     public class ItemDefinitionEditor : Editor
     {
         private ItemDefinition _item;
-        private VisualElement _propertiesElement;
+        private VisualElement _content;
 
         private void OnEnable()
         {
@@ -20,13 +18,17 @@ namespace FoggyWoods.Inventories
 
         public override VisualElement CreateInspectorGUI()
         {
-            VisualElement root = new VisualElement();
-            _propertiesElement = new VisualElement();
+            VisualTreeAsset visualTreeAsset = AssetDatabaseUtility.LoadAssetRelativeToScript
+                <ItemDefinitionEditor, VisualTreeAsset>("UI/ItemDefinitionUxml.uxml");
+            
+            VisualElement root = visualTreeAsset.CloneTree();
+
+            root.Q<Label>("id").text = _item.ID;
+            _content = root.Q<VisualElement>("content");
             RefreshProperties();
 
-            root.Add(new PropertyField(serializedObject.FindProperty("_id")));
-            root.Add(_propertiesElement);
             root.Add(new Button(OnAddPropertyClicked) {text = "Add"});
+            
             return root;
         }
 
@@ -63,13 +65,13 @@ namespace FoggyWoods.Inventories
 
         private void RefreshProperties()
         {
-            int childCount = _propertiesElement.childCount;
+            int childCount = _content.childCount;
 
             for (int i = childCount - 1; i >= 0; i--)
-                _propertiesElement.RemoveAt(i);
+                _content.RemoveAt(i);
 
             foreach (ScriptableObject property in _item.Properties)
-                _propertiesElement.Add(new ItemPropertyElement(property, () => RemoveProperty(property)));
+                _content.Add(new ItemPropertyElement(property, () => RemoveProperty(property)));
         }
     }
 }
