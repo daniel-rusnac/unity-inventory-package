@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Items
+namespace FoggyWoods.Inventories
 {
     public class Slot : ISlot
     {

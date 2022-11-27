@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Items
+namespace FoggyWoods.Inventories
 {
     [Serializable]
     public struct ItemChangedData

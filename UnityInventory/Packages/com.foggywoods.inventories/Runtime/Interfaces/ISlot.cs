@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Items
+namespace FoggyWoods.Inventories
 {
     public interface ISlot
     {

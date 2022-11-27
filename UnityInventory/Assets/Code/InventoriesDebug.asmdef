@@ -1,8 +1,9 @@
 {
-    "name": "FoggyWoods.Inventories.UI",
-    "rootNamespace": "FoggyWoods.Inventories.UI",
+    "name": "InventoriesDebug",
+    "rootNamespace": "InventoriesDebug",
     "references": [
-        "FoggyWoods.Inventories"
+        "FoggyWoods.Inventories",
+        "FoggyWoods.Inventories.UI"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

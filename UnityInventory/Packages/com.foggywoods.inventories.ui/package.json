@@ -8,5 +8,8 @@
     "email": "",
     "url": ""
   },
-  "unity": "2021.1"
+  "unity": "2021.1",
+  "dependencies": {
+    "com.foggywoods.inventories": "3.0.0"
+  }
 }

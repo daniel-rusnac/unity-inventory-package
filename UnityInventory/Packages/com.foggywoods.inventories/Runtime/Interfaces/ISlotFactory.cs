@@ -1,4 +1,4 @@
-﻿namespace Items
+﻿namespace FoggyWoods.Inventories
 {
     public interface ISlotFactory
     {

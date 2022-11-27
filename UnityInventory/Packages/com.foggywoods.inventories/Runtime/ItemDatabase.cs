@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Items
+namespace FoggyWoods.Inventories
 {
     public class ItemDatabase : IItemDatabase
     {

@@ -10,7 +10,9 @@
       "version": "file:com.foggywoods.inventories.ui",
       "depth": 0,
       "source": "embedded",
-      "dependencies": {}
+      "dependencies": {
+        "com.foggywoods.inventories": "3.0.0"
+      }
     },
     "com.unity.ext.nunit": {
       "version": "1.0.6",
