@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35e16f1bf1933be4bb1175d75ded7d6c, type: 3}
   m_Name: currency_coin
   m_EditorClassIdentifier: 
+  _id: coin
   _properties:
   - {fileID: 707924595573972830}
 --- !u!114 &707924595573972830

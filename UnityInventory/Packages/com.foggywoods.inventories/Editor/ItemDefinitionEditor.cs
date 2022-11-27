@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -23,7 +24,7 @@ namespace FoggyWoods.Inventories
             _propertiesElement = new VisualElement();
             RefreshProperties();
 
-            root.Add(new Label($"ID: {_item.ID}"));
+            root.Add(new PropertyField(serializedObject.FindProperty("_id")));
             root.Add(_propertiesElement);
             root.Add(new Button(OnAddPropertyClicked) {text = "Add"});
             return root;
