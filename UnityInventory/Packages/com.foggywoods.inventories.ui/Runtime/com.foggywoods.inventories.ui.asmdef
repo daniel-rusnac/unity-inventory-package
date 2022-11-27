@@ -2,7 +2,8 @@
     "name": "FoggyWoods.Inventories.UI",
     "rootNamespace": "FoggyWoods.Inventories.UI",
     "references": [
-        "FoggyWoods.Inventories"
+        "FoggyWoods.Inventories",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

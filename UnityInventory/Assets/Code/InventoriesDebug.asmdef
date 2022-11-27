@@ -3,7 +3,8 @@
     "rootNamespace": "InventoriesDebug",
     "references": [
         "FoggyWoods.Inventories",
-        "FoggyWoods.Inventories.UI"
+        "FoggyWoods.Inventories.UI",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

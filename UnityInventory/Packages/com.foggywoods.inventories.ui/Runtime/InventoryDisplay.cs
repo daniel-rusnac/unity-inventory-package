@@ -15,7 +15,6 @@ namespace FoggyWoods.Inventories.UI
         {
             _inventory = inventory;
 
-            _inventory.Changed += OnInventoryChanged;
             _inventory.SlotAdded += OnSlotAdded;
             _inventory.SlotRemoved += OnSlotRemoved;
 
@@ -25,12 +24,9 @@ namespace FoggyWoods.Inventories.UI
 
         private void OnDestroy()
         {
-            _inventory.Changed -= OnInventoryChanged;
             _inventory.SlotAdded -= OnSlotAdded;
             _inventory.SlotRemoved -= OnSlotRemoved;
         }
-
-        private void OnInventoryChanged(ItemChangedData data) { }
 
         private void OnSlotAdded(ISlot slot)
         {
@@ -39,7 +35,7 @@ namespace FoggyWoods.Inventories.UI
 
         private void OnSlotRemoved(ISlot slot)
         {
-            Destroy(_slotByID[slot.Item.ID]);
+            _slotByID[slot.Item.ID].SelfDestroy();
             _slotByID.Remove(slot.Item.ID);
         }
 
