@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -27,7 +26,6 @@ namespace FoggyWoods.Inventories
             root.Add(new Label($"ID: {_item.ID}"));
             root.Add(_propertiesElement);
             root.Add(new Button(OnAddPropertyClicked) {text = "Add"});
-            root.Add(new Button(OnRemovePropertyClicked) {text = "Remove"});
             return root;
         }
 
@@ -38,26 +36,10 @@ namespace FoggyWoods.Inventories
             dropdown.Show(rect);
         }
 
-        private void OnRemovePropertyClicked()
-        {
-            if (!_item.Properties.Any())
-                return;
-
-            ScriptableObject property = _item.Properties.Last();
-            RemoveProperty(property);
-        }
-
         private void AddProperty(Type type)
         {
             AddProperty(CreateInstance(type));
         }
-
-        private void AddProperty<T>() where T : ScriptableObject, IItemProperty
-        {
-            T property = CreateInstance<T>();
-            AddProperty(property);
-        }
-
         private void AddProperty(ScriptableObject property)
         {
             _item.Properties.Add(property);
@@ -86,7 +68,7 @@ namespace FoggyWoods.Inventories
                 _propertiesElement.RemoveAt(i);
 
             foreach (ScriptableObject property in _item.Properties)
-                _propertiesElement.Add(new InspectorElement(property));
+                _propertiesElement.Add(new ItemPropertyElement(property, () => RemoveProperty(property)));
         }
     }
 }
