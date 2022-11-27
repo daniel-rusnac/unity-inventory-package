@@ -52,7 +52,7 @@ namespace FoggyWoods.Inventories
 
         private int ClampAmount(int value)
         {
-            return Mathf.Min(value, Limit);
+            return Mathf.Clamp(value, 0, Limit);
         }
     }
 }
