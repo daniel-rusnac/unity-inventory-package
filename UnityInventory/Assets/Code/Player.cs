@@ -1,5 +1,4 @@
 using FoggyWoods.Inventories;
-using FoggyWoods.Inventories.Items;
 using FoggyWoods.Inventories.UI;
 using UnityEngine;
 

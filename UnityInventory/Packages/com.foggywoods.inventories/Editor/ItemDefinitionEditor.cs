@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using FoggyWoods.Inventories.Items;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;

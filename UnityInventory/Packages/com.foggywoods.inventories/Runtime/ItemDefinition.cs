@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace FoggyWoods.Inventories.Items
+namespace FoggyWoods.Inventories
 {
     [CreateAssetMenu(menuName = "Inventories/Item")]
     public class ItemDefinition : ScriptableObject, IItem

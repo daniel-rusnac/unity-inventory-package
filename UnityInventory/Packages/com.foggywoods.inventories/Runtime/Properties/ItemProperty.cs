@@ -1,8 +1,10 @@
 ﻿using System;
 using UnityEngine;
-using Object = UnityEngine.Object;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
-namespace FoggyWoods.Inventories.Items.Properties
+namespace FoggyWoods.Inventories.Properties
 {
     [Serializable]
     public abstract class ItemProperty<T> : ScriptableObject, IItemProperty
@@ -15,5 +17,16 @@ namespace FoggyWoods.Inventories.Items.Properties
         public object Value => _value;
 
         public Type Type => _value.GetType();
+
+        private void OnValidate()
+        {
+#if UNITY_EDITOR
+            if (string.Equals(name, _key))
+                return;
+
+            name = _key;
+            EditorUtility.SetDirty(this);
+#endif
+        }
     }
 }
