@@ -23,11 +23,11 @@ namespace FoggyWoods.Inventories
             
             VisualElement root = visualTreeAsset.CloneTree();
 
-            root.Q<Label>("id").text = _item.ID;
             _content = root.Q<VisualElement>("content");
-            RefreshProperties();
+            root.Q<Label>("id").text = _item.ID;
+            root.Q<Button>("add-button").clicked += OnAddPropertyClicked;
 
-            root.Add(new Button(OnAddPropertyClicked) {text = "Add"});
+            RefreshProperties();
             
             return root;
         }

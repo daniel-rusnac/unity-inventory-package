@@ -1,8 +1,9 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <ui:VisualElement name="container" style="border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; margin-left: 2px; margin-right: 2px; margin-top: 2px; margin-bottom: 2px; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgb(32, 32, 32); border-right-color: rgb(32, 32, 32); border-top-color: rgb(32, 32, 32); border-bottom-color: rgb(32, 32, 32);">
+    <Style src="project://database/Packages/com.foggywoods.inventories/Editor/UI/InventoriesStyles.uss?fileID=7433441132597879392&amp;guid=3ab6197944869c44fb00aeb3f43a4816&amp;type=3#InventoriesStyles" />
+    <ui:VisualElement name="container" class="container">
         <ui:VisualElement name="header" style="flex-direction: row; justify-content: space-between;">
             <ui:TextField picking-mode="Ignore" value="filler text" text="filler text" name="key" style="flex-grow: 1;" />
-            <ui:Button text="Button" display-tooltip-when-elided="true" name="delete-button" />
+            <ui:Button text="X" display-tooltip-when-elided="true" name="delete-button" />
         </ui:VisualElement>
         <uie:PropertyField name="value" />
     </ui:VisualElement>
