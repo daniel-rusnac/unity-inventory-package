@@ -2,5 +2,5 @@
 
 namespace FoggyWoods.Inventories.Properties
 {
-    public class AudioClipProperty : ItemProperty<AudioClip> { }
+    public class Texture2DProperty : ItemProperty<Texture2D> { }
 }

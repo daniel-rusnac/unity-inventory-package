@@ -1,8 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace FoggyWoods.Inventories.Properties
 {
-    [Serializable]
     public class LayerMaskProperty : ItemProperty<LayerMask> { }
 }
