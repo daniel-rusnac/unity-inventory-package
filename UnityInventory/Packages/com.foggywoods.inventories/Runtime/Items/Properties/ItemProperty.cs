@@ -5,7 +5,7 @@ using Object = UnityEngine.Object;
 namespace FoggyWoods.Inventories.Items.Properties
 {
     [Serializable]
-    public class ItemProperty<T> : Object, IItemProperty
+    public abstract class ItemProperty<T> : ScriptableObject, IItemProperty
     {
         [SerializeField] private string _key;
         [SerializeField] private T _value;

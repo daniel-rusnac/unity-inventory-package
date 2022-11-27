@@ -1,35 +1,30 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace FoggyWoods.Inventories.Items
 {
     [CreateAssetMenu(menuName = "Inventories/Item")]
     public class ItemDefinition : ScriptableObject, IItem
     {
-        [SerializeField] private List<Object> _properties = new();
+        [SerializeField] private List<ScriptableObject> _properties = new();
 
-        public List<IItemProperty> Properties => (List<IItemProperty>) _properties.Cast<IItemProperty>();
+        public List<ScriptableObject> Properties => _properties;
 
         public string ID => name;
-        
+
         public T GetProperty<T>(string key)
         {
-            foreach (IItemProperty p in Properties)
-            {
-                if (string.Equals(p.Key, key) && p.Type is T castedProperty)
-                    return castedProperty;
-            }
-
-            return default;
+            TryGetProperty(key, out T property);
+            return property;
         }
 
         public bool TryGetProperty<T>(string key, out T property)
         {
-            foreach (IItemProperty p in Properties)
+            foreach (ScriptableObject so in Properties)
             {
-                if (string.Equals(p.Key, key) && p.Type is T castedProperty)
+                if (so is IItemProperty itemProperty &&
+                    string.Equals(itemProperty.Key, key) &&
+                    itemProperty.Type is T castedProperty)
                 {
                     property = castedProperty;
                     return true;
