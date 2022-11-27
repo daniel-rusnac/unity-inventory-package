@@ -12,5 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35e16f1bf1933be4bb1175d75ded7d6c, type: 3}
   m_Name: skin_default
   m_EditorClassIdentifier: 
-  _id: skin_default
-  _properties: []
+  _properties:
+  - {fileID: 1677899248876192636}
+--- !u!114 &1677899248876192636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39ffc84491a648a08db6c6b62ae45fda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _key: 
+  _value:
+    Name: 
+    Description: 
+    SkinPrefab: {fileID: 0}
+    DeathVfxPrefab: {fileID: 0}
+    Height: 8
+    Rarity: 0

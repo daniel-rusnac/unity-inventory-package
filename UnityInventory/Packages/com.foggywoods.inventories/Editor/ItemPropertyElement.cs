@@ -11,11 +11,8 @@ namespace FoggyWoods.Inventories
         public ItemPropertyElement(Object propertyObject, Action onRemove)
         {
             SerializedObject serializedObject = new SerializedObject(propertyObject);
-
-            VisualTreeAsset visualTreeAsset = AssetDatabaseUtility.LoadAssetRelativeToScript
-                <ItemPropertyElement, VisualTreeAsset>("UI/ItemPropertyUxml.uxml");
-
-            visualTreeAsset.CloneTree(this);
+            VisualTreeAsset visualTree = ResourcesProvider.ItemPropertyUxml();
+            visualTree.CloneTree(this);
 
             this.Q<TextField>("key").BindProperty(serializedObject.FindProperty("_key"));
             this.Q<Button>("delete-button").clicked += onRemove;

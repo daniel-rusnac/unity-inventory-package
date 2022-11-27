@@ -18,10 +18,8 @@ namespace FoggyWoods.Inventories
 
         public override VisualElement CreateInspectorGUI()
         {
-            VisualTreeAsset visualTreeAsset = AssetDatabaseUtility.LoadAssetRelativeToScript
-                <ItemDefinitionEditor, VisualTreeAsset>("UI/ItemDefinitionUxml.uxml");
-            
-            VisualElement root = visualTreeAsset.CloneTree();
+            VisualTreeAsset visualTree = ResourcesProvider.ItemDefinitionUxml();
+            VisualElement root = visualTree.CloneTree();
 
             _content = root.Q<VisualElement>("content");
             root.Q<Label>("id").text = _item.ID;
