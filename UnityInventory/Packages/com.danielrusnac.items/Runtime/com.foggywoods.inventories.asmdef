@@ -1,6 +1,6 @@
 {
-    "name": "com.danielrusnac.items",
-    "rootNamespace": "Items",
+    "name": "FoggyWoods.Inventories",
+    "rootNamespace": "FoggyWoods.Inventories",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.danielrusnac.items": {
+    "com.foggywoods.inventories": {
       "version": "file:com.danielrusnac.items",
       "depth": 0,
       "source": "embedded",

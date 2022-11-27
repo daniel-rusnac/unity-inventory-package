@@ -1,12 +1,12 @@
 {
-  "name": "com.danielrusnac.items",
+  "name": "com.foggywoods.inventories",
   "version": "3.0.0",
-  "displayName": "Items",
+  "displayName": "Inventories",
   "description": "A simple system to manage items and inventories.",
   "author": {
-    "name": "Daniel Rusnac",
-    "email": "daniel.rusnac.personal@gmail.com",
-    "url": "https://github.com/danielrusnac"
+    "name": "Foggy Woods",
+    "email": "",
+    "url": ""
   },
   "unity": "2021.1"
 }
