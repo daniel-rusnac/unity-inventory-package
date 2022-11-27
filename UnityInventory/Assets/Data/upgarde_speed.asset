@@ -24,7 +24,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35e16f1bf1933be4bb1175d75ded7d6c, type: 3}
-  m_Name: level_player
+  m_Name: upgarde_speed
   m_EditorClassIdentifier: 
   _properties:
   - {fileID: -1377592006660617266}
