@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace FoggyWoods.Inventories
 {
-    [CreateAssetMenu(menuName = "Inventories/Item")]
+    [CreateAssetMenu(menuName = "Inventories/Item", fileName = "item_")]
     public class ItemDefinition : ScriptableObject, IItem
     {
-        [SerializeField] private List<ScriptableObject> _properties = new();
+        [SerializeField] private List<ScriptableObject> _properties = new List<ScriptableObject>();
 
         public List<ScriptableObject> Properties => _properties;
 

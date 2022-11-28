@@ -9,7 +9,7 @@ namespace FoggyWoods.Inventories.UI
         [SerializeField] private RectTransform _content;
 
         private IInventory _inventory;
-        private Dictionary<string, SlotDisplay> _slotByID = new();
+        private Dictionary<string, SlotDisplay> _slotByID = new Dictionary<string, SlotDisplay>();
 
         public void Initialize(IInventory inventory)
         {

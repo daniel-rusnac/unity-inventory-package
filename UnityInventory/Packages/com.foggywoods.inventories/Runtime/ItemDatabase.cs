@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace FoggyWoods.Inventories
 {
@@ -9,6 +10,11 @@ namespace FoggyWoods.Inventories
         public ItemDatabase()
         {
             _itemByID = new Dictionary<string, IItem>();
+        }
+        
+        public ItemDatabase(params IItem[] items)
+        {
+            _itemByID = items.ToDictionary(item => item.ID);
         }
 
         public void RegisterItem(IItem item)

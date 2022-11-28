@@ -2,11 +2,5 @@
   "name": "com.foggywoods.inventories",
   "version": "3.0.0",
   "displayName": "Inventories",
-  "description": "A simple system to manage items and inventories.",
-  "author": {
-    "name": "Foggy Woods",
-    "email": "",
-    "url": ""
-  },
-  "unity": "2021.1"
+  "description": "A simple system to manage items and inventories."
 }

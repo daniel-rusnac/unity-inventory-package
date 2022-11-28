@@ -2,9 +2,11 @@
     "name": "FoggyWoods.Inventories.Editor",
     "rootNamespace": "FoggyWoods.Inventories",
     "references": [
-        "GUID:16e59b9180d9dab49bb8ba5b4f259ee1"
+        "FoggyWoods.Inventories"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

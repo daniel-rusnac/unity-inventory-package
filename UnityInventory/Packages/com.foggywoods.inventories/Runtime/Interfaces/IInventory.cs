@@ -13,5 +13,8 @@ namespace FoggyWoods.Inventories
 
         bool ContainsSlot(IItem item);
         ISlot GetOrCreateSlot(IItem item);
+
+        InventoryData Serialize();
+        void Deserialize(InventoryData data, IItemDatabase database);
     }
 }
