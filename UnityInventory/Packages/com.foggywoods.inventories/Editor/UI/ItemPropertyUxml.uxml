@@ -2,9 +2,9 @@
     <Style src="project://database/Packages/com.foggywoods.inventories/Editor/UI/InventoriesStyles.uss?fileID=7433441132597879392&amp;guid=3ab6197944869c44fb00aeb3f43a4816&amp;type=3#InventoriesStyles" />
     <ui:VisualElement name="container" class="container">
         <ui:VisualElement name="header" style="flex-direction: row; justify-content: space-between;">
-            <ui:TextField picking-mode="Ignore" value="filler text" text="filler text" name="key" tooltip="Property key. Use it to search for specific properties on items." style="flex-grow: 1; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-right: 2px;" />
+            <ui:TextField picking-mode="Ignore" value="filler text" text="filler text" name="key" tooltip="Property key. Use it to search for specific properties on items." binding-path="_key" style="flex-grow: 1; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-right: 2px;" />
             <ui:Button text="-" display-tooltip-when-elided="true" name="delete-button" tooltip="Remove property." style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; background-color: rgba(0, 0, 0, 0);" />
         </ui:VisualElement>
-        <uie:PropertyField name="value" tooltip="Property value." />
+        <uie:PropertyField name="value" tooltip="Property value." binding-path="_value" />
     </ui:VisualElement>
 </ui:UXML>

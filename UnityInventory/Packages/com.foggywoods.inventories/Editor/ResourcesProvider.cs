@@ -8,19 +8,17 @@ namespace FoggyWoods.Inventories
 {
     public class ResourcesProvider
     {
-        internal static VisualTreeAsset ItemDefinitionUxml()
-        {
-            return LoadAssetRelativeToScript<ResourcesProvider, VisualTreeAsset>("UI/ItemDefinitionUxml.uxml");
-        }
+        internal static VisualTreeAsset ItemDefinitionUxml { get; }
+        internal static VisualTreeAsset ItemPropertyUxml { get; }
         
-        internal static VisualTreeAsset ItemPropertyUxml()
+        static ResourcesProvider()
         {
-            return LoadAssetRelativeToScript<ResourcesProvider, VisualTreeAsset>("UI/ItemPropertyUxml.uxml");
+            ItemDefinitionUxml = LoadAssetRelativeToScript<ResourcesProvider, VisualTreeAsset>("UI/ItemDefinitionUxml.uxml");
+            ItemPropertyUxml = LoadAssetRelativeToScript<ResourcesProvider, VisualTreeAsset>("UI/ItemPropertyUxml.uxml");
         }
-        
+
         private static string GetScriptParentDirectory<T>()
         {
-            // string[] guids = AssetDatabase.FindAssets($"t: Script {nameof(T)}");
             string[] guids = AssetDatabase.FindAssets($"t: Script ResourcesProvider");
 
             Assert.IsNotNull(guids);

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,6 +12,7 @@ namespace FoggyWoods.Inventories
     {
         private ItemDefinition _item;
         private VisualElement _content;
+        private Dictionary<ScriptableObject, VisualElement> _elementByProperty = new Dictionary<ScriptableObject, VisualElement>();
 
         private void OnEnable()
         {
@@ -18,7 +21,7 @@ namespace FoggyWoods.Inventories
 
         public override VisualElement CreateInspectorGUI()
         {
-            VisualTreeAsset visualTree = ResourcesProvider.ItemDefinitionUxml();
+            VisualTreeAsset visualTree = ResourcesProvider.ItemDefinitionUxml;
             VisualElement root = visualTree.CloneTree();
 
             _content = root.Q<VisualElement>("content");
@@ -48,7 +51,7 @@ namespace FoggyWoods.Inventories
             EditorUtility.SetDirty(_item);
             AssetDatabase.SaveAssetIfDirty(_item);
 
-            RefreshProperties();
+            // RefreshProperties();
         }
 
         private void RemoveProperty(ScriptableObject property)
@@ -58,18 +61,21 @@ namespace FoggyWoods.Inventories
             EditorUtility.SetDirty(_item);
             AssetDatabase.SaveAssetIfDirty(_item);
 
-            RefreshProperties();
+            // RefreshProperties();
         }
 
         private void RefreshProperties()
         {
-            int childCount = _content.childCount;
+            // int childCount = _content.childCount;
 
-            for (int i = childCount - 1; i >= 0; i--)
-                _content.RemoveAt(i);
+            // for (int i = childCount - 1; i >= 0; i--)
+                // _content.RemoveAt(i);
 
-            foreach (ScriptableObject property in _item.Properties)
-                _content.Add(new ItemPropertyElement(property, () => RemoveProperty(property)));
+                foreach (ScriptableObject property in _item.Properties)
+                {
+                    _content.Add(new ItemPropertyElement(property, RemoveProperty));
+                    // _content.Add(new InspectorElement(property));
+                }        
         }
     }
 }

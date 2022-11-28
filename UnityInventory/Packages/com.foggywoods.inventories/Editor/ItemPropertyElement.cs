@@ -1,22 +1,30 @@
 ﻿using System;
 using UnityEditor;
 using UnityEditor.UIElements;
+using UnityEngine;
 using UnityEngine.UIElements;
-using Object = UnityEngine.Object;
 
 namespace FoggyWoods.Inventories
 {
     public class ItemPropertyElement : VisualElement
     {
-        public ItemPropertyElement(Object propertyObject, Action onRemove)
-        {
-            SerializedObject serializedObject = new SerializedObject(propertyObject);
-            VisualTreeAsset visualTree = ResourcesProvider.ItemPropertyUxml();
-            visualTree.CloneTree(this);
+        private Action<ScriptableObject> _onRemove;
+        private ScriptableObject _propertyObject;
 
-            this.Q<TextField>("key").BindProperty(serializedObject.FindProperty("_key"));
-            this.Q<Button>("delete-button").clicked += onRemove;
-            this.Q<PropertyField>("value").BindProperty(serializedObject.FindProperty("_value"));
+        public ItemPropertyElement(ScriptableObject propertyObject, Action<ScriptableObject> onRemove)
+        {
+            _propertyObject = propertyObject;
+            _onRemove = onRemove;
+            TemplateContainer propertyElement = ResourcesProvider.ItemPropertyUxml.Instantiate();
+            Add(propertyElement);
+            propertyElement.Bind(new SerializedObject(propertyObject));
+            
+            this.Q<Button>("delete-button").clicked += OnRemoveClicked;
+        }
+
+        private void OnRemoveClicked()
+        {
+            _onRemove?.Invoke(_propertyObject);
         }
     }
 }
